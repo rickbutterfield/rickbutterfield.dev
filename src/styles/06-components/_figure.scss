@@ -1,0 +1,42 @@
+.c-figure {
+  margin-right: -1rem;
+  margin-left: -1rem;
+
+  @media (min-width: 50em) {
+    margin-right: -2rem;
+    margin-left: -2rem;
+  }
+
+  @media (min-width: 70em) {
+    margin-right: -5rem;
+    margin-left: -5rem;
+  }
+
+  @media (min-width: 90em) {
+    margin-right: -10rem !important;
+    margin-left: -10rem !important;
+  }
+  
+  img {
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  figcaption {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-top: 4px;
+    color: var(--muted-colour); 
+    font-style: italic;
+
+    @media (min-width: 50em) {
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
+
+    @media (min-width: 70em) {
+      padding-left: 5rem;
+      padding-right: 5rem;
+    }
+  }
+}

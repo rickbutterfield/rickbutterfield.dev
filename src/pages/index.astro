@@ -1,0 +1,46 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+---
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+	</head>
+	<body>
+		<Header title={SITE_TITLE} />
+		<main class="c-main">
+      <section class="c-home">
+         <figure class="c-figure">
+    <picture>
+      <source srcset="/assets/images/Rick.webp" type="image/webp">
+      <source srcset="/assets/images/Rick.jpg" type="image/jpeg">
+      <img src="/assets/images/Rick.jpg" alt="Rick Butterfield" width="900" height="900" style="aspect-ratio: 1 / 1; width: 100%;">
+    </picture>
+  </figure>
+  <article class="c-content">
+    <h2>Hey there! 👋</h2>
+    <p class="lead">I'm Rick, and I'm a full stack lead software engineer from the UK.</p>
+    
+    <p>I'm currently working as Development Team Lead for <a href="https://nexerdigital.com" target="_blank"
+      rel="noopener noreferrer">Nexer Digital</a> where I get to build websites and software. This means I'm working across tech stacks&mdash;C# .NET, SQL and Umbraco as well as HTML, CSS/Sass, JS/ES6+ and Node.</p>
+      
+      <p>I'm <a href="https://www.youracclaim.com/users/rickbutterfield" target="_blank" rel="noopener noreferrer">Microsoft Certified</a> and an <a
+        href="https://umbraco.com/training/certified-developers/developer/?id=f0b28dd2-8bee-42c5-9184-b2227b25b99c"
+        target="_blank" rel="noopener noreferrer">Umbraco Certified Developer</a>, and previously I've worked for <a
+        href="https://shoutdigital.com" target="_blank" rel="noopener noreferrer">Shout Digital</a>, <a href="https://placesforpeople.co.uk" target="_blank" rel="noopener noreferrer">Places for People</a> and <a
+        href="https://fatmedia.co.uk" target="_blank" rel="noopener noreferrer">Fat Media</a>.</p>
+        
+        <p>This site is a little bit of a playground for me to use for new tech, so have a look around!</p>
+        
+        <p>If you want to get in touch, you can email me on <a
+          href="mailto:hello@rickbutterfield.dev">hello@rickbutterfield.dev</a></p>
+        </article>
+      </section>
+      </main>
+      <Footer />
+	</body>
+</html>

@@ -1,0 +1,39 @@
+---
+import { CollectionEntry, getCollection } from 'astro:content';
+import Page from '../../layouts/Page.astro';
+import { getReadingTime } from '../../scripts/readingTime';
+
+export async function getStaticPaths() {
+	const posts = await getCollection('blog');
+	return posts.map((post) => ({
+		params: { slug: post.slug },
+		props: post,
+	}));
+}
+type Props = CollectionEntry<'blog'>;
+
+const post = Astro.props;
+const { Content } = await post.render();
+---
+
+<Page {...post.data}>
+  <article>
+	<h1>{post.data.title}</h1>
+  <ul class="date text-muted text-uppercase">
+    <li>
+      <time datetime={post.data.pubDate.toISOString()}>
+        {post.data.pubDate.toLocaleDateString('en-gb', {
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric',
+        })}
+      </time>
+    </li>
+    <li role="presentation">|</li>
+    <li>
+        {getReadingTime(post.body)}
+    </li>
+  </ul>  
+	<Content />
+  </article>
+</Page>

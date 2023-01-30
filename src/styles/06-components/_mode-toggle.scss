@@ -1,0 +1,13 @@
+.c-mode-toggle {
+  [data-dark-mode="false"] & {
+    span.light {
+      display: none;
+    }
+  }
+
+  [data-dark-mode="true"] & {
+    span.dark {
+      display: none;
+    }
+  }
+}

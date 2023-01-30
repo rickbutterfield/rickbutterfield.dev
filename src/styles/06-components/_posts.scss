@@ -1,0 +1,11 @@
+.c-posts {
+
+}
+
+  .c-post {
+    margin-bottom: 2rem;
+
+    @media (min-width: 1024px) {
+      margin-bottom: 3.5rem;
+    }
+  }

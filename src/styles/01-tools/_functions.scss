@@ -1,0 +1,62 @@
+@use "sass:math";
+
+/// Slightly lighten a color
+/// @access public
+/// @param {Color} $color - color to tint
+/// @param {Number} $percentage - percentage of `$color` in returned color
+/// @return {Color}
+@function tint($color, $percentage) {
+  @return mix(white, $color, $percentage);
+}
+
+/// Slightly darken a color
+/// @access public
+/// @param {Color} $color - color to shade
+/// @param {Number} $percentage - percentage of `$color` in returned color
+/// @return {Color}
+@function shade($color, $percentage) {
+  @return mix(black, $color, $percentage);
+}
+
+// Return a unitless number
+@function strip-units($number) {
+  @if type-of($number) == 'number' and not unitless($number) {
+    @return $number / (($number * 0) + 1);
+  }
+
+  @return $number;
+}
+
+/// Return a size in rems
+/// @access public
+/// @param {Number} $size - unitless px value to convert to rem
+@function rem($size) {
+  @if (unitless($size)) {
+    $size: $size * 1px;
+  }
+  @return math.div($size, 16px) * 1rem;
+}
+
+// Replicate Photoshop spacing values
+@function spacing($spacing) {
+  $value: math.div($spacing, 1000) * 1em;
+  @return $value;
+}
+
+
+@function clampBuilder( $minWidthPx, $maxWidthPx, $minFontSize, $maxFontSize ) {
+  $pixelsPerRem: 16;
+  
+  $minFontSize: math.div($minFontSize, 16);
+  $maxFontSize: math.div($maxFontSize, 16);
+
+  $minWidth: math.div($minWidthPx, $pixelsPerRem);
+  $maxWidth: math.div($maxWidthPx, $pixelsPerRem);
+
+  $slope: math.div($maxFontSize - $minFontSize, $maxWidth - $minWidth);
+  $yAxisIntersection: (-$minWidth * $slope) + $minFontSize;
+
+  $value: clamp( #{$minFontSize}rem, #{$yAxisIntersection}rem + #{ $slope * 100 }vw, #{ $maxFontSize }rem );
+
+  @return $value;
+}

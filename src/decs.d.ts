@@ -1,0 +1,1 @@
+declare module "../../node_modules/@tgwf/gridintensity-polyfill/src/browser.js"

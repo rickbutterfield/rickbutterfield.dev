@@ -1,0 +1,71 @@
+$font-stack:
+  'azo-sans-web',
+  // Safari for OS X and iOS (San Francisco)
+  -apple-system,
+  // Chrome < 56 for OS X (San Francisco)
+  BlinkMacSystemFont,
+  // Windows
+  'Segoe UI',
+  // Android
+  'Roboto',
+  // Basic web fallback
+  'Helvetica Neue', Arial, sans-serif,
+  // Emoji fonts
+  'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+
+$text-colour: #212121;
+$muted-colour: tint($text-colour, 40%);
+$light-colour: tint($text-colour, 90%);
+
+$transition-default: 100ms ease;
+
+:root {
+  color-scheme: dark light;
+  
+  --max-width: 80ch;
+  --code-text: #212121;
+  --code-background: #f5f2f0;
+  --accolade-background: #fafafa;
+  
+  @media (prefers-color-scheme: light) {
+    --background: #fafafa;
+    --text: #212121;
+    --brand: #f56329;    
+    --border: #e5e5e5;
+    --muted-colour: #{$muted-colour};
+    --accolade-background: #fafafa;
+    
+    [data-dark-mode="true"] {
+      --background: #1f2123;
+      --text: #fafafa;
+      --brand: #f56329;
+      --border: #636363;
+      --muted-colour: #bcb7ad;
+      --code-text: #ccc;
+      --code-background: #2d2d2d;
+      --accolade-background: #fafafa;
+    }
+  }
+  
+  @media (prefers-color-scheme: dark) {
+    --background: #1f2123;
+    --text: #fafafa;
+    --brand: #f56329;
+    --border: #636363;
+    --muted-colour: #bcb7ad;
+    --code-text: #ccc;
+    --code-background: #2d2d2d;
+    --accolade-background: #fafafa;
+    
+    [data-dark-mode="false"] {
+      --background: #fafafa;
+      --text: #212121;
+      --brand: #f56329;    
+      --border: #e5e5e5;
+      --muted-colour: #{$muted-colour};
+      --code-text: #212121;
+      --code-background: #f5f2f0;
+      --accolade-background: #fafafa;
+    }
+  }
+}
