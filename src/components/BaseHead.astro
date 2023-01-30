@@ -53,7 +53,7 @@ const { title, description, image = '/placeholder-social.jpg' } = Astro.props;
 <meta property="twitter:image" content={new URL(image, Astro.url)} />
 
 <!-- Styles -->
-<style lang="scss">
+<style lang="scss" is:global>
   @import "../styles/style.scss";
 </style>
 <link rel="stylesheet" href="https://use.typekit.net/onb7sko.css" media="print" onload="this.media='all'">
