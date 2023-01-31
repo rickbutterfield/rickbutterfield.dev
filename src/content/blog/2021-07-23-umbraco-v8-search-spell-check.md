@@ -1,8 +1,9 @@
 ---
 # # layout: post
 title:  Adding spell check to Examine search in Umbraco 8
-excerpt: ""
+excerpt: There is an excellent blog post by Lars-Erik Aabech on how to build a spell checker for search in Umbraco 7, and I have been looking for a way to update it for v8.
 pubDate: 2021-07-23
+slug: "umbraco-v8-search-spell-check"
 ---
 
 <p class="lead">There is an <a href="https://blog.aabech.no/archive/building-a-spell-checker-for-search-in-umbraco/" target="_blank" rel="noopener nofollow">excellent blog post by Lars-Erik Aabech</a> on how to build a spell checker for search in Umbraco 7, and I have been looking for a way to update it for v8.</p>

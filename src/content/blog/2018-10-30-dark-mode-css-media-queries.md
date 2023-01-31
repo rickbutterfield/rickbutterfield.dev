@@ -3,6 +3,7 @@
 title: Dark Mode and CSS Media Queries
 excerpt: Dark mode is all the rage these days.
 pubDate: 2018-10-30
+slug: "dark-mode-css-media-queries"
 ---
 
 <p class="lead">Dark mode is all the rage these days.</p>

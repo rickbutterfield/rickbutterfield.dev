@@ -4,6 +4,7 @@ title: Design in the Open
 excerpt: In the past 10 or so years of me working on things for the web, I have been so thankful for people who have contributed to allow me to do what I do.
 draft: true
 pubDate: 2014-05-07
+slug: "design-in-the-open"
 ---
 
 <p class="lead">In the past 10 or so years of me working on things for the web, I have been so thankful for people who have contributed to allow me to do what I do.</p>

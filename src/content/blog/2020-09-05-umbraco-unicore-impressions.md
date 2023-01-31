@@ -3,6 +3,7 @@
 title:  Umbraco Unicore first impressions
 excerpt: On Thursday 3rd September, Umbraco HQ announced the first alpha of Unicore, Umbraco v8 running on .NET Core!
 pubDate: 2020-09-05
+slug: "umbraco-unicore-impressions"
 ---
 
 <p class="lead">On Thursday 3rd September, Umbraco HQ announced the first alpha of Unicore, Umbraco v8 running on .NET Core!</p>
