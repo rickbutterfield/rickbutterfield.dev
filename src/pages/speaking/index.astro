@@ -1,0 +1,55 @@
+---
+import BaseHead from '../../components/BaseHead.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../../consts';
+import { getCollection } from 'astro:content';
+import { getReadingTime } from '../../scripts/readingTime';
+
+const posts = (await getCollection('speaking')).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+---
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+	</head>
+	<body>
+		<Header title={SITE_TITLE} />
+		<main class="c-main">
+      <article class="c-content c-post">
+        <h1>Speaking &amp; Events</h1>
+        <p class="lead">I love to speak at events, meetups, conferences and more on topics such as Umbraco, .NET development, web development and sustainability.</p>
+      </article>
+
+      <section class="c-posts">
+      {
+        posts.map((post) => (
+          <article class="c-post">
+            <h2><a href={!post.data.externalUrl ? `/speaking/${post.slug}/` : post.data.externalUrl} target={post.data.externalUrl ? "_blank" : ""}>{post.data.title}</a></h2>
+            <ul class="date text-muted text-uppercase">
+              <li>
+                <time datetime={post.data.pubDate.toISOString()}>
+                  {post.data.pubDate.toLocaleDateString('en-gb', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric',
+                  })}
+                </time>
+              </li>
+              <li role="presentation">|</li>
+              <li>
+                  {post.data.event}
+              </li>
+            </ul>
+            <p>{post.data.excerpt}</p>
+          </article>
+        ))
+      }
+      </section>
+    </main>
+    <Footer />
+  </body>
+</html>
