@@ -17,7 +17,7 @@
     "@astrojs/rss": "^2.1.0",
     "@astrojs/sitemap": "^1.0.0",
     "@types/js-cookie": "^3.0.2",
-    "astro": "^2.0.2",
+    "astro": "^2.1.5",
     "astro-robots-txt": "^0.3.11",
     "js-cookie": "^3.0.1"
   },
