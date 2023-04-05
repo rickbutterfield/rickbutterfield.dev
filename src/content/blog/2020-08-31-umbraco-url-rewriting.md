@@ -3,6 +3,7 @@
 title:  URL rewriting in Umbraco 8
 excerpt: I recently migrated a website from WordPress to Umbraco and was keen to keep some of the great SEO work driving traffic into the site.
 pubDate: 2020-08-31
+slug: "umbraco-url-rewriting"
 ---
 
 <p class="lead">I recently migrated a website from WordPress to Umbraco and was keen to keep some of the great SEO work driving traffic into the site.</p>

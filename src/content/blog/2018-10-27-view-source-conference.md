@@ -3,6 +3,7 @@
 title: View Source Conference
 excerpt: This past Friday, I got chance to go to Mozilla's View Source Conference&mdash;thanks to winning a ticket at Frontend NE!
 pubDate: 2018-10-27
+slug: "view-source-conference"
 ---
 
 <p class="lead">This past Friday, I got chance to go to Mozilla's <a href="https://viewsourceconf.org">View Source Conference</a>&mdash;thanks to winning a ticket at <a href="https://frontendne.co.uk">Frontend NE</a>!</p>

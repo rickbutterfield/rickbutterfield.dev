@@ -3,6 +3,7 @@
 title:  URL rewriting in Umbraco 8 — Part 2
 excerpt: A few weeks ago, I posted a blog about using IUrlProvider in Umbraco 8 to generate custom URLs for blog posts.
 pubDate: 2020-09-30
+slug: "umbraco-url-rewriting-part-2"
 ---
 
 <p class="lead">A few weeks ago, I posted a blog about using <code>IUrlProvider</code> in Umbraco 8 to generate custom URLs for blog posts.</p>

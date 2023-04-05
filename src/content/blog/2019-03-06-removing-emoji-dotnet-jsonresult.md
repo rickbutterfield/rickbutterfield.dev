@@ -3,6 +3,7 @@
 title: Removing emoji in a C# .NET JsonResult 
 excerpt: I recently came across an issue at work where a JsonResult couldn't be returned because of emojis within a string
 pubDate: 2019-03-06
+slug: "removing-emoji-dotnet-jsonresult"
 ---
 
 <p class="lead">I recently came across an issue at work where a <code>JsonResult</code> couldn't be returned because of emojis within a string.</p>

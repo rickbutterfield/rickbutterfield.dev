@@ -1,17 +1,55 @@
 ---
-layout: "../layouts/Page.astro"
-title: "About Me"
-description: "Lorem ipsum dolor sit amet"
-updatedDate: "August 08 2022"
-heroImage: "/placeholder-about.jpg"
+title: About
+description: Hi, I'm Rick! 👋 I am a software engineering lead with over a decade in the industry, currently specialising in development on the Microsoft .NET stack, with a long-standing passion for usable, accessible and attractive front end development using modern technologies.
+layout: '../layouts/Page.astro'
 ---
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Vitae ultricies leo integer malesuada nunc vel risus commodo viverra. Adipiscing enim eu turpis egestas pretium. Euismod elementum nisi quis eleifend quam adipiscing. In hac habitasse platea dictumst vestibulum. Sagittis purus sit amet volutpat. Netus et malesuada fames ac turpis egestas. Eget magna fermentum iaculis eu non diam phasellus vestibulum lorem. Varius sit amet mattis vulputate enim. Habitasse platea dictumst quisque sagittis. Integer quis auctor elit sed vulputate mi. Dictumst quisque sagittis purus sit amet.
+<article>
+  <h1>About</h1>
 
-Morbi tristique senectus et netus. Id semper risus in hendrerit gravida rutrum quisque non tellus. Habitasse platea dictumst quisque sagittis purus sit amet. Tellus molestie nunc non blandit massa. Cursus vitae congue mauris rhoncus. Accumsan tortor posuere ac ut. Fringilla urna porttitor rhoncus dolor. Elit ullamcorper dignissim cras tincidunt lobortis. In cursus turpis massa tincidunt dui ut ornare lectus. Integer feugiat scelerisque varius morbi enim nunc. Bibendum neque egestas congue quisque egestas diam. Cras ornare arcu dui vivamus arcu felis bibendum. Dignissim suspendisse in est ante in nibh mauris. Sed tempus urna et pharetra pharetra massa massa ultricies mi.
+  <p class="lead">Hi, I'm Rick! 👋 I am a software engineering lead with over a decade in the industry, currently specialising in development on the Microsoft .NET stack, with a long-standing passion for usable, accessible and attractive front end development using modern technologies.</p>
+  
+  <p>I'm currently working as Development Team Lead for Nexer Digital where I get to build websites and software. This means I'm working across tech stacks—C# .NET, SQL and Umbraco as well as HTML, CSS/Sass, JS/ES6+ and Node.</p>
+  
+  <p>Having previously worked on and delivered solutions for notable companies such as Mind, NCC Group, Newcastle Airport, CPP, Parkdean Resorts, Lakeland, Warburtons, Places for People and the World Travel and Tourism Council, I can bring an end-to-end approach to any project.</p>
 
-Mollis nunc sed id semper risus in. Convallis a cras semper auctor neque. Diam sit amet nisl suscipit. Lacus viverra vitae congue eu consequat ac felis donec. Egestas integer eget aliquet nibh praesent tristique magna sit amet. Eget magna fermentum iaculis eu non diam. In vitae turpis massa sed elementum. Tristique et egestas quis ipsum suspendisse ultrices. Eget lorem dolor sed viverra ipsum. Vel turpis nunc eget lorem dolor sed viverra. Posuere ac ut consequat semper viverra nam. Laoreet suspendisse interdum consectetur libero id faucibus. Diam phasellus vestibulum lorem sed risus ultricies tristique. Rhoncus dolor purus non enim praesent elementum facilisis. Ultrices tincidunt arcu non sodales neque. Tempus egestas sed sed risus pretium quam vulputate. Viverra suspendisse potenti nullam ac tortor vitae purus faucibus ornare. Fringilla urna porttitor rhoncus dolor purus non. Amet dictum sit amet justo donec enim.
+  <p>I also love to <a href=/speaking">speak at events, meetups, conferences and more</a>. I’m active in the Umbraco community, regularly speaking at Umbraco events, conferences and on umbraCoffee!</p>
 
-Mattis ullamcorper velit sed ullamcorper morbi tincidunt. Tortor posuere ac ut consequat semper viverra. Tellus mauris a diam maecenas sed enim ut sem viverra. Venenatis urna cursus eget nunc scelerisque viverra mauris in. Arcu ac tortor dignissim convallis aenean et tortor at. Curabitur gravida arcu ac tortor dignissim convallis aenean et tortor. Egestas tellus rutrum tellus pellentesque eu. Fusce ut placerat orci nulla pellentesque dignissim enim sit amet. Ut enim blandit volutpat maecenas volutpat blandit aliquam etiam. Id donec ultrices tincidunt arcu. Id cursus metus aliquam eleifend mi.
+  <hr/>
 
-Tempus quam pellentesque nec nam aliquam sem. Risus at ultrices mi tempus imperdiet. Id porta nibh venenatis cras sed felis eget velit. Ipsum a arcu cursus vitae. Facilisis magna etiam tempor orci eu lobortis elementum. Tincidunt dui ut ornare lectus sit. Quisque non tellus orci ac. Blandit libero volutpat sed cras. Nec tincidunt praesent semper feugiat nibh sed pulvinar proin gravida. Egestas integer eget aliquet nibh praesent tristique magna.
+  <p class="lead">
+    <strong>Development Team Lead</strong><br/>
+    <small><a href="https://nexerdigital.com" target="_blank" rel="noopener noreferrer">Nexer Digital</a> &bull; September 2022&ndash;present</small>
+  </p>
+
+  <p class="lead">
+    <strong>Back End Team Lead</strong><br/>
+    <small><a href="https://nexerdigital.com" target="_blank" rel="noopener noreferrer">Nexer Digital</a> &bull; May 2022&ndash;September 2022</small>
+  </p>
+
+  <p class="lead">
+    <strong>Senior Developer</strong><br/>
+    <small><a href="https://nexerdigital.com" target="_blank" rel="noopener noreferrer">Nexer Digital</a> &bull; June 2021&ndash;April 2022</small>
+  </p>
+
+  <p class="lead">
+    <strong>Senior Software Engineer</strong><br/>
+    <small><a href="https://placesforpeople.co.uk" target="_blank" rel="noopener noreferrer">Places for People</a> &bull; November 2020&ndash;May 2021</small>
+  </p>
+
+  <p class="lead">
+    <strong>Senior Software Engineer</strong><br/>
+    <small><a href="https://shoutdigital.com" target="_blank" rel="noopener noreferrer">Shout Digital</a> &bull; July 2016&ndash;November 2020</small>
+  </p>
+
+  <p class="lead">
+    <strong>Web Developer</strong><br/>
+    <small><a href="https://fatmedia.com" target="_blank" rel="noopener noreferrer">Fat Media</a> &bull; September 2015&ndash;July 2016</small>
+  </p>
+
+  <p class="lead">
+    <strong>Web Developer</strong><br/>
+    <small><a href="https://placesforpeople.co.uk" target="_blank" rel="noopener noreferrer">Places for People</a> &bull; September 2011&ndash;September 2015</small>
+  </p>
+
+</article>
