@@ -120,8 +120,8 @@ public void ConfigureServices(IServiceCollection services)
 And it works! When calling `FindView`, I now get results from the `/blockgrid` and `/blocklist` folders.
 
 <figure class="c-figure">
-  <img src="/assets/images/blog/2023-04-05/screenshot.png" alt="Visual Studio showing viewResult has found the partial view we were looking for" loading="lazy">
-  <figcaption>"Visual Studio showing viewResult has found the partial view we were looking for</figcaption>
+  <img src="/assets/images/blog/2023-04-05/screenshot.png" alt="Visual Studio interface showing viewResult has found the partial view we were looking for" loading="lazy">
+  <figcaption>Visual Studio interface showing viewResult has found the partial view we were looking for</figcaption>
 </figure>
 
 Watch out for this landing in v1.2.0 of [Umbraco.Community.BlockPreview](https://github.com/rickbutterfield/Umbraco.Community.BlockPreview) soon!
