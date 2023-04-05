@@ -5,15 +5,22 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 
-type Props = CollectionEntry<'blog'>['data'];
+const { content, title, description, excerpt } = Astro.props;
+const pageTitle = title ?? content.title;
+let pageDescription = SITE_DESCRIPTION;
 
-const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
+if (excerpt != null) {
+  pageDescription = excerpt;
+}
+else if (content != null) {
+  pageDescription = content.description;
+}
 ---
 
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+		<BaseHead title={pageTitle + " - " + SITE_TITLE} description={pageDescription} />
 	</head>
 	<body>
 		<Header title={SITE_TITLE} />

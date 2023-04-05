@@ -1,4 +1,6 @@
 ---
+title: About
+description: Hi, I'm Rick! 👋 I am a software engineering lead with over a decade in the industry, currently specialising in development on the Microsoft .NET stack, with a long-standing passion for usable, accessible and attractive front end development using modern technologies.
 layout: '../layouts/Page.astro'
 ---
 
