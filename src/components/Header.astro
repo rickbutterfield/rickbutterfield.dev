@@ -1,12 +1,13 @@
 ---
 import HeaderLink from './HeaderLink.astro';
-import { SITE_TITLE } from '../consts';
+import { SITE_TITLE, SITE_TITLE_MOBILE } from '../consts';
 ---
 
 <header class="c-header">
   <div class="o-container">
     <div class="site-info">
-      <a href="/">{SITE_TITLE}</a>
+      <a href="/" class="site-info__desktop">{SITE_TITLE}</a>
+      <a href="/" class="site-info__mobile">{SITE_TITLE_MOBILE}</a>
     </div>
 
     <nav class="c-nav">
