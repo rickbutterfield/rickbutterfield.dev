@@ -6,9 +6,11 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../../consts';
 import { getCollection } from 'astro:content';
 import { getReadingTime } from '../../scripts/readingTime';
 
-const posts = (await getCollection('blog')).sort(
+let posts = (await getCollection('blog')).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
+posts = posts.filter(x => x.data.draft !== true);
+
 ---
 
 <!DOCTYPE html>
@@ -22,7 +24,7 @@ const posts = (await getCollection('blog')).sort(
       <section class="c-posts">
       {
         posts.map((post) => (
-          <article class="c-post">
+          <article class="c-post" style={`view-transition-name: article-${post.slug}`}>
             <h2><a href={`/blog/${post.slug}/`}>{post.data.title}</a></h2>
             <ul class="date text-muted text-uppercase">
               <li>

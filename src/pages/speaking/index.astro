@@ -45,6 +45,20 @@ const posts = (await getCollection('speaking')).sort(
               </li>
             </ul>
             <p>{post.data.excerpt}</p>
+            {
+              post.data.additionalEvents != null ? (<p style="margin-bottom: 0.5rem !important">Talk also given at:</p>) : null
+            }
+            <ul>
+            {
+              post.data.additionalEvents?.map(event => (
+                <li><a href="{event.url}">{event.name}</a> - {event.date.toLocaleDateString('en-gb', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric',
+                  })}</li>
+              ))
+            }
+            </ul>
           </article>
         ))
       }

@@ -27,6 +27,7 @@ const speaking = defineCollection({
     excerpt: z.string(),
     event: z.string(),
     externalUrl: z.string().url().optional(),
+    additionalEvents: z.array(z.object({ name: z.string(), date: z.date(), url: z.string().url().optional() })).optional(),
     // Transform string to Date object
     pubDate: z
       .string()

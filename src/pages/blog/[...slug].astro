@@ -18,22 +18,24 @@ const { Content } = await post.render();
 
 <Page {...post.data}>
   <article>
-	<h1>{post.data.title}</h1>
-  <ul class="date text-muted text-uppercase">
-    <li>
-      <time datetime={post.data.pubDate.toISOString()}>
-        {post.data.pubDate.toLocaleDateString('en-gb', {
-          year: 'numeric',
-          month: 'short',
-          day: 'numeric',
-        })}
-      </time>
-    </li>
-    <li role="presentation">|</li>
-    <li>
-        {getReadingTime(post.body)}
-    </li>
-  </ul>  
-	<Content />
+    <div style={`view-transition-name: article-${post.slug}`}>
+      <h1>{post.data.title}</h1>
+      <ul class="date text-muted text-uppercase">
+        <li>
+          <time datetime={post.data.pubDate.toISOString()}>
+            {post.data.pubDate.toLocaleDateString('en-gb', {
+              year: 'numeric',
+              month: 'short',
+              day: 'numeric',
+            })}
+          </time>
+        </li>
+        <li role="presentation">|</li>
+        <li>
+            {getReadingTime(post.body)}
+        </li>
+      </ul>  
+    </div>
+    <Content />
   </article>
 </Page>

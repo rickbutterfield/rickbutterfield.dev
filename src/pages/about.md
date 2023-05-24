@@ -8,12 +8,14 @@ layout: '../layouts/Page.astro'
   <h1>About</h1>
 
   <p class="lead">Hi, I'm Rick! 👋 I am a software engineering lead with over a decade in the industry, currently specialising in development on the Microsoft .NET stack, with a long-standing passion for usable, accessible and attractive front end development using modern technologies.</p>
+
+  <p>I am passionate about digital sustainability, and I'm part of the <a href="https://umbraco.com/blog/meet-the-new-community-sustainability-team/" target="_blank">Umbraco Community Sustainability team</a>.
   
   <p>I'm currently working as Development Team Lead for Nexer Digital where I get to build websites and software. This means I'm working across tech stacks—C# .NET, SQL and Umbraco as well as HTML, CSS/Sass, JS/ES6+ and Node.</p>
   
   <p>Having previously worked on and delivered solutions for notable companies such as Mind, NCC Group, Newcastle Airport, CPP, Parkdean Resorts, Lakeland, Warburtons, Places for People and the World Travel and Tourism Council, I can bring an end-to-end approach to any project.</p>
 
-  <p>I also love to <a href=/speaking">speak at events, meetups, conferences and more</a>. I’m active in the Umbraco community, regularly speaking at Umbraco events, conferences and on umbraCoffee!</p>
+  <p>I also love to <a href="/speaking">speak at events, meetups, conferences and more</a>. I’m active in the Umbraco community, regularly speaking at Umbraco events, conferences and on umbraCoffee!</p>
 
   <hr/>
 
@@ -21,7 +23,11 @@ layout: '../layouts/Page.astro'
     <strong>Development Team Lead</strong><br/>
     <small><a href="https://nexerdigital.com" target="_blank" rel="noopener noreferrer">Nexer Digital</a> &bull; September 2022&ndash;present</small>
   </p>
-
+  
+  <p class="lead">
+    <strong>Umbraco Community Sustainability team member (volunteer)</strong><br/>
+    <small><a href="https://umbraco.com/blog/meet-the-new-community-sustainability-team/" target="_blank" rel="noopener noreferrer">Umbraco</a> &bull; May 2023&ndash;present</small>
+  </p>
   <p class="lead">
     <strong>Back End Team Lead</strong><br/>
     <small><a href="https://nexerdigital.com" target="_blank" rel="noopener noreferrer">Nexer Digital</a> &bull; May 2022&ndash;September 2022</small>
