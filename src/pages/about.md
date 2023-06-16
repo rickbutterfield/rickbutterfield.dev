@@ -8,8 +8,7 @@ layout: '../layouts/Page.astro'
   <h1>About</h1>
 
   <p class="lead">Hi, I'm Rick! 👋 I am a software engineering lead with over a decade in the industry, currently specialising in development on the Microsoft .NET stack, with a long-standing passion for usable, accessible and attractive front end development using modern technologies.</p>
-
-  <p>I am passionate about digital sustainability, and I'm part of the <a href="https://umbraco.com/blog/meet-the-new-community-sustainability-team/" target="_blank">Umbraco Community Sustainability team</a>.
+  <p>I'm an <a href="https://umbraco.com/blog/the-umbraco-2023-mvps/" target="_blank">Umbraco MVP</a> and part of the <a href="https://umbraco.com/blog/meet-the-new-community-sustainability-team/" target="_blank">Umbraco Community Sustainability Team</a>.</p>
   
   <p>I'm currently working as Development Team Lead for Nexer Digital where I get to build websites and software. This means I'm working across tech stacks—C# .NET, SQL and Umbraco as well as HTML, CSS/Sass, JS/ES6+ and Node.</p>
   
