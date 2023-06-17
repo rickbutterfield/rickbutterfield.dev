@@ -15,10 +15,11 @@ additionalEvents: [
     name: "Umbraco Newcastle Meetup",
     date: 2023-04-21,
     url: https://www.meetup.com/umbraco-newcastle-meetup/events/291311677/
+  },
+  {
+    name: "Manchester Digital Member Conference and Summer Social",
+    date: 2023-06-22,
+    url: https://www.manchesterdigital.com/event/manchester-digital/member-conference-and-summer-social
   }
 ]
 ---
-
-This talk has also been given at:
-- [Umbraco Spark](https://umbracospark.com), 10th March 2023
-- [Umbraco Newcastle Meetup](https://www.meetup.com/umbraco-newcastle-meetup/events/291311677/), 21st April 2023
