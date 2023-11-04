@@ -1,8 +1,19 @@
 ---
 import HeaderLink from './HeaderLink.astro';
 import { SITE_TITLE, SITE_TITLE_MOBILE } from '../consts';
----
+import client from '@/utils/umbraco-client'
 
+const pages = await client.getContentByType("content", {
+  expand: "all",
+  sort: {
+    type: 'sortOrder',
+    order: 'asc'
+  }
+});
+const blog = await client.getContentByType("blog", {
+  expand: "all",
+});
+---
 <header class="c-header">
   <div class="o-container">
     <div class="site-info">
@@ -11,9 +22,12 @@ import { SITE_TITLE, SITE_TITLE_MOBILE } from '../consts';
     </div>
 
     <nav class="c-nav">
-      <HeaderLink href="/about">About</HeaderLink>
-      <HeaderLink href="/blog">Blog</HeaderLink>
-      <HeaderLink href="/speaking">Speaking</HeaderLink>
+      {pages.map(page => (
+        <HeaderLink href={page.route.path}>{page.name}</HeaderLink>
+      ))}
+      {blog.map(page => (
+        <HeaderLink href={page.route.path}>{page.name}</HeaderLink>
+      ))}
       <HeaderLink href="/feed.xml" class="c-nav-item--feed">
         <svg xmlns="http://www.w3.org/2000/svg" id="RSSicon" viewBox="0 0 8 8" width="256" height="256">
           <style type="text/css">
