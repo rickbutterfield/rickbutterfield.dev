@@ -1,18 +1,3 @@
-$font-stack:
-  'azo-sans-web',
-  // Safari for OS X and iOS (San Francisco)
-  -apple-system,
-  // Chrome < 56 for OS X (San Francisco)
-  BlinkMacSystemFont,
-  // Windows
-  'Segoe UI',
-  // Android
-  'Roboto',
-  // Basic web fallback
-  'Helvetica Neue', Arial, sans-serif,
-  // Emoji fonts
-  'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
-
 $text-colour: #212121;
 $muted-colour: tint($text-colour, 40%);
 $light-colour: tint($text-colour, 90%);
@@ -21,6 +6,8 @@ $transition-default: 100ms ease;
 
 :root {
   color-scheme: dark light;
+
+  --font-stack: 'azo-sans-web', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
   
   --max-width: 50rem;
   --code-text: #212121;
