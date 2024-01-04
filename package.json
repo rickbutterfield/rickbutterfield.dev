@@ -1,14 +1,15 @@
 {
-  "name": "@example/blog",
+  "name": "rickbutterfield",
   "type": "module",
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "dev": "astro dev",
+    "dev": "astro dev --host",
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "api": "openapi-generator-cli generate -g typescript-fetch -i http://localhost:20625/umbraco/swagger/delivery/swagger.json -o src/api --additional-properties=supportsES6=true,npmVersion=10.2.5,typescriptFive"
   },
   "dependencies": {
     "@astrojs/mdx": "^1.0.0",
@@ -22,7 +23,15 @@
     "js-cookie": "^3.0.5"
   },
   "devDependencies": {
+    "@astrojs/lit": "^3.0.2",
+    "@astrojs/node": "^6.0.3",
+    "@openapitools/openapi-generator-cli": "^2.7.0",
     "@tgwf/gridintensity-polyfill": "^0.0.7",
-    "sass": "^1.61.0"
+    "@vitejs/plugin-basic-ssl": "^1.0.2",
+    "highlight.js": "^11.9.0",
+    "marked": "^11.1.1",
+    "marked-highlight": "^2.1.0",
+    "sass": "^1.61.0",
+    "whatwg-fetch": "^3.6.20"
   }
 }
