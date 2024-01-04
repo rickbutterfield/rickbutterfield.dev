@@ -1,40 +1,52 @@
 ---
+import { marked } from 'marked';
 import BaseHead from '../../components/BaseHead.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../../consts';
 import { getCollection } from 'astro:content';
 import { getReadingTime } from '../../scripts/readingTime';
+import * as api from '../../api';
 
-let posts = (await getCollection('blog')).sort(
-	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
-);
-posts = posts.filter(x => x.data.draft !== true);
+const config = new api.Configuration({ basePath: import.meta.env.PUBLIC_BASE_URL });
+const contentApi = new api.ContentApi(config);
+const nodes = await contentApi.getContent20({
+  filter: ['contentType:blogsPage']
+});
+const node: api.BlogsPageContentModel = nodes.items[0];
 
+const {
+  title,
+  content
+} = node.properties
+
+const blogPosts = await contentApi.getContent20({
+  filter: ['contentType:blogPost']
+});
 ---
 
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<BaseHead title={"Blog - " + SITE_TITLE} description={'Regularly blogging about Umbraco, digital sustainability and more!'} />
+		<BaseHead title={`${title} - ${SITE_TITLE}`} description={content} />
   </head>
 	<body>
 		<Header title={SITE_TITLE} />
 		<main class="c-main">
       <article class="c-content c-post">
-        <h1>Blog</h1>
-        <p class="lead">Regularly blogging about Umbraco, CSS, digital sustainability and more!</p>
+        <h1>{title}</h1>
+        <div set:html={marked.parse(content)}></div>
       </article>
 
       <section class="c-posts">
       {
-        posts.map((post) => (
-          <article class="c-post" style={`view-transition-name: article-${post.slug}`}>
-            <h2><a href={`/blog/${post.slug}/`}>{post.data.title}</a></h2>
+        blogPosts.items.map((blogPost: api.BlogPostContentModel) => (
+          <article class="c-post" style={`view-transition-name: article-${blogPost.id}`}>
+            <h2><a href={blogPost.route.path}>{blogPost.name}</a></h2>
             <ul class="date text-muted text-uppercase">
               <li>
-                <time datetime={post.data.pubDate.toISOString()}>
-                  {post.data.pubDate.toLocaleDateString('en-gb', {
+                <time datetime={new Date(blogPost.properties.publishedDate).toISOString()}>
+                  {new Date(blogPost.properties.publishedDate).toLocaleDateString('en-gb', {
                     year: 'numeric',
                     month: 'short',
                     day: 'numeric',
@@ -43,10 +55,10 @@ posts = posts.filter(x => x.data.draft !== true);
               </li>
               <li role="presentation">|</li>
               <li>
-                  {getReadingTime(post.body)}
+                  {getReadingTime(blogPost.properties.content)}
               </li>
             </ul>
-            <p>{post.data.excerpt}</p>
+            <p>{blogPost.properties.content}</p>
           </article>
         ))
       }

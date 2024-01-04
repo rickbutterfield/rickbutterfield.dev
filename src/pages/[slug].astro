@@ -1,17 +1,23 @@
 ---
+import { marked } from 'marked';
 import Page from "@/layouts/Page.astro";
-import client from "@/utils/umbraco-client";
+import * as api from '../api';
+
 
 export async function getStaticPaths() {
+  const config = new api.Configuration({ basePath: import.meta.env.PUBLIC_BASE_URL });
+  const contentApi = new api.ContentApi(config);
+
   // Fetch all content of type "page" from Umbraco sorted by creation date in ascending order.
-  const pages = await client.getContentByType("content", {
-    expand: "all",
-  });
+  const pages = await contentApi.getContent20({
+    filter: ['contentType:contentPage'],
+    expand: 'all'
+  })
 
   // Create a page for each one using the slug as the route, and pass in the props.
-  return pages.map((page) => ({
+  return pages.items.map((page: api.ContentPageContentModel) => ({
     params: { slug: page.route.path.replaceAll("/", "") },
-    props: { ...page.properties, name: page.name }
+    props: { name: page.name, content: page.properties.content }
   }));
 }
 
@@ -21,6 +27,6 @@ const { name, content } = Astro.props
 <Page name={name}>
   <article>
     <h1>{name}</h1>
-    <div set:html={content?.markup}></div>
+    <div set:html={marked.parse(content)}></div>
   </article>
 </Page>

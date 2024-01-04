@@ -1,18 +1,21 @@
 ---
 import HeaderLink from './HeaderLink.astro';
 import { SITE_TITLE, SITE_TITLE_MOBILE } from '../consts';
-import client from '@/utils/umbraco-client'
+import * as api from '../api';
 
-const pages = await client.getContentByType("content", {
-  expand: "all",
-  sort: {
-    type: 'sortOrder',
-    order: 'asc'
-  }
-});
-const blog = await client.getContentByType("blog", {
-  expand: "all",
-});
+
+const config = new api.Configuration({ basePath: import.meta.env.PUBLIC_BASE_URL });
+const contentApi = new api.ContentApi(config);
+const node: api.HomePageContentModel = await contentApi.getContentItemByPath20({
+  path: '/'
+})
+
+const pages = await contentApi.getContent20({
+  fetch: `children:${node.id}`,
+  sort: 'sortOrder:asc',
+  expand: 'all'
+})
+
 ---
 <header class="c-header">
   <div class="o-container">
@@ -22,10 +25,7 @@ const blog = await client.getContentByType("blog", {
     </div>
 
     <nav class="c-nav">
-      {pages.map(page => (
-        <HeaderLink href={page.route.path}>{page.name}</HeaderLink>
-      ))}
-      {blog.map(page => (
+      {pages.items.map(page => (
         <HeaderLink href={page.route.path}>{page.name}</HeaderLink>
       ))}
       <HeaderLink href="/feed.xml" class="c-nav-item--feed">

@@ -1,14 +1,22 @@
 ---
+import { marked } from 'marked';
 import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
-import client from '@/utils/umbraco-client'
+import * as api from '../api';
 
-const node = await client.getContentById('home')
+const config = new api.Configuration({ basePath: import.meta.env.PUBLIC_BASE_URL });
+const contentApi = new api.ContentApi(config);
+const nodes = await contentApi.getContent20({
+  filter: ['contentType:homePage']
+});
+const node: api.HomePageContentModel = nodes.items[0];
+
 const {
+  title,
   content,
-  featuredImage: [featuredImage]
+  featuredImage
 } = node.properties
 const baseUrl = import.meta.env.PUBLIC_BASE_URL_HTTPS
 
@@ -25,12 +33,12 @@ const baseUrl = import.meta.env.PUBLIC_BASE_URL_HTTPS
       <section class="c-home">
         <figure class="c-figure">
           <picture>
-            <source srcset=`${baseUrl}${featuredImage.url}?width=900&height=900&format=webp` type="image/webp">
-            <source srcset=`${baseUrl}${featuredImage.url}?width=900&height=900` type="image/jpeg">
-            <img src=`${baseUrl}${featuredImage.url}?width=900&height=900` alt="Rick Butterfield" width="900" height="900" style="aspect-ratio: 1 / 1; width: 100%;">
+            <source srcset=`${baseUrl}${featuredImage[0].url}?width=900&height=900&format=webp` type="image/webp">
+            <source srcset=`${baseUrl}${featuredImage[0].url}?width=900&height=900` type="image/jpeg">
+            <img src=`${baseUrl}${featuredImage[0].url}?width=900&height=900` alt="Rick Butterfield" width="900" height="900" style="aspect-ratio: 1 / 1; width: 100%;">
           </picture>
         </figure>
-        <article class="c-content" set:html={content.markup}>
+        <article class="c-content" set:html={marked.parse(content)}>
         </article>
       </section>
       </main>

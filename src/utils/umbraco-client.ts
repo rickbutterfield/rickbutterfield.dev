@@ -1,3 +1,5 @@
+process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0
+
 type Options = {
   sort?: {
     type: 'createDate' | 'updateDate' | 'sortOrder' | 'name' | 'level'
@@ -30,7 +32,7 @@ function getExpandParam(expand: Options['expand']): string {
 
 // Client used to query our Umbraco CMS
 function createClient({ domain }: { domain: string }) {
-  const apiUrl = `${domain}/umbraco/delivery/api/v1/content`
+  const apiUrl = `${domain}/umbraco/delivery/api/v2/content`
 
   return {
     getContentById: async (id: string) => {
@@ -46,7 +48,7 @@ function createClient({ domain }: { domain: string }) {
     getContentByType: async (itemType: string, options?: Options) => {
       const { sort, expand } = options || {}
 
-      // Example: https://localhost:44326/umbraco/delivery/api/v1/content?filter=contentType:blogPost&sort=createDate:desc&expand=property:content
+      // Example: https://localhost:44326/umbraco/delivery/api/v2/content?filter=contentType:blogPost&sort=createDate:desc&expand=property:content
       const response = await fetch(
         `${apiUrl}?filter=contentType:${itemType}${getSortParam(sort)}${getExpandParam(expand)}`,
         {
