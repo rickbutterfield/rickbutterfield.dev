@@ -21,7 +21,8 @@ const {
 } = node.properties
 
 const blogPosts = await contentApi.getContent20({
-  filter: ['contentType:blogPost']
+  filter: ['contentType:blogPost'],
+  sort: ['sortOrder:asc']
 });
 ---
 
