@@ -1,6 +1,6 @@
 import rss from '@astrojs/rss';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
-import * as api from '../api';
+import * as api from '@/api';
 
 export async function get(context) {
   const config = new api.Configuration({ basePath: import.meta.env.PUBLIC_BASE_URL });

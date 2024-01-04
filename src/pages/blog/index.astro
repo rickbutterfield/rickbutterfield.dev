@@ -1,12 +1,11 @@
 ---
 import { marked } from 'marked';
-import BaseHead from '../../components/BaseHead.astro';
-import Header from '../../components/Header.astro';
-import Footer from '../../components/Footer.astro';
-import { SITE_TITLE, SITE_DESCRIPTION } from '../../consts';
-import { getCollection } from 'astro:content';
-import { getReadingTime } from '../../scripts/readingTime';
-import * as api from '../../api';
+import BaseHead from '@/components/BaseHead.astro';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
+import { SITE_TITLE, SITE_DESCRIPTION } from '@/consts';
+import { getReadingTime } from '@/scripts/readingTime';
+import * as api from '@/api';
 
 const config = new api.Configuration({ basePath: import.meta.env.PUBLIC_BASE_URL });
 const contentApi = new api.ContentApi(config);

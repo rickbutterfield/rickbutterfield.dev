@@ -3,9 +3,8 @@ import { Marked, marked } from 'marked';
 import { markedHighlight } from "marked-highlight";
 import hljs from 'highlight.js';
 import 'highlight.js/styles/github-dark.css';
-import Page from '../../layouts/Page.astro';
-import { getReadingTime } from '../../scripts/readingTime';
-import * as api from '../../api';
+import Page from '@/layouts/Page.astro';
+import * as api from '@/api';
 const baseUrl = import.meta.env.PUBLIC_BASE_URL_HTTPS
 
 export async function getStaticPaths() {
