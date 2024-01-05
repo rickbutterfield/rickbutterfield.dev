@@ -2,13 +2,13 @@ import rss from '@astrojs/rss';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 import * as api from '@/api';
 
-export async function get(context) {
+export async function GET(context) {
   const config = new api.Configuration({ basePath: import.meta.env.PUBLIC_BASE_URL });
   const contentApi = new api.ContentApi(config);
 
   const posts = await contentApi.getContent20({
     filter: ['contentType:blogPost'],
-    expand: 'all'
+    sort: ['publishedDate:desc']
   })
 
 	return rss({
