@@ -36,7 +36,7 @@ export async function getStaticPaths() {
 const { title, slug, name, content, publishedDate, grid } = Astro.props
 ---
 
-<Page name={title}>
+<Page name={title} image={`/og${Astro.url.pathname}.png`}>
   <article>
     <div style={`view-transition-name: article-${slug}`}>
       <h1>{title}</h1>

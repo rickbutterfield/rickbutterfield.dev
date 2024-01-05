@@ -20,7 +20,7 @@ const {
 
 const blogPosts = await contentApi.getContent20({
   filter: ['contentType:blogPost'],
-  sort: ['sortOrder:asc']
+  sort: ['publishedDate:desc']
 });
 ---
 
@@ -52,7 +52,6 @@ const blogPosts = await contentApi.getContent20({
                   })}
                 </time>
               </li>
-              <li role="presentation">|</li>
             </ul>
             <p>{blogPost.properties.content}</p>
           </article>
