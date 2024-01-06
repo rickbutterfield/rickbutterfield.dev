@@ -55,15 +55,14 @@
 
       &:hover,
       &:focus {
-        [data-dark-mode="true"] & {
-          color: var(--background);
-        }
+        color: white;
 
         &:after {
-          top: 0;
-          right: -2px;
-          bottom: 0;
-          left: -2px;
+          top: -2px;
+          right: -8px;
+          bottom: -2px;
+          left: -8px;
+          border-radius: 4px;
         }
       }
     }
@@ -83,6 +82,13 @@
       svg {
         width: 20px;
         height: 20px;
+      }
+
+      &:hover {
+        color: var(--brand);
+        text-decoration-color: var(--brand);
+        text-decoration-thickness: 3px;
+        text-decoration: underline;
       }
     }
 

@@ -34,19 +34,22 @@ export const { getStaticPaths, GET } = OGImageRoute({
   getImageOptions: (path, page) => ({
     title: page.title,
     description: page.description,
-    bgGradient: [[32,33,35]],
-    fonts: ['./public/assets/fonts/AzoSans-Bold.ttf'],
+    bgGradient: [[245, 242, 238]],
+    fonts: ['./public/assets/fonts/AzoSans-Regular.ttf', './public/assets/fonts/AzoSans-Bold.ttf'],
     font: {
       title: {
+        color: [37, 97, 104],
+        weight: "Bold",
         families: ['azo-sans-web', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol']
       },
       description: {
+        color: [33, 33, 33],
         families: ['azo-sans-web', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol']
       }
     },
     border: {
-      color: [245, 99, 40],
-      width: 20,
+      color: [229, 151, 88],
+      width: 10,
       side: 'block-end'
     },
     padding: 48,

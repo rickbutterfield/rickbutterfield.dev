@@ -82,7 +82,7 @@ const { title, slug, name, content, publishedDate, grid } = Astro.props
           if (typedContent != null) {
             return (
               <figure class="c-figure">
-                <img src=`${baseUrl}${typedContent.properties.image[0]?.url}?format=webp` alt={typedContent.properties.image[0]?.properties?.altText}>
+                <img src=`${baseUrl}${typedContent.properties.image[0]?.url}?format=webp&width=1680` alt={typedContent.properties.image[0]?.properties?.altText}>
                 <figcaption>{typedContent.properties.caption}</figcaption>
               </figure>
             )

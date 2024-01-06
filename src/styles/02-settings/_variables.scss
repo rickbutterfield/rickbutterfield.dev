@@ -11,52 +11,52 @@ $transition-default: 100ms ease;
   
   --max-width: 50rem;
   --code-text: #212121;
-  --code-background: #f5f2f0;
-  --accolade-background: #fafafa;
+  --code-background: #0d1117;
+  --accolade-background: #f5f2ee;
   
   @media (prefers-color-scheme: light) {
-    --background: #fafafa;
-    --background-transparent: #fafafabf;
+    --background: #f5f2ee;
+    --background-transparent: #f5f2eebf;
     --text: #212121;
-    --brand: #f56329;    
-    --border: #e5e5e5;
+    --brand: #256168;    
+    --border: #e59758;
     --muted-colour: #{$muted-colour};
-    --accolade-background: #fafafa;
+    --accolade-background: #f5f2ee;
     
     [data-dark-mode="true"] {
       --background: #1f2123;
       --background-transparent: #1f2123bf;
-      --text: #fafafa;
-      --brand: #f56329;
-      --border: #636363;
+      --text: #f5f2ee;
+      --brand: #256168;
+      --border: #e59758;
       --muted-colour: #bcb7ad;
       --code-text: #ccc;
       --code-background: #2d2d2d;
-      --accolade-background: #fafafa;
+      --accolade-background: #f5f2ee;
     }
   }
   
   @media (prefers-color-scheme: dark) {
     --background: #1f2123;
     --background-transparent: #1f2123bf;
-    --text: #fafafa;
-    --brand: #f56329;
-    --border: #636363;
+    --text: #f5f2ee;
+    --brand: #256168;
+    --border: #e59758;
     --muted-colour: #bcb7ad;
     --code-text: #ccc;
     --code-background: #2d2d2d;
-    --accolade-background: #fafafa;
+    --accolade-background: #f5f2ee;
     
     [data-dark-mode="false"] {
-      --background: #fafafa;
-      --background-transparent: #fafafabf;
+      --background: #f5f2ee;
+      --background-transparent: #f5f2eebf;
       --text: #212121;
-      --brand: #f56329;    
-      --border: #e5e5e5;
+      --brand: #256168;    
+      --border: #e59758;
       --muted-colour: #{$muted-colour};
       --code-text: #212121;
-      --code-background: #f5f2f0;
-      --accolade-background: #fafafa;
+      --code-background: #0d1117;
+      --accolade-background: #f5f2ee;
     }
   }
 }

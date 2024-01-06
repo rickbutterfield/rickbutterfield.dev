@@ -9,7 +9,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "api": "openapi-generator-cli generate -g typescript-fetch -i http://localhost:20625/umbraco/swagger/delivery/swagger.json -o src/api --additional-properties=supportsES6=true,npmVersion=10.2.5,typescriptFive"
+    "api": "openapi-generator-cli generate -g typescript-fetch -i http://localhost:20625/umbraco/swagger/delivery/swagger.json -o src/api --additional-properties=supportsES6=true"
   },
   "dependencies": {
     "@astrojs/mdx": "^2.0.3",
