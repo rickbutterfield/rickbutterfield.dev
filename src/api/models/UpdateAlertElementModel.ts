@@ -3,8 +3,8 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { IApiElementModelBase } from './IApiElementModelBase';
-import type { PageSettingsPropertiesModel } from './PageSettingsPropertiesModel';
-export type PageSettingsElementModel = (IApiElementModelBase & {
-    properties?: PageSettingsPropertiesModel;
+import type { UpdateAlertPropertiesModel } from './UpdateAlertPropertiesModel';
+export type UpdateAlertElementModel = (IApiElementModelBase & {
+    properties?: UpdateAlertPropertiesModel;
 });
 

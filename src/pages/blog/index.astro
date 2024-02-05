@@ -4,21 +4,20 @@ import BaseHead from '@/components/BaseHead.astro';
 import Header from '@/components/Header.astro';
 import Footer from '@/components/Footer.astro';
 import { SITE_TITLE, SITE_DESCRIPTION } from '@/consts';
-import * as api from '@/api';
+import { ContentResource, OpenAPI, type BlogsPageContentModel, type BlogPostContentModel } from '@/api';
 
-const config = new api.Configuration({ basePath: import.meta.env.PUBLIC_BASE_URL });
-const contentApi = new api.ContentApi(config);
-const nodes = await contentApi.getContent20({
+OpenAPI.BASE = import.meta.env.PUBLIC_BASE_URL;
+const nodes = await ContentResource.getContent20({
   filter: ['contentType:blogsPage']
 });
-const node: api.BlogsPageContentModel = nodes.items[0];
+const node: BlogsPageContentModel = nodes.items[0];
 
 const {
   title,
   content
 } = node.properties
 
-const blogPosts = await contentApi.getContent20({
+const blogPosts = await ContentResource.getContent20({
   filter: ['contentType:blogPost'],
   sort: ['publishedDate:desc']
 });
@@ -39,7 +38,7 @@ const blogPosts = await contentApi.getContent20({
 
       <section class="c-posts">
       {
-        blogPosts.items.map((blogPost: api.BlogPostContentModel) => (
+        blogPosts.items.map((blogPost: BlogPostContentModel) => (
           <article class="c-post" style={`view-transition-name: article-${blogPost.id}`}>
             <h2><a href={blogPost.route.path}>{blogPost.name}</a></h2>
             <ul class="date text-muted text-uppercase">

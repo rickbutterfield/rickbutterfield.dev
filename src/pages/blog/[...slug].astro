@@ -4,19 +4,18 @@ import { markedHighlight } from "marked-highlight";
 import hljs from 'highlight.js';
 import 'highlight.js/styles/github-dark.css';
 import Page from '@/layouts/Page.astro';
-import * as api from '@/api';
+import { OpenAPI, ContentResource, type BlogPostContentModel } from '@/api';
 const baseUrl = import.meta.env.PUBLIC_BASE_URL_HTTPS
 
 export async function getStaticPaths() {
-	const config = new api.Configuration({ basePath: import.meta.env.PUBLIC_BASE_URL });
-  const contentApi = new api.ContentApi(config);
+  OpenAPI.BASE = import.meta.env.PUBLIC_BASE_URL;
 
-  const posts = await contentApi.getContent20({
+  const posts = await ContentResource.getContent20({
     filter: ['contentType:blogPost'],
     expand: 'all'
   })
 
-  return posts.items.map((page: api.BlogPostContentModel) => {
+  return posts.items.map((page: BlogPostContentModel) => {
     const urlSplit = page.route.path.split('/');
 
     return {
@@ -35,6 +34,16 @@ export async function getStaticPaths() {
 
 let path = Astro.url.pathname;
 path = path.slice(0, -1);
+
+const customMarked = new Marked(
+  markedHighlight({ 
+    langPrefix: 'hljs language-',
+    highlight(code, lang, info) {
+      const language = hljs.getLanguage(lang) ? lang : 'plaintext';
+      return hljs.highlight(code, { language }).value;
+    }
+  })
+)
 
 const { title, slug, name, content, publishedDate, grid } = Astro.props
 ---
@@ -63,28 +72,44 @@ const { title, slug, name, content, publishedDate, grid } = Astro.props
     {grid?.items.map(item => {
       if (item.content !== null) {
         if (item.content?.contentType === 'richText') {
-          const typedContent = api.RichTextElementModelFromJSON(item.content);
+          const typedContent = item.content as RichTextElementModel;
           if (typedContent != null) {
-            const customMarked = new Marked(
-              markedHighlight({ 
-                langPrefix: 'hljs language-',
-                highlight(code, lang, info) {
-                  const language = hljs.getLanguage(lang) ? lang : 'plaintext';
-                  return hljs.highlight(code, { language }).value;
-                }
-              })
-            )
-            return <div set:html={customMarked.parse(typedContent.properties.content)}></div>
+            return <div set:html={customMarked.parse(typedContent.properties?.content)}></div>
           }
         }
+        
         if (item.content?.contentType === 'imageWithCaption') {
-          const typedContent = api.ImageWithCaptionElementModelFromJSON(item.content);
+          const typedContent = item.content as ImageWithCaptionElementModel;
           if (typedContent != null) {
             return (
               <figure class="c-figure">
                 <img src=`${baseUrl}${typedContent.properties.image[0]?.url}?format=webp&width=1680` alt={typedContent.properties.image[0]?.properties?.altText}>
                 <figcaption>{typedContent.properties.caption}</figcaption>
               </figure>
+            )
+          }
+        }
+
+        if (item.content?.contentType === 'updateAlert') {
+          const typedContent = item.content as UpdateAlertElementModel;
+          if (typedContent != null) {
+            const updateDate = new Date(typedContent.properties?.date);
+
+            return (
+              <aside class="c-alert c-alert--update">
+                <ul class="date text-muted text-uppercase">
+                  <li>
+                    <time datetime={updateDate.toISOString()}>
+                      {updateDate.toLocaleDateString('en-gb', {
+                        year: 'numeric',
+                        month: 'short',
+                        day: 'numeric',
+                      })}
+                      </time>
+                  </li>  
+                </ul>
+                <div set:html={customMarked.parse(typedContent.properties?.content)}></div>
+              </aside>
             )
           }
         }

@@ -9,7 +9,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "api": "openapi-generator-cli generate -g typescript-fetch -i http://localhost:20625/umbraco/swagger/delivery/swagger.json -o src/api --additional-properties=supportsES6=true"
+    "generate": "openapi --input http://localhost:20625/umbraco/swagger/delivery/swagger.json --output src/api --postfixServices Resource --useOptions"
   },
   "dependencies": {
     "@astrojs/mdx": "^2.0.3",
@@ -30,6 +30,7 @@
     "highlight.js": "^11.9.0",
     "marked": "^11.1.1",
     "marked-highlight": "^2.1.0",
+    "openapi-typescript-codegen": "^0.27.0",
     "sass": "^1.61.0",
     "whatwg-fetch": "^3.6.20"
   }

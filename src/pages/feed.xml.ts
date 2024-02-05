@@ -1,12 +1,11 @@
 import rss from '@astrojs/rss';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
-import * as api from '@/api';
+import { ContentResource, OpenAPI, type BlogPostContentModel } from '@/api';
 
 export async function GET(context) {
-  const config = new api.Configuration({ basePath: import.meta.env.PUBLIC_BASE_URL });
-  const contentApi = new api.ContentApi(config);
+  OpenAPI.BASE = import.meta.env.PUBLIC_BASE_URL;
 
-  const posts = await contentApi.getContent20({
+  const posts = await ContentResource.getContent20({
     filter: ['contentType:blogPost'],
     sort: ['publishedDate:desc']
   })
@@ -15,11 +14,14 @@ export async function GET(context) {
 		title: SITE_TITLE,
 		description: SITE_DESCRIPTION,
 		site: context.site,
-		items: posts.items.map((post: api.BlogPostContentModel) => ({
-      title: post.properties?.title,
-			link: post.route.path,
-      pubDate: post.properties?.publishedDate,
-      description: post.properties?.content
-		})),
+		items: posts.items.map((post: BlogPostContentModel) => {
+      return {
+        title: post.properties?.title,
+        link: post.route.path,
+        pubDate: post.properties?.publishedDate,
+        description: post.properties?.content,
+        content: post.properties?.content
+      }
+    })
 	});
 }

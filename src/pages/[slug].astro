@@ -1,21 +1,19 @@
 ---
 import { marked } from 'marked';
 import Page from "@/layouts/Page.astro";
-import * as api from '@/api';
-
+import { ContentResource, OpenAPI, type ContentPageContentModel } from '@/api';
 
 export async function getStaticPaths() {
-  const config = new api.Configuration({ basePath: import.meta.env.PUBLIC_BASE_URL });
-  const contentApi = new api.ContentApi(config);
+  OpenAPI.BASE = import.meta.env.PUBLIC_BASE_URL;
 
   // Fetch all content of type "page" from Umbraco sorted by creation date in ascending order.
-  const pages = await contentApi.getContent20({
+  const pages = await ContentResource.getContent20({
     filter: ['contentType:contentPage'],
     expand: 'all'
   })
 
   // Create a page for each one using the slug as the route, and pass in the props.
-  return pages.items.map((page: api.ContentPageContentModel) => ({
+  return pages.items.map((page: ContentPageContentModel) => ({
     params: { slug: page.route.path.replaceAll("/", "") },
     props: { name: page.name, content: page.properties.content }
   }));

@@ -1,16 +1,15 @@
+import { ContentResource, OpenAPI, type BlogPostContentModel } from '@/api';
 import { OGImageRoute } from 'astro-og-canvas';
-import * as api from '@/api';
 
-const config = new api.Configuration({ basePath: import.meta.env.PUBLIC_BASE_URL });
-const contentApi = new api.ContentApi(config);
+OpenAPI.BASE = import.meta.env.PUBLIC_BASE_URL;
 
-const blogPosts = await contentApi.getContent20({
+const blogPosts = await ContentResource.getContent20({
   filter: ['contentType:blogPost'],
   sort: ['sortOrder:asc']
 });
 
 let pages = {};
-blogPosts.items.forEach((post: api.BlogPostContentModel) => {
+blogPosts.items.forEach((post: BlogPostContentModel) => {
   if (post !== null) {
     const path = post.route?.path.substring(1);
     pages[path] = {

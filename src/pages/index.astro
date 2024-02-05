@@ -4,14 +4,11 @@ import BaseHead from '@/components/BaseHead.astro';
 import Header from '@/components/Header.astro';
 import Footer from '@/components/Footer.astro';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
-import * as api from '@/api';
+import { ContentResource, OpenAPI, type HomePageContentModel } from '@/api';
 
-const config = new api.Configuration({ basePath: import.meta.env.PUBLIC_BASE_URL });
-const contentApi = new api.ContentApi(config);
-const nodes = await contentApi.getContent20({
-  filter: ['contentType:homePage']
-});
-const node: api.HomePageContentModel = nodes.items[0];
+OpenAPI.BASE = import.meta.env.PUBLIC_BASE_URL;
+const nodes = await ContentResource.getContent20({ filter: ['contentType:homePage'] });
+const node: HomePageContentModel = nodes.items[0];
 
 const {
   title,
