@@ -1,4 +1,6 @@
 ---
+import { ViewTransitions } from 'astro:transitions';
+
 export interface Props {
 	title: string;
 	description: string;
@@ -61,3 +63,5 @@ const { title, description, image = '/placeholder-social.jpg' } = Astro.props;
   @import "../styles/style.scss";
 </style>
 <link rel="stylesheet" href="https://use.typekit.net/onb7sko.css" media="print" onload="this.media='all'">
+
+<ViewTransitions />
