@@ -1,11 +1,14 @@
 ---
-import { Marked, marked } from 'marked';
+import { Marked } from 'marked';
 import { markedHighlight } from "marked-highlight";
 import hljs from 'highlight.js';
 import 'highlight.js/styles/github-dark.css';
-import Page from '@/layouts/Page.astro';
-import { OpenAPI, ContentResource, type BlogPostContentModel } from '@/api';
-const baseUrl = import.meta.env.PUBLIC_BASE_URL_HTTPS
+import Layout from '@/layouts/Layout.astro';
+import { OpenAPI, ContentResource, type BlogPostContentModel, type UpdateAlertElementModel } from '@/api';
+import RichText from '@/components/blocks/RichText.astro';
+import ImageWithCaption from '@/components/blocks/ImageWithCaption.astro';
+import UpdateAlert from '@/components/blocks/UpdateAlert.astro';
+
 
 export async function getStaticPaths() {
   OpenAPI.BASE = import.meta.env.PUBLIC_BASE_URL;
@@ -48,11 +51,11 @@ const customMarked = new Marked(
 const { title, slug, name, content, publishedDate, grid } = Astro.props
 ---
 
-<Page name={title} image={`/og${path}.png`}>
-  <article>
+<Layout name={title} image={`/og${path}.png`}>
+  <article class="mt-8">
     <div style={`view-transition-name: article-${slug}`}>
-      <h1>{title}</h1>
-      <ul class="date text-muted text-uppercase">
+      <h1 class="mb-1">{title}</h1>
+      <ul class="text-gray-600">
         <li>
           <time datetime={publishedDate.toISOString()}>
             {publishedDate.toLocaleDateString('en-gb', {
@@ -62,59 +65,24 @@ const { title, slug, name, content, publishedDate, grid } = Astro.props
             })}
           </time>
         </li>
-        <!-- <li role="presentation">|</li>
-        <li>
-            {getReadingTime(post.body)}
-        </li> -->
       </ul>  
     </div>
 
     {grid?.items.map(item => {
       if (item.content !== null) {
         if (item.content?.contentType === 'richText') {
-          const typedContent = item.content as RichTextElementModel;
-          if (typedContent != null) {
-            return <div set:html={customMarked.parse(typedContent.properties?.content)}></div>
-          }
+          return <RichText data={item.content} />
         }
         
         if (item.content?.contentType === 'imageWithCaption') {
-          const typedContent = item.content as ImageWithCaptionElementModel;
-          if (typedContent != null) {
-            return (
-              <figure class="c-figure">
-                <img src=`${baseUrl}${typedContent.properties.image[0]?.url}?format=webp&width=1680` alt={typedContent.properties.image[0]?.properties?.altText}>
-                <figcaption>{typedContent.properties.caption}</figcaption>
-              </figure>
-            )
-          }
+          return <ImageWithCaption data={item.content} />
         }
 
         if (item.content?.contentType === 'updateAlert') {
-          const typedContent = item.content as UpdateAlertElementModel;
-          if (typedContent != null) {
-            const updateDate = new Date(typedContent.properties?.date);
-
-            return (
-              <aside class="c-alert c-alert--update">
-                <ul class="date text-muted text-uppercase">
-                  <li>
-                    <time datetime={updateDate.toISOString()}>
-                      {updateDate.toLocaleDateString('en-gb', {
-                        year: 'numeric',
-                        month: 'short',
-                        day: 'numeric',
-                      })}
-                      </time>
-                  </li>  
-                </ul>
-                <div set:html={customMarked.parse(typedContent.properties?.content)}></div>
-              </aside>
-            )
-          }
+          return <UpdateAlert data={item.content} />
         }
       }
     })}
 
   </article>
-</Page>
+</Layout>

@@ -50,17 +50,17 @@ h4, h5, h6,
   font-weight: 600;
 }
 
-h1 {
-  font-size: clampBuilder(375, 800, 28, 32);
-}
+// h1 {
+//   font-size: clampBuilder(375, 800, 28, 32);
+// }
 
-h2 {
-  font-size: clampBuilder(375, 800, 20, 24);
-}
+// h2 {
+//   font-size: clampBuilder(375, 800, 20, 24);
+// }
 
 p,
 li {
-  font-size: clampBuilder(375, 800, 18, 20);
+  // font-size: clampBuilder(375, 800, 18, 20);
 }
 
 p {
@@ -93,7 +93,7 @@ code {
 }
 
 .lead {
-  font-size: clampBuilder(375, 800, 22, 24);
+  // font-size: clampBuilder(375, 800, 22, 24);
   font-weight: 500;
   text-wrap: balance;
 

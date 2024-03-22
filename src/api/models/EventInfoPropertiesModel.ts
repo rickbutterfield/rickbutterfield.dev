@@ -2,8 +2,9 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export type IApiContentStartItemModel = {
-    readonly id?: string;
-    readonly path?: string;
+export type EventInfoPropertiesModel = {
+    eventName?: string | null;
+    eventDate?: string | null;
+    eventUrl?: string | null;
 };
 

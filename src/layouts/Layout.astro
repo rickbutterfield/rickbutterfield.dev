@@ -14,9 +14,9 @@ let pageDescription = SITE_DESCRIPTION;
 	<head>
 		<BaseHead title={name + " - " + SITE_TITLE} description={pageDescription} image={image} />
 	</head>
-	<body>
+	<body class="bg-gray-50 dark:bg-zinc-900 antialiased leading-relaxed">
 		<Header title={SITE_TITLE} />
-		<main class="c-main">
+		<main class="container max-w-[50rem] px-4 mx-auto">
       <slot/>
     </main>
     <Footer />

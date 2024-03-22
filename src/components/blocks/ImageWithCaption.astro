@@ -1,0 +1,21 @@
+---
+import type { ImageWithCaptionElementModel } from "@/api";
+import { Image } from 'astro:assets';
+
+const { data } = Astro.props;
+const typedData = data as ImageWithCaptionElementModel;
+
+const baseUrl = import.meta.env.PUBLIC_BASE_URL_HTTPS;
+
+const width: number = typedData?.properties?.image[0].width;
+const height: number = typedData?.properties?.image[0].height;
+const src: string = `${baseUrl}${typedData?.properties?.image[0]?.url}?width=1680`;
+const alt: string = typedData?.properties?.image[0]?.properties?.altText || '';
+const caption: string = typedData?.properties?.caption;
+
+---
+
+<figure class="lg:-mx-32">
+  <Image src={src} alt={alt} width={width} height={height} />
+  <figcaption class="text-center text-gray-600 italic">{caption}</figcaption>
+</figure>

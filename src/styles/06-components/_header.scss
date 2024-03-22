@@ -17,25 +17,32 @@
   }
 }
 
-  .site-info {
-    &__desktop {
-      display: none;
+  .c-site-info {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
 
-      @media (min-width: 32em) {
-        display: inline;
-      }
+    span {
+      color: #000000aa;
     }
+    // &__desktop {
+    //   display: none;
 
-    &__mobile {
-      @media (min-width: 32em) {
-        display: none;
-      }
-    }
+    //   @media (min-width: 32em) {
+    //     display: inline;
+    //   }
+    // }
+
+    // &__mobile {
+    //   @media (min-width: 32em) {
+    //     display: none;
+    //   }
+    // }
 
     a {
       position: relative;
-      font-size: rem(24);
-      font-weight: 700;
+      // font-size: rem(24);
+      font-weight: 550;
       text-decoration: none;
       color: var(--text);
       border-bottom: 0;

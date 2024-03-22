@@ -15,11 +15,13 @@
     "@astrojs/mdx": "^2.1.1",
     "@astrojs/rss": "^4.0.5",
     "@astrojs/sitemap": "^3.0.5",
+    "@astrojs/tailwind": "^5.1.0",
     "@types/js-cookie": "^3.0.2",
     "astro": "^4.4.0",
     "astro-og-canvas": "^0.4.2",
     "astro-robots-txt": "^0.5.0",
-    "js-cookie": "^3.0.5"
+    "js-cookie": "^3.0.5",
+    "tailwindcss": "^3.4.1"
   },
   "devDependencies": {
     "@astrojs/lit": "^4.0.1",
@@ -30,7 +32,7 @@
     "highlight.js": "^11.9.0",
     "marked": "^11.1.1",
     "marked-highlight": "^2.1.0",
-    "openapi-typescript-codegen": "^0.27.0",
+    "openapi-typescript-codegen": "^0.28.0",
     "sass": "^1.61.0",
     "whatwg-fetch": "^3.6.20"
   }

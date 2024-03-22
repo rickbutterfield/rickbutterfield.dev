@@ -1,25 +1,86 @@
-@import '01-tools/mixins';
-@import '01-tools/functions';
+// @import '01-tools/mixins';
+// @import '01-tools/functions';
 
-@import '02-settings/fonts';
-@import '02-settings/variables';
+// @import '02-settings/fonts';
+// @import '02-settings/variables';
 
-@import '03-generic/normalize';
-@import '03-generic/boxsizing';
-@import '03-generic/shared';
+// @import '03-generic/normalize';
+// @import '03-generic/boxsizing';
+// @import '03-generic/shared';
 
-@import '04-base/base';
-@import '04-base/typography';
+// @import '04-base/base';
+// @import '04-base/typography';
 
-@import '05-objects/grid';
+// @import '05-objects/grid';
 
-@import '06-components/header';
-@import '06-components/footer';
-@import '06-components/figure';
-@import '06-components/posts';
-@import '06-components/alert';
-@import '06-components/mode-toggle';
+// @import '06-components/header';
+// @import '06-components/footer';
+// @import '06-components/figure';
+// @import '06-components/posts';
+// @import '06-components/alert';
+// @import '06-components/mode-toggle';
 
-@import '07-vendor/highlights';
+// @import '07-vendor/highlights';
 
-@import '08-trumps/utilities';
+// @import '08-trumps/utilities';
+
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+ul,
+ol,
+dl,
+blockquote,
+p,
+address,
+iframe,
+.iframe,
+// button,
+table,
+fieldset,
+figure,
+pre,
+code,
+video {
+  @apply mb-4;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  @apply text-lg font-bold;
+}
+
+a {
+  @apply underline underline-offset-2;
+
+  &:hover,
+  &:focus {
+    @apply text-indigo-800;
+  }
+}
+
+p {
+  &.lead {
+    @apply text-lg font-semibold;
+  }
+}
+
+code {
+  color: #c9d1d9;
+  background: #0d1117;
+  @apply px-1 py-1;
+}
+
+pre,
+.iframe {
+  @apply lg:-mx-32;
+}
+
+.iframe {
+  iframe {
+    @apply w-full;
+  }
+}

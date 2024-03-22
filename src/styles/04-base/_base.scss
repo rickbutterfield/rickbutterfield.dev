@@ -6,16 +6,12 @@ body {
   padding-bottom: env(safe-area-inset-bottom);
   font-size: clampBuilder(375, 800, 14, 16);
   font-family: var(--font-stack);
+  font-weight: 400;
   font-display: swap;
   line-height: 1.618;
-  letter-spacing: -0.002em;
   color: var(--text);
   background-color: var(--background);
   border-top: 0.5rem solid var(--border);
-  font-variant-alternates: styleset("ss01");
-  font-variant-ligatures: contextual;
-  font-feature-settings: 'ss01', 'calt' 1;
-  -webkit-font-smoothing: antialiased;
 }
 
 .c-social {

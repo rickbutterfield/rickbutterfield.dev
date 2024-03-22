@@ -1,10 +1,7 @@
 ---
 import { marked } from 'marked';
-import BaseHead from '@/components/BaseHead.astro';
-import Header from '@/components/Header.astro';
-import Footer from '@/components/Footer.astro';
-import { SITE_TITLE, SITE_DESCRIPTION } from '@/consts';
 import { ContentResource, OpenAPI, type BlogsPageContentModel, type BlogPostContentModel } from '@/api';
+import Layout from '@/layouts/Layout.astro';
 
 OpenAPI.BASE = import.meta.env.PUBLIC_BASE_URL;
 const nodes = await ContentResource.getContent20({
@@ -23,25 +20,18 @@ const blogPosts = await ContentResource.getContent20({
 });
 ---
 
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<BaseHead title={`${title} - ${SITE_TITLE}`} description={content} />
-  </head>
-	<body>
-		<Header title={SITE_TITLE} />
-		<main class="c-main">
-      <article class="c-content c-post">
-        <h1>{title}</h1>
-        <div set:html={marked.parse(content)}></div>
-      </article>
+<Layout name={title}>
+  <article class="mb-12">
+    <h1>{title}</h1>
+    <div set:html={marked.parse(content)}></div>
+  </article>
 
       <section class="c-posts">
       {
         blogPosts.items.map((blogPost: BlogPostContentModel) => (
-          <article class="c-post" style={`view-transition-name: article-${blogPost.id}`}>
-            <h2><a href={blogPost.route.path}>{blogPost.name}</a></h2>
-            <ul class="date text-muted text-uppercase">
+          <article class="mb-10" style={`view-transition-name: article-${blogPost.id}`}>
+            <h2 class="mb-1"><a href={blogPost.route.path}>{blogPost.name}</a></h2>
+            <ul class="text-gray-600 dark:text-zinc-400">
               <li>
                 <time datetime={new Date(blogPost.properties.publishedDate).toISOString()}>
                   {new Date(blogPost.properties.publishedDate).toLocaleDateString('en-gb', {
@@ -57,7 +47,4 @@ const blogPosts = await ContentResource.getContent20({
         ))
       }
       </section>
-    </main>
-    <Footer />
-  </body>
-</html>
+</Layout>

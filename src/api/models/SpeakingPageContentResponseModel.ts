@@ -2,7 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { HomePageContentModel } from './HomePageContentModel';
 import type { IApiContentResponseModelBase } from './IApiContentResponseModelBase';
-export type HomePageContentResponseModel = (IApiContentResponseModelBase & HomePageContentModel);
+import type { SpeakingPageContentModel } from './SpeakingPageContentModel';
+export type SpeakingPageContentResponseModel = (IApiContentResponseModelBase & SpeakingPageContentModel);
 

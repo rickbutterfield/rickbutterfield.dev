@@ -4,5 +4,5 @@
 /* eslint-disable */
 import type { PageContentPropertiesModel } from './PageContentPropertiesModel';
 import type { PageSettingsPropertiesModel } from './PageSettingsPropertiesModel';
-export type HomePagePropertiesModel = (PageSettingsPropertiesModel & PageContentPropertiesModel);
+export type SpeakingPagePropertiesModel = (PageContentPropertiesModel & PageSettingsPropertiesModel);
 

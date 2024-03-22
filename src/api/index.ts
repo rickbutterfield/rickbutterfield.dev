@@ -1,4 +1,4 @@
-/* generated using openapi-typescript-codegen -- do no edit */
+/* generated using openapi-typescript-codegen -- do not edit */
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
@@ -11,6 +11,7 @@ export type { ApiBlockGridAreaModel } from './models/ApiBlockGridAreaModel';
 export type { ApiBlockGridItemModel } from './models/ApiBlockGridItemModel';
 export type { ApiBlockGridModel } from './models/ApiBlockGridModel';
 export type { ApiBlockItemModel } from './models/ApiBlockItemModel';
+export type { ApiBlockListModel } from './models/ApiBlockListModel';
 export type { BlogPostContentModel } from './models/BlogPostContentModel';
 export type { BlogPostContentResponseModel } from './models/BlogPostContentResponseModel';
 export type { BlogPostPropertiesModel } from './models/BlogPostPropertiesModel';
@@ -20,6 +21,8 @@ export type { BlogsPagePropertiesModel } from './models/BlogsPagePropertiesModel
 export type { ContentPageContentModel } from './models/ContentPageContentModel';
 export type { ContentPageContentResponseModel } from './models/ContentPageContentResponseModel';
 export type { ContentPagePropertiesModel } from './models/ContentPagePropertiesModel';
+export type { EventInfoElementModel } from './models/EventInfoElementModel';
+export type { EventInfoPropertiesModel } from './models/EventInfoPropertiesModel';
 export type { HomePageContentModel } from './models/HomePageContentModel';
 export type { HomePageContentResponseModel } from './models/HomePageContentResponseModel';
 export type { HomePagePropertiesModel } from './models/HomePagePropertiesModel';
@@ -48,6 +51,12 @@ export type { PageSettingsPropertiesModel } from './models/PageSettingsPropertie
 export type { ProblemDetails } from './models/ProblemDetails';
 export type { RichTextElementModel } from './models/RichTextElementModel';
 export type { RichTextPropertiesModel } from './models/RichTextPropertiesModel';
+export type { SpeakingPageContentModel } from './models/SpeakingPageContentModel';
+export type { SpeakingPageContentResponseModel } from './models/SpeakingPageContentResponseModel';
+export type { SpeakingPagePropertiesModel } from './models/SpeakingPagePropertiesModel';
+export type { SpeakingPostContentModel } from './models/SpeakingPostContentModel';
+export type { SpeakingPostContentResponseModel } from './models/SpeakingPostContentResponseModel';
+export type { SpeakingPostPropertiesModel } from './models/SpeakingPostPropertiesModel';
 export type { UpdateAlertElementModel } from './models/UpdateAlertElementModel';
 export type { UpdateAlertPropertiesModel } from './models/UpdateAlertPropertiesModel';
 

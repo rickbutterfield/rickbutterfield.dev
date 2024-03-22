@@ -1,78 +1,87 @@
-import Cookies from 'js-cookie';
-
-// if ('serviceWorker' in navigator) {
-//   console.log('CLIENT: service worker registration in progress.');
-//   navigator.serviceWorker.register('/sw.js').then(function () {
-//     console.log('CLIENT: service worker registration complete.');
-//   }, function () {
-//     console.error('CLIENT: service worker registration failure.');
-//   });
-// } else {
-//   console.warn('CLIENT: service worker is not supported.');
-// }
-
 document.body.classList.remove('no-js');
 
-let isDarkMode = false;
-const darkModeCookie = Cookies.get('rb-dark-mode');
+// On page load or when changing themes, best to add inline in `head` to avoid FOUC
+function checkTheme(document: Document) {
+  
+  const lightModeIcon = document.getElementById('icon-light');
+  lightModeIcon.classList.add('hidden');
+  
+  const darkModeIcon = document.getElementById('icon-dark');
+  darkModeIcon.classList.add('hidden');
+  
+  const systemModeIcon = document.getElementById('icon-system');
+  systemModeIcon.classList.add('hidden');
+  
+  const localStorageTheme: string = localStorage.getItem('theme');
+  const isLocalStorageDarkTheme: boolean = localStorageTheme === 'dark';
+  const isLocalStorageLightTheme: boolean = localStorageTheme === 'light';
+  const isMatchMediaDarkTheme: boolean = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const currentModeText = document.getElementById('currentModeText');
 
-function setDarkModeCookie() {
-  Cookies.set('rb-dark-mode', isDarkMode.toString());
-}
-
-if (typeof darkModeCookie != "undefined") {
-  isDarkMode = JSON.parse(darkModeCookie);
-}
-
-else {
-  if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-    isDarkMode = true;
-    setDarkModeCookie();
-  }
-}
-
-window.matchMedia('(prefers-color-scheme: dark)').addListener(e => {
-  if (e.matches) {
-    isDarkMode = true;
+  if (isLocalStorageDarkTheme || (localStorageTheme == null && isMatchMediaDarkTheme)) {
+    document.documentElement.classList.add('dark');
+    currentModeText.textContent = 'Dark';
+    darkModeIcon.classList.remove('hidden');
+  } else if (isLocalStorageLightTheme) {
+    document.documentElement.classList.remove('dark');
+    currentModeText.textContent = 'Light';
+    lightModeIcon.classList.remove('hidden');
   } else {
-    isDarkMode = false;
+    currentModeText.textContent = 'System';
+    document.documentElement.classList.remove('dark');
+    systemModeIcon.classList.remove('hidden');
   }
-  setModeOptions();
-  setDarkModeCookie();
-});
+}
 
-function setModeOptions() {
-  document.body.dataset.darkMode = isDarkMode.toString();
+function toggleDropdown(dropdownToggle: HTMLElement, dropdownMenu: HTMLElement) {
+  const expanded = dropdownToggle.getAttribute('aria-expanded') === 'true' || false;
+  dropdownToggle.setAttribute('aria-expanded', !expanded);
+  dropdownMenu.classList.toggle('hidden');
+}
 
-  let prismScripts = document.querySelectorAll('link[rel="stylesheet"][data-dark-mode]');
-  prismScripts.forEach(script => {
-    let darkModeValue = JSON.parse(script.getAttribute('data-dark-mode')?.toString()!);
-    if (darkModeValue === isDarkMode) {
-      if (isDarkMode) {
-        script.setAttribute('media', 'screen');
-      }
-      else {
-        script.setAttribute('media', 'screen');
-      }
-    }
-    else {
-      script.setAttribute('media', 'none');
-    }
+function configureToggle() {
+  const currentModeText = document.getElementById('currentModeText');
+  const dropdownToggle = document.getElementById('dropdown-toggle');
+  const dropdownMenu = document.getElementById('dropdown-menu');
+  const lightModeOption = document.getElementById('lightModeOption');
+  const darkModeOption = document.getElementById('darkModeOption');
+  const systemModeOption = document.getElementById('systemModeOption');
+
+  // Open/close dropdown menu
+  dropdownToggle.addEventListener('click', e => toggleDropdown(dropdownToggle, dropdownMenu));
+
+  // Set selected mode
+  lightModeOption.addEventListener('click', () => {
+    currentModeText.textContent = 'Light';
+    dropdownMenu.classList.toggle('hidden');
+    localStorage.theme = 'light';
+    checkTheme(document);
+  });
+
+  darkModeOption.addEventListener('click', () => {
+    currentModeText.textContent = 'Dark';
+    dropdownMenu.classList.toggle('hidden');
+    localStorage.theme = 'dark';
+    checkTheme(document);
+  });
+
+  systemModeOption.addEventListener('click', () => {
+    currentModeText.textContent = 'System';
+    dropdownMenu.classList.toggle('hidden');
+    localStorage.removeItem('theme');
+    checkTheme(document);
   });
 }
-setModeOptions();
 
-function toggleMode(e: Event) {
-  e.preventDefault();
-  let darkModeCheck = document.body.dataset.darkMode?.toString()!;
-  isDarkMode = !JSON.parse(darkModeCheck);
-  setModeOptions();
-  setDarkModeCookie();
-};
+document.addEventListener('astro:before-swap', (ev: any) => {
+  checkTheme(ev.newDocument);
+});
 
-const modeToggle = document.querySelector('.js-mode-toggle');
-if (modeToggle) {
-  modeToggle.addEventListener('click', toggleMode);
-}
+document.addEventListener('astro:page-load', () => {
+  checkTheme(document);
+  configureToggle();
+});
 
-export {}
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+  checkTheme(document);
+});

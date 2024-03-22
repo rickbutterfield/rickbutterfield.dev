@@ -1,6 +1,6 @@
 ---
 import { marked } from 'marked';
-import Page from "@/layouts/Page.astro";
+import Layout from "@/layouts/Layout.astro";
 import { ContentResource, OpenAPI, type ContentPageContentModel } from '@/api';
 
 export async function getStaticPaths() {
@@ -22,9 +22,9 @@ export async function getStaticPaths() {
 const { name, content } = Astro.props
 ---
 
-<Page name={name}>
+<Layout name={name}>
   <article>
     <h1>{name}</h1>
     <div set:html={marked.parse(content)}></div>
   </article>
-</Page>
+</Layout>
