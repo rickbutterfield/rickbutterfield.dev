@@ -1,21 +1,21 @@
 ---
 import { ViewTransitions } from 'astro:transitions';
+import { getImage } from 'astro:assets';
+import faviconSrc from '../../public/favicon.svg';
 
-export interface Props {
-	title: string;
-	description: string;
-	image?: string;
-}
+const faviconApple = await getImage({ src: faviconSrc, width: 180, height: 180, format: 'png' });
+const favicon32 = await getImage({ src: faviconSrc, width: 32, height: 32, format: 'png' });
+const favicon16 = await getImage({ src: faviconSrc, width: 16, height: 16, format: 'png' });
+const faviconIco = await getImage({ src: faviconSrc, width: 100, height: 100, format: 'ico' });
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
-
 const { title, description, image = '/placeholder-social.jpg' } = Astro.props;
 ---
 
 <!-- Global Metadata -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<link rel="icon" type="image/svg+xml" href="/favicon.ico" />
+<link rel="icon" type="image/svg+xml" href={faviconSrc.src} />
 <meta name="generator" content={Astro.generator} />
 
 <!-- Canonical URL -->
@@ -27,13 +27,13 @@ const { title, description, image = '/placeholder-social.jpg' } = Astro.props;
 <meta name="title" content={title} />
 <meta name="description" content={description} />
 
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-<link rel="manifest" href="/site.webmanifest">
-<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#3730a3">
-<meta name="msapplication-TileColor" content="#3730a3">
-<meta name="theme-color" content="#3730a3">
+<link rel="apple-touch-icon" sizes="180x180" href={faviconApple.src}>
+<link rel="icon" type="image/png" sizes="32x32" href={favicon32.src}>
+<link rel="icon" type="image/png" sizes="16x16" href={favicon16.src}>
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="rgb(79, 70, 229)" />
+<meta name="msapplication-TileColor" content="rgb(79, 70, 229)">
+<meta name="theme-color" content="rgb(79, 70, 229)">
 <meta name="color-scheme" content="dark light">
 
 <!-- View Transitions -->

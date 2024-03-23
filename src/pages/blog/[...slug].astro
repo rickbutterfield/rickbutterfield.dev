@@ -1,14 +1,7 @@
 ---
-import { Marked } from 'marked';
-import { markedHighlight } from "marked-highlight";
-import hljs from 'highlight.js';
-import 'highlight.js/styles/github-dark.css';
 import Layout from '@/layouts/Layout.astro';
 import { OpenAPI, ContentResource, type BlogPostContentModel, type UpdateAlertElementModel } from '@/api';
-import RichText from '@/components/blocks/RichText.astro';
-import ImageWithCaption from '@/components/blocks/ImageWithCaption.astro';
-import UpdateAlert from '@/components/blocks/UpdateAlert.astro';
-
+import UmbracoGrid from '@/components/UmbracoGrid.astro';
 
 export async function getStaticPaths() {
   OpenAPI.BASE = import.meta.env.PUBLIC_BASE_URL;
@@ -38,16 +31,6 @@ export async function getStaticPaths() {
 let path = Astro.url.pathname;
 path = path.slice(0, -1);
 
-const customMarked = new Marked(
-  markedHighlight({ 
-    langPrefix: 'hljs language-',
-    highlight(code, lang, info) {
-      const language = hljs.getLanguage(lang) ? lang : 'plaintext';
-      return hljs.highlight(code, { language }).value;
-    }
-  })
-)
-
 const { title, slug, name, content, publishedDate, grid } = Astro.props
 ---
 
@@ -55,7 +38,7 @@ const { title, slug, name, content, publishedDate, grid } = Astro.props
   <article class="mt-8">
     <div style={`view-transition-name: article-${slug}`}>
       <h1 class="mb-1">{title}</h1>
-      <ul class="text-gray-600">
+      <ul class="text-gray-600 mb-12">
         <li>
           <time datetime={publishedDate.toISOString()}>
             {publishedDate.toLocaleDateString('en-gb', {
@@ -68,21 +51,7 @@ const { title, slug, name, content, publishedDate, grid } = Astro.props
       </ul>  
     </div>
 
-    {grid?.items.map(item => {
-      if (item.content !== null) {
-        if (item.content?.contentType === 'richText') {
-          return <RichText data={item.content} />
-        }
-        
-        if (item.content?.contentType === 'imageWithCaption') {
-          return <ImageWithCaption data={item.content} />
-        }
-
-        if (item.content?.contentType === 'updateAlert') {
-          return <UpdateAlert data={item.content} />
-        }
-      }
-    })}
+    <UmbracoGrid data={grid} />
 
   </article>
 </Layout>

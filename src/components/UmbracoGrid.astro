@@ -1,0 +1,28 @@
+---
+import EmploymentHistory from "./blocks/EmploymentHistory.astro";
+import ImageWithCaption from "./blocks/ImageWithCaption.astro";
+import RichText from "./blocks/RichText.astro";
+import UpdateAlert from "./blocks/UpdateAlert.astro";
+
+const { data } = Astro.props;
+---
+
+{data?.items.map(item => {
+  if (item.content !== null) {
+    if (item.content?.contentType === 'richText') {
+      return <RichText data={item.content} />
+    }
+    
+    if (item.content?.contentType === 'imageWithCaption') {
+      return <ImageWithCaption data={item.content} />
+    }
+
+    if (item.content?.contentType === 'updateAlert') {
+      return <UpdateAlert data={item.content} />
+    }
+
+    if (item.content?.contentType === 'employmentHistory') {
+      return <EmploymentHistory data={item.content} />
+    }
+  }
+})}

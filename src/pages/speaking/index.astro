@@ -32,9 +32,14 @@ const baseUrl = import.meta.env.PUBLIC_BASE_URL_HTTPS;
   <section class="c-posts">
   {
     speakingPosts.items.map((speakingPost: SpeakingPostContentModel, index: number, array: IApiContentResponseModel[]) => (
-        <article class="mb-12" style={`view-transition-name: article-${speakingPost.id}`}>
+        <article class="mb-12 bg-white border border-zinc-200 rounded-xl p-5" style={`view-transition-name: article-${speakingPost.id}`}>
           {speakingPost?.properties?.featuredImage != null ? (
-            <Image src=`${baseUrl}${speakingPost?.properties?.featuredImage[0]?.url}` alt={speakingPost?.properties?.featuredImage[0]?.properties?.altText ?? ''} width={speakingPost?.properties?.featuredImage[0]?.width} height={speakingPost?.properties?.featuredImage[0]?.height} class="mb-4" />
+            <Image
+              src=`${baseUrl}${speakingPost?.properties?.featuredImage[0]?.url}`
+              alt={speakingPost?.properties?.featuredImage[0]?.properties?.altText ?? ''}
+              width={speakingPost?.properties?.featuredImage[0]?.width}
+              height={speakingPost?.properties?.featuredImage[0]?.height}
+              class="mb-4 rounded-md" />
           ) : null}
           <h2 class="mb-1"><a href={speakingPost.properties.eventUrl} target="_blank">{speakingPost.name}</a></h2>
           <ul class="flex flex-col sm:flex-row text-gray-600 dark:text-zinc-400">

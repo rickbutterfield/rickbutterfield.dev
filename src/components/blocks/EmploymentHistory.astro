@@ -1,0 +1,23 @@
+---
+import type { CVentryElementModel, EmploymentHistoryElementModel } from "@/api";
+import { marked } from 'marked';
+
+const { data } = Astro.props;
+const typedData = data as EmploymentHistoryElementModel;
+---
+
+<h2>Employment history</h2>
+{typedData?.properties?.history?.items?.map((item) => {
+  const typedItem = item.content as CVentryElementModel;
+  if (typedItem != null) {
+    return (
+      <div class="grid grid-cols-3 gap-6 mb-12">
+        <div>
+          <h3 class="mb-0">{typedItem.properties?.employerName}</h3>
+          <p class="text-gray-600 dark:text-zinc-400">{typedItem.properties?.startDate} &ndash; {typedItem.properties?.endDate ?? "Present"}</p>
+        </div>
+        <div class="col-span-2" set:html={marked.parse(typedItem.properties?.jobDescription)}></div>
+      </div>
+    )
+  }
+})}

@@ -2,6 +2,7 @@
 import { marked } from 'marked';
 import Layout from "@/layouts/Layout.astro";
 import { ContentResource, OpenAPI, type ContentPageContentModel } from '@/api';
+import UmbracoGrid from '@/components/UmbracoGrid.astro';
 
 export async function getStaticPaths() {
   OpenAPI.BASE = import.meta.env.PUBLIC_BASE_URL;
@@ -15,16 +16,22 @@ export async function getStaticPaths() {
   // Create a page for each one using the slug as the route, and pass in the props.
   return pages.items.map((page: ContentPageContentModel) => ({
     params: { slug: page.route.path.replaceAll("/", "") },
-    props: { name: page.name, content: page.properties.content }
+    props: {
+      name: page.name,
+      content: page.properties?.content,
+      grid: page.properties?.grid
+    }
   }));
 }
 
-const { name, content } = Astro.props
+const { name, content, grid } = Astro.props
 ---
 
 <Layout name={name}>
   <article>
     <h1>{name}</h1>
-    <div set:html={marked.parse(content)}></div>
+    <div class="mb-12" set:html={marked.parse(content)}></div>
+
+    <UmbracoGrid data={grid} />
   </article>
 </Layout>

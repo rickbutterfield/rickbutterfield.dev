@@ -21,6 +21,10 @@ export type { BlogsPagePropertiesModel } from './models/BlogsPagePropertiesModel
 export type { ContentPageContentModel } from './models/ContentPageContentModel';
 export type { ContentPageContentResponseModel } from './models/ContentPageContentResponseModel';
 export type { ContentPagePropertiesModel } from './models/ContentPagePropertiesModel';
+export type { CVentryElementModel } from './models/CVentryElementModel';
+export type { CVentryPropertiesModel } from './models/CVentryPropertiesModel';
+export type { EmploymentHistoryElementModel } from './models/EmploymentHistoryElementModel';
+export type { EmploymentHistoryPropertiesModel } from './models/EmploymentHistoryPropertiesModel';
 export type { EventInfoElementModel } from './models/EventInfoElementModel';
 export type { EventInfoPropertiesModel } from './models/EventInfoPropertiesModel';
 export type { HomePageContentModel } from './models/HomePageContentModel';
