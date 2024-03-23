@@ -29,7 +29,7 @@ export async function getStaticPaths() {
 }
 
 let path = Astro.url.pathname;
-path = path.slice(0, -1);
+// path = path.slice(0, -1);
 
 const { title, slug, name, content, publishedDate, grid } = Astro.props
 ---

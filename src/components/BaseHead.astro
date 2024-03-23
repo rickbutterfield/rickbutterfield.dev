@@ -61,16 +61,6 @@ const { title, description, image = '/placeholder-social.jpg' } = Astro.props;
 <link rel="preconnect" href="https://rsms.me/">
 <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
 
-<style>
-  :root {
-    font-family: Inter, sans-serif;
-    font-feature-settings: 'liga' 1, 'calt' 1, "cv11"; /* fix for Chrome */
-  }
-  @supports (font-variation-settings: normal) {
-    :root { font-family: InterVariable, sans-serif; }
-  }
-</style>
-
 <!-- Styles -->
 <style lang="scss" is:global>
   @import "../styles/style.scss";

@@ -12,12 +12,12 @@
     "generate": "openapi --input http://localhost:20625/umbraco/swagger/delivery/swagger.json --output src/api --postfixServices Resource --useOptions"
   },
   "dependencies": {
-    "@astrojs/mdx": "^2.1.1",
+    "@astrojs/mdx": "^2.2.1",
     "@astrojs/rss": "^4.0.5",
-    "@astrojs/sitemap": "^3.0.5",
+    "@astrojs/sitemap": "^3.1.1",
     "@astrojs/tailwind": "^5.1.0",
     "@types/js-cookie": "^3.0.2",
-    "astro": "^4.4.0",
+    "astro": "^4.5.9",
     "astro-og-canvas": "^0.4.2",
     "astro-robots-txt": "^0.5.0",
     "js-cookie": "^3.0.5",
@@ -25,7 +25,7 @@
   },
   "devDependencies": {
     "@astrojs/lit": "^4.0.1",
-    "@astrojs/node": "^8.2.0",
+    "@astrojs/node": "^8.2.5",
     "@openapitools/openapi-generator-cli": "^2.7.0",
     "@tgwf/gridintensity-polyfill": "^0.0.7",
     "@vitejs/plugin-basic-ssl": "^1.0.2",

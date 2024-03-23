@@ -1,29 +1,15 @@
-// @import '01-tools/mixins';
-// @import '01-tools/functions';
+:root {
+  --font-stack: Inter, -apple-system, 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+  font-family: var(--font-stack);
+  font-feature-settings: 'liga' 1, 'calt' 1, "cv11";
+  /* fix for Chrome */
+}
 
-// @import '02-settings/fonts';
-// @import '02-settings/variables';
-
-// @import '03-generic/normalize';
-// @import '03-generic/boxsizing';
-// @import '03-generic/shared';
-
-// @import '04-base/base';
-// @import '04-base/typography';
-
-// @import '05-objects/grid';
-
-// @import '06-components/header';
-// @import '06-components/footer';
-// @import '06-components/figure';
-// @import '06-components/posts';
-// @import '06-components/alert';
-// @import '06-components/mode-toggle';
-
-// @import '07-vendor/highlights';
-
-// @import '08-trumps/utilities';
-
+@supports (font-variation-settings: normal) {
+  :root {
+    font-family: InterVariable, var(--font-stack);
+  }
+}
 
 h1,
 h2,
@@ -52,6 +38,7 @@ video {
 }
 
 h1, h2, h3, h4, h5, h6 {
+  font-family: InterDisplay, InterVariable, var(--font-stack);
   @apply text-lg font-bold;
 }
 
