@@ -15,19 +15,18 @@ const {
 } = node.properties
 const baseUrl = import.meta.env.PUBLIC_BASE_URL_HTTPS
 
+const width: number = featuredImage[0].width;
+const height: number = featuredImage[0].height;
+const src: string = `${baseUrl}${featuredImage[0]?.url}?width=1680`;
+const alt: string = featuredImage[0]?.properties?.altText || '';
+
 ---
 
 <Layout name={"Lead Software Engineer"}>
   <section>
-    <aside class="flex justify-center">
-      <figure class="max-w-[400px]">
-        <picture>
-          <source srcset=`${baseUrl}${featuredImage[0].url}?width=900&height=900&format=webp` type="image/webp">
-          <source srcset=`${baseUrl}${featuredImage[0].url}?width=900&height=900` type="image/jpeg">
-          <Image src=`${baseUrl}${featuredImage[0].url}?width=900&height=900` alt="Rick Butterfield" width="900" height="900" style="aspect-ratio: 1 / 1; width: 100%;" class="rounded-full" />
-        </picture>
-      </figure>
-    </aside>
+    <figure class="lg:-mx-32">
+      <Image src={src} alt={alt} width={width} height={height} class="rounded-xl" />
+    </figure>
     <article class="c-content" set:html={marked.parse(content)}>
     </article>
   </section>
