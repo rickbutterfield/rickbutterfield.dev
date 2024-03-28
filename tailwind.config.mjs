@@ -16,7 +16,22 @@ export default {
         '"Noto Color Emoji"',
       ]
     },
-		extend: {},
+		extend: {
+      typography: ({theme}) => ({
+        white: {
+          css: {
+            '--tw-prose-body': theme('colors.zinc[900]'),
+            '--tw-prose-headings': theme('colors.zinc[900]'),
+            '--tw-prose-lead': theme('colors.zinc[900]'),
+            '--tw-prose-invert-body': theme('colors.zinc[50]'),
+            '--tw-prose-invert-headings': theme('colors.zinc[50]'),
+            '--tw-prose-invert-lead': theme('colors.zinc[50]'),
+          }
+        }
+      })
+    },
 	},
-	plugins: [],
+	plugins: [
+    require('@tailwindcss/typography')
+  ],
 }

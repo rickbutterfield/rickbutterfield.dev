@@ -1,18 +1,23 @@
 ---
-import Layout from '@/layouts/Layout.astro';
-import { OpenAPI, ContentResource, type BlogPostContentModel, type UpdateAlertElementModel } from '@/api';
-import UmbracoGrid from '@/components/UmbracoGrid.astro';
+import Layout from "@/layouts/Layout.astro";
+import {
+  OpenAPI,
+  ContentResource,
+  type BlogPostContentModel,
+  type UpdateAlertElementModel,
+} from "@/api";
+import UmbracoGrid from "@/components/UmbracoGrid.astro";
 
 export async function getStaticPaths() {
   OpenAPI.BASE = import.meta.env.PUBLIC_BASE_URL;
 
   const posts = await ContentResource.getContent20({
-    filter: ['contentType:blogPost'],
-    expand: 'all'
-  })
+    filter: ["contentType:blogPost"],
+    expand: "all",
+  });
 
   return posts.items.map((page: BlogPostContentModel) => {
-    const urlSplit = page.route.path.split('/');
+    const urlSplit = page.route.path.split("/");
 
     return {
       params: { slug: urlSplit[urlSplit.length - 1] },
@@ -22,36 +27,38 @@ export async function getStaticPaths() {
         content: page.properties.content,
         slug: page.route.path,
         publishedDate: new Date(page.properties.publishedDate),
-        grid: page.properties.grid
-      }
-    }
+        grid: page.properties.grid,
+      },
+    };
   });
 }
 
 let path = Astro.url.pathname;
 // path = path.slice(0, -1);
 
-const { title, slug, name, content, publishedDate, grid } = Astro.props
+const { title, slug, name, content, publishedDate, grid } = Astro.props;
 ---
 
 <Layout name={title} image={`/og${path}.png`}>
-  <article class="mt-8">
-    <div style={`view-transition-name: article-${slug}`}>
-      <h1 class="mb-1">{title}</h1>
-      <ul class="text-gray-600 mb-12">
-        <li>
-          <time datetime={publishedDate.toISOString()}>
-            {publishedDate.toLocaleDateString('en-gb', {
-              year: 'numeric',
-              month: 'short',
-              day: 'numeric',
-            })}
-          </time>
-        </li>
-      </ul>  
-    </div>
+  <article
+    class="prose prose-white dark:prose-invert mt-8 max-w-[50rem]"
+    style={`view-transition-name: article-${slug}`}
+  >
+    <h1 class="mb-1">{title}</h1>
+    <ul class="text-gray-600 dark:text-zinc-400 mb-12 not-prose">
+      <li>
+        <time datetime={publishedDate.toISOString()}>
+          {
+            publishedDate.toLocaleDateString("en-gb", {
+              year: "numeric",
+              month: "short",
+              day: "numeric",
+            })
+          }
+        </time>
+      </li>
+    </ul>
 
     <UmbracoGrid data={grid} />
-
   </article>
 </Layout>

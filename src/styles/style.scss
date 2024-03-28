@@ -14,38 +14,14 @@
   }
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-ul,
-ol,
-dl,
-blockquote,
-p,
-address,
-iframe,
-.iframe,
-// button,
-table,
-fieldset,
-figure,
-pre,
-code,
-video {
-  &:not([class*='mb-']) {
-    @apply mb-6;
-  }
-}
-
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-stack-display);
+  text-wrap: balance;
   @apply text-xl font-bold;
 }
 
-a {
+a,
+.prose :where(a):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
   @apply underline underline-offset-2 decoration-indigo-600;
 
   &:hover,
@@ -54,22 +30,28 @@ a {
   }
 }
 
-p {  
+p {
+  text-wrap: pretty;
+  
   &.lead {
     font-family: var(--font-stack-display);
-    @apply text-lg font-semibold;
+    @apply font-semibold;
   }
 }
 
-code {
-  color: #c9d1d9;
-  background: #0d1117;
-  @apply px-1 py-1;
-}
+// code {
+//   color: #c9d1d9;
+//   background: #0d1117;
+//   @apply px-1 py-1;
+// }
 
 pre,
 .iframe {
-  @apply lg:-mx-32;
+  @apply lg:-mr-32;
+}
+
+.prose :where(pre):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+  @apply p-0;
 }
 
 .iframe {

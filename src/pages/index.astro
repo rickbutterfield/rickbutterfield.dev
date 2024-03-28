@@ -24,10 +24,10 @@ const alt: string = featuredImage[0]?.properties?.altText || '';
 
 <Layout name={"Lead Software Engineer"}>
   <section>
-    <figure class="lg:-mx-32">
+    <figure class="mb-8">
       <Image src={src} alt={alt} width={width} height={height} class="rounded-xl" />
     </figure>
-    <article class="c-content" set:html={marked.parse(content)}>
+    <article class="max-w-[50rem] prose prose-white dark:prose-invert" set:html={marked.parse(content)}>
     </article>
   </section>
 </Layout>
