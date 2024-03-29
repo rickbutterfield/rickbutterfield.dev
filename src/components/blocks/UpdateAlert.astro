@@ -21,9 +21,9 @@ const customMarked = new Marked(
 ---
 
 <aside
-  class="lg:-mr-32 mb-4 border border-gray-300 dark:border-zinc-700 bg-gray-100 dark:bg-zinc-800 rounded-lg p-4"
+  class="prose max-w-full lg:max-w-[calc(100%+8rem)] mb-4 border border-gray-300 dark:border-zinc-700 bg-gray-100 dark:bg-zinc-800 rounded-lg p-4"
 >
-  <ul class="text-gray-600 dark:text-gray-400 mb-1 not-prose">
+  <ul class="text-gray-600 dark:text-gray-400 -mb-4 not-prose">
     <li>
       <time datetime={updateDate.toISOString()}>
         {
@@ -36,5 +36,5 @@ const customMarked = new Marked(
       </time>
     </li>
   </ul>
-  <div set:html={customMarked.parse(typedData?.properties?.content)} />
+  <Fragment set:html={customMarked.parse(typedData?.properties?.content)} />
 </aside>

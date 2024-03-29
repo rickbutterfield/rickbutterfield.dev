@@ -3,8 +3,7 @@ import Layout from "@/layouts/Layout.astro";
 import {
   OpenAPI,
   ContentResource,
-  type BlogPostContentModel,
-  type UpdateAlertElementModel,
+  type BlogPostContentModel
 } from "@/api";
 import UmbracoGrid from "@/components/UmbracoGrid.astro";
 
@@ -34,12 +33,12 @@ export async function getStaticPaths() {
 }
 
 let path = Astro.url.pathname;
-// path = path.slice(0, -1);
 
 const { title, slug, name, content, publishedDate, grid } = Astro.props;
 ---
 
 <Layout name={title} image={`/og${path}.png`}>
+
   <article
     class="prose prose-white dark:prose-invert mt-8 max-w-[50rem]"
     style={`view-transition-name: article-${slug}`}
