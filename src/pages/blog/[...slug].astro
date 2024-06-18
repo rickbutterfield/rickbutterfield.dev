@@ -8,7 +8,7 @@ export async function getStaticPaths() {
 
   const posts = await ContentResource.getContent20({
     filter: ["contentType:blogPost"],
-    expand: "all",
+    expand: "properties[$all[properties[image]]]",
     take: 100
   });
 
