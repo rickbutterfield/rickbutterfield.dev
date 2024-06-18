@@ -5,7 +5,8 @@ OpenAPI.BASE = import.meta.env.PUBLIC_BASE_URL;
 
 const blogPosts = await ContentResource.getContent20({
   filter: ['contentType:blogPost'],
-  sort: ['sortOrder:asc']
+  sort: ['sortOrder:asc'],
+  take: 100
 });
 
 let pages = {};

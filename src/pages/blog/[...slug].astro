@@ -1,10 +1,6 @@
 ---
 import Layout from "@/layouts/Layout.astro";
-import {
-  OpenAPI,
-  ContentResource,
-  type BlogPostContentModel
-} from "@/api";
+import { OpenAPI, ContentResource, type BlogPostContentModel } from "@/api";
 import UmbracoGrid from "@/components/UmbracoGrid.astro";
 
 export async function getStaticPaths() {
@@ -13,6 +9,7 @@ export async function getStaticPaths() {
   const posts = await ContentResource.getContent20({
     filter: ["contentType:blogPost"],
     expand: "all",
+    take: 100
   });
 
   return posts.items.map((page: BlogPostContentModel) => {
@@ -33,12 +30,12 @@ export async function getStaticPaths() {
 }
 
 let path = Astro.url.pathname;
+let trimmedPath = path.endsWith("/") ? path.slice(0, -1) : path;
 
 const { title, slug, name, content, publishedDate, grid } = Astro.props;
 ---
 
-<Layout name={title} image={`/og${path}.png`}>
-
+<Layout name={title} image={`/og${trimmedPath}.png`}>
   <article
     class="prose prose-white dark:prose-invert mt-8 max-w-[50rem]"
     style={`view-transition-name: article-${slug}`}

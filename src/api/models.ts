@@ -34,7 +34,7 @@ export type BlogPostContentModel = (IApiContentModelBase & {
 
 export type BlogPostContentResponseModel = (IApiContentResponseModelBase & BlogPostContentModel);
 
-export type BlogPostPropertiesModel = (PageSettingsPropertiesModel & PageContentPropertiesModel & {
+export type BlogPostPropertiesModel = (PageContentPropertiesModel & PageSettingsPropertiesModel & {
         publishedDate?: string | null
     });
 
@@ -95,7 +95,7 @@ export type HttpValidationProblemDetails = (ProblemDetails & {
         errors?: Record<string, Array<string>>
     });
 
-export type IApiContentModel = ContentPageContentModel | HomePageContentModel | BlogPostContentModel | BlogsPageContentModel | SpeakingPageContentModel | SpeakingPostContentModel;
+export type IApiContentModel = ContentPageContentModel | HomePageContentModel | SpeakingPageContentModel | BlogPostContentModel | SpeakingPostContentModel | BlogsPageContentModel;
 
 export type IApiContentModelBase = (IApiElementModelBase & {
         readonly name?: string | null
@@ -107,7 +107,7 @@ readonly contentType?: string
 readonly properties?: Record<string, unknown>
     });
 
-export type IApiContentResponseModel = ContentPageContentResponseModel | HomePageContentResponseModel | BlogPostContentResponseModel | BlogsPageContentResponseModel | SpeakingPageContentResponseModel | SpeakingPostContentResponseModel;
+export type IApiContentResponseModel = ContentPageContentResponseModel | HomePageContentResponseModel | SpeakingPageContentResponseModel | BlogPostContentResponseModel | SpeakingPostContentResponseModel | BlogsPageContentResponseModel;
 
 export type IApiContentResponseModelBase = (IApiContentModelBase & {
         readonly cultures?: Record<string, IApiContentRouteModel>
@@ -130,7 +130,7 @@ export type IApiContentStartItemModel = {
 readonly path?: string
     };
 
-export type IApiElementModel = PageSettingsElementModel | PageContentElementModel | ImageWithCaptionElementModel | RichTextElementModel | UpdateAlertElementModel | CVentryElementModel | EventInfoElementModel | EmploymentHistoryElementModel;
+export type IApiElementModel = PageSettingsElementModel | PageContentElementModel | UpdateAlertElementModel | CVentryElementModel | EventInfoElementModel | ImageWithCaptionElementModel | RichTextElementModel | EmploymentHistoryElementModel;
 
 export type IApiElementModelBase = {
         readonly id?: string
@@ -258,7 +258,7 @@ export type SpeakingPostContentModel = (IApiContentModelBase & {
 
 export type SpeakingPostContentResponseModel = (IApiContentResponseModelBase & SpeakingPostContentModel);
 
-export type SpeakingPostPropertiesModel = (PageContentPropertiesModel & EventInfoPropertiesModel & PageSettingsPropertiesModel & {
+export type SpeakingPostPropertiesModel = (PageSettingsPropertiesModel & PageContentPropertiesModel & EventInfoPropertiesModel & {
         additionalEvents?: ApiBlockListModel
     });
 

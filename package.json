@@ -30,7 +30,6 @@
     "@hey-api/openapi-ts": "^0.37.3",
     "@tailwindcss/typography": "^0.5.11",
     "@tgwf/gridintensity-polyfill": "^0.0.7",
-    "@vitejs/plugin-basic-ssl": "^1.0.2",
     "highlight.js": "^11.9.0",
     "marked": "^11.1.1",
     "marked-highlight": "^2.1.0",

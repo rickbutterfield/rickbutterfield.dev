@@ -1,4 +1,5 @@
 ---
+import { marked } from "marked";
 import type { ImageWithCaptionElementModel } from "@/api";
 import { Image } from 'astro:assets';
 
@@ -16,6 +17,6 @@ const caption: string = typedData?.properties?.caption;
 ---
 
 <figure class="lg:-mr-32">
-  <Image src={src} alt={alt} width={width} height={height} />
-  <figcaption class="text-gray-600 dark:text-zinc-400 italic">{caption}</figcaption>
+  <Image src={src} alt={alt} width={width} height={height} class="rounded-lg" />
+  <figcaption class="text-gray-600 dark:text-zinc-400 italic" set:html={marked.parse(caption)}></figcaption>
 </figure>
