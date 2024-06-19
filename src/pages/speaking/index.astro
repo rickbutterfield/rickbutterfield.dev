@@ -32,7 +32,7 @@ const baseUrl = import.meta.env.PUBLIC_BASE_URL_HTTPS;
   <section class="c-posts max-w-[50rem]">
   {
     speakingPosts.items.map((speakingPost: SpeakingPostContentModel, index: number, array: IApiContentResponseModel[]) => (
-        <article class="prose dark:prose-invert max-w-none mb-12 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-xl p-5" style={`view-transition-name: article-${speakingPost.id}`}>
+        <article class="prose dark:prose-invert max-w-none mb-12 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-xl p-5 lg:-mr-32 xl:-mr-48 2xl:-mr-60 3xl:-mr-72" style={`view-transition-name: article-${speakingPost.id}`}>
           {speakingPost?.properties?.featuredImage != null ? (
             <Image
               src=`${baseUrl}${speakingPost?.properties?.featuredImage[0]?.url}`

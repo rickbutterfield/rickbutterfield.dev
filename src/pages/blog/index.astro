@@ -19,6 +19,7 @@ const { title, content } = node.properties;
 const blogPosts = await ContentResource.getContent20({
   filter: ["contentType:blogPost"],
   sort: ["publishedDate:desc"],
+  take: 100
 });
 ---
 
@@ -32,7 +33,7 @@ const blogPosts = await ContentResource.getContent20({
     {
       blogPosts.items.map((blogPost: BlogPostContentModel) => (
         <article
-          class="prose dark:prose-invert max-w-none mb-12 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-xl p-5"
+          class="prose dark:prose-invert max-w-none mb-12 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-xl p-5 lg:-mr-32 xl:-mr-48 2xl:-mr-60 3xl:-mr-72"
           style={`view-transition-name: article-${blogPost.id}`}
         >
           <h2 class="mb-1">
@@ -42,7 +43,7 @@ const blogPosts = await ContentResource.getContent20({
             <li>
               <time
                 datetime={new Date(
-                  blogPost.properties.publishedDate,
+                  blogPost.properties.publishedDate
                 ).toISOString()}
               >
                 {new Date(blogPost.properties.publishedDate).toLocaleDateString(
@@ -51,7 +52,7 @@ const blogPosts = await ContentResource.getContent20({
                     year: "numeric",
                     month: "short",
                     day: "numeric",
-                  },
+                  }
                 )}
               </time>
             </li>

@@ -10,13 +10,13 @@ const baseUrl = import.meta.env.PUBLIC_BASE_URL_HTTPS;
 
 const width: number = typedData?.properties?.image[0].width;
 const height: number = typedData?.properties?.image[0].height;
-const src: string = `${baseUrl}${typedData?.properties?.image[0]?.url}?width=1680`;
-const alt: string = typedData?.properties?.image[0]?.properties?.altText || '';
+const src: string = `${baseUrl}${typedData?.properties?.image[0]?.url}`;
 const caption: string = typedData?.properties?.caption;
+const alt: string = typedData?.properties?.image[0]?.properties?.altText ?? caption;
 
 ---
 
-<figure class="lg:-mr-32">
-  <Image src={src} alt={alt} width={width} height={height} class="rounded-lg" />
+<figure class="lg:-mr-32 xl:-mr-48 2xl:-mr-60 3xl:-mr-72">
+  <Image src={src} alt={alt} width={2000} height={1125} class="rounded-lg" />
   <figcaption class="text-gray-600 dark:text-zinc-400 italic" set:html={marked.parse(caption)}></figcaption>
 </figure>

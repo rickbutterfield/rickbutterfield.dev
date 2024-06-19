@@ -12,6 +12,7 @@
     "generate": "openapi-ts --input http://localhost:20625/umbraco/swagger/delivery/swagger.json --output src/api --debug true --enums typescript --lint true --postfixServices Resource --schemas false"
   },
   "dependencies": {
+    "@astro-community/astro-embed-youtube": "^0.5.2",
     "@astrojs/mdx": "^3.1.0",
     "@astrojs/rss": "^4.0.6",
     "@astrojs/sitemap": "^3.1.5",
@@ -19,6 +20,7 @@
     "@justinribeiro/lite-youtube": "^1.5.0",
     "@types/js-cookie": "^3.0.2",
     "astro": "^4.10.2",
+    "astro-embed": "^0.7.2",
     "astro-og-canvas": "^0.4.2",
     "astro-robots-txt": "^0.5.0",
     "astrojs-service-worker": "^2.0.0",

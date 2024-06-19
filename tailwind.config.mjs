@@ -28,7 +28,10 @@ export default {
             '--tw-prose-invert-lead': theme('colors.zinc[50]'),
           }
         }
-      })
+      }),
+      screens: {
+        '3xl': '1600px'
+      }
     },
 	},
 	plugins: [

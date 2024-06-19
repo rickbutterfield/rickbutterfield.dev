@@ -16,7 +16,7 @@ const baseUrl = import.meta.env.PUBLIC_BASE_URL_HTTPS;
 
 const width: number = featuredImage[0].width;
 const height: number = featuredImage[0].height;
-const src: string = `${baseUrl}${featuredImage[0]?.url}?width=1680`;
+const src: string = `${baseUrl}${featuredImage[0]?.url}`;
 const alt: string = featuredImage[0]?.properties?.altText || "";
 ---
 
@@ -26,8 +26,8 @@ const alt: string = featuredImage[0]?.properties?.altText || "";
       <Image
         src={src}
         alt={alt}
-        width={width}
-        height={height}
+        width={2000}
+        height={1125}
         class="rounded-xl"
       />
     </figure>

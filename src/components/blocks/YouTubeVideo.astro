@@ -1,4 +1,5 @@
 ---
+import { YouTube } from "astro-embed";
 import { type YouTubeVideoElementModel } from "@/api";
 
 const { data } = Astro.props;
@@ -6,6 +7,8 @@ const typedData = data as YouTubeVideoElementModel;
 const videoId = typedData?.properties?.videoID;
 ---
 
-<figure class="lg:-mr-32">
-  <iframe width="560" height="315" src={`https://www.youtube-nocookie.com/embed/${videoId}?si=r0ZIP5HCv3KnnQwK`} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+<figure
+  class="lg:-mr-32 xl:-mr-48 2xl:-mr-60 3xl:-mr-72 rounded-2xl overflow-hidden"
+>
+  <YouTube id={videoId} style="width: 100%;" />
 </figure>
