@@ -130,7 +130,7 @@ export type IApiContentStartItemModel = {
 readonly path?: string
     };
 
-export type IApiElementModel = PageSettingsElementModel | PageContentElementModel | UpdateAlertElementModel | CVentryElementModel | EventInfoElementModel | ImageWithCaptionElementModel | RichTextElementModel | EmploymentHistoryElementModel;
+export type IApiElementModel = PageSettingsElementModel | PageContentElementModel | UpdateAlertElementModel | CVentryElementModel | EventInfoElementModel | ImageWithCaptionElementModel | RichTextElementModel | EmploymentHistoryElementModel | YouTubeVideoElementModel;
 
 export type IApiElementModelBase = {
         readonly id?: string
@@ -269,6 +269,14 @@ export type UpdateAlertElementModel = (IApiElementModelBase & {
 export type UpdateAlertPropertiesModel = {
         date?: string | null
 content?: string | null
+    };
+
+export type YouTubeVideoElementModel = (IApiElementModelBase & {
+        properties?: YouTubeVideoPropertiesModel
+    });
+
+export type YouTubeVideoPropertiesModel = {
+        videoID?: string | null
     };
 
 export type ContentData = {

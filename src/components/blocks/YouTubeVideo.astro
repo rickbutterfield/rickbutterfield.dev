@@ -1,0 +1,11 @@
+---
+import { type YouTubeVideoElementModel } from "@/api";
+
+const { data } = Astro.props;
+const typedData = data as YouTubeVideoElementModel;
+const videoId = typedData?.properties?.videoID;
+---
+
+<figure class="lg:-mr-32">
+  <iframe width="560" height="315" src={`https://www.youtube-nocookie.com/embed/${videoId}?si=r0ZIP5HCv3KnnQwK`} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+</figure>
