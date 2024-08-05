@@ -1,10 +1,10 @@
 
 
 export type ApiBlockGridAreaModel = {
-        alias?: string
-rowSpan?: number
-columnSpan?: number
-items?: Array<ApiBlockGridItemModel>
+        alias: string
+rowSpan: number
+columnSpan: number
+items: Array<ApiBlockGridItemModel>
     };
 
 export type ApiBlockGridItemModel = (ApiBlockItemModel & {
@@ -15,17 +15,27 @@ areas?: Array<ApiBlockGridAreaModel>
     });
 
 export type ApiBlockGridModel = {
-        gridColumns?: number
-items?: Array<ApiBlockGridItemModel>
+        gridColumns: number
+items: Array<ApiBlockGridItemModel>
     };
 
 export type ApiBlockItemModel = {
-        content?: IApiElementModel
+        content: IApiElementModel
 settings?: IApiElementModel
     };
 
 export type ApiBlockListModel = {
-        items?: Array<ApiBlockItemModel | ApiBlockGridItemModel>
+        items: Array<ApiBlockItemModel | ApiBlockGridItemModel>
+    };
+
+export type ApiContentRouteModel = {
+        path: string
+startItem: ApiContentStartItemModel
+    };
+
+export type ApiContentStartItemModel = {
+        id: string
+path: string
     };
 
 export type BlogPostContentModel = (IApiContentModelBase & {
@@ -93,99 +103,95 @@ export type HomePagePropertiesModel = (PageContentPropertiesModel & PageSettings
 
 export type HttpValidationProblemDetails = (ProblemDetails & {
         errors?: Record<string, Array<string>>
+[key: string]: unknown | undefined
     });
 
 export type IApiContentModel = ContentPageContentModel | HomePageContentModel | SpeakingPageContentModel | BlogPostContentModel | SpeakingPostContentModel | BlogsPageContentModel;
 
 export type IApiContentModelBase = (IApiElementModelBase & {
-        readonly name?: string | null
-readonly createDate?: string
-readonly updateDate?: string
-route?: IApiContentRouteModel
-readonly id?: string
-readonly contentType?: string
-readonly properties?: Record<string, unknown>
+        readonly id: string
+readonly contentType: string
+readonly name?: string | null
+readonly createDate: string
+readonly updateDate: string
+readonly route: ApiContentRouteModel
     });
 
 export type IApiContentResponseModel = ContentPageContentResponseModel | HomePageContentResponseModel | SpeakingPageContentResponseModel | BlogPostContentResponseModel | SpeakingPostContentResponseModel | BlogsPageContentResponseModel;
 
 export type IApiContentResponseModelBase = (IApiContentModelBase & {
-        readonly cultures?: Record<string, IApiContentRouteModel>
+        properties: {
+        readonly id: string
+readonly contentType: string
 readonly name?: string | null
-readonly createDate?: string
-readonly updateDate?: string
-route?: IApiContentRouteModel
-readonly id?: string
-readonly contentType?: string
-readonly properties?: Record<string, unknown>
+readonly createDate: string
+readonly updateDate: string
+readonly route: ApiContentRouteModel
+    }
+readonly id: string
+readonly contentType: string
+readonly name?: string | null
+readonly createDate: string
+readonly updateDate: string
+readonly route: ApiContentRouteModel
+readonly cultures: Record<string, ApiContentRouteModel>
     });
 
-export type IApiContentRouteModel = {
-        readonly path?: string
-startItem?: IApiContentStartItemModel
-    };
-
-export type IApiContentStartItemModel = {
-        readonly id?: string
-readonly path?: string
-    };
-
-export type IApiElementModel = PageSettingsElementModel | PageContentElementModel | UpdateAlertElementModel | CVentryElementModel | EventInfoElementModel | ImageWithCaptionElementModel | RichTextElementModel | EmploymentHistoryElementModel | YouTubeVideoElementModel;
+export type IApiElementModel = PageSettingsElementModel | PageContentElementModel | UpdateAlertElementModel | CVentryElementModel | YouTubeVideoElementModel | EventInfoElementModel | ImageWithCaptionElementModel | RichTextElementModel | EmploymentHistoryElementModel;
 
 export type IApiElementModelBase = {
-        readonly id?: string
-readonly contentType?: string
-readonly properties?: Record<string, unknown>
+        readonly id: string
+readonly contentType: string
     };
 
 export type IApiMediaWithCropsModel = {
-        focalPoint?: ImageFocalPointModel
-readonly crops?: Array<ImageCropModel> | null
-readonly id?: string
-readonly name?: string
-readonly mediaType?: string
-readonly url?: string
+        readonly id: string
+readonly name: string
+readonly mediaType: string
+readonly url: string
 readonly extension?: string | null
 readonly width?: number | null
 readonly height?: number | null
 readonly bytes?: number | null
-readonly properties?: Record<string, unknown>
+readonly properties: Record<string, unknown>
+focalPoint?: ImageFocalPointModel
+readonly crops?: Array<ImageCropModel> | null
     };
 
 export type IApiMediaWithCropsResponseModel = {
-        readonly path?: string
-readonly createDate?: string
-readonly updateDate?: string
-focalPoint?: ImageFocalPointModel
-readonly crops?: Array<ImageCropModel> | null
-readonly id?: string
-readonly name?: string
-readonly mediaType?: string
-readonly url?: string
+        readonly id: string
+readonly name: string
+readonly mediaType: string
+readonly url: string
 readonly extension?: string | null
 readonly width?: number | null
 readonly height?: number | null
 readonly bytes?: number | null
-readonly properties?: Record<string, unknown>
+readonly properties: Record<string, unknown>
+focalPoint: ImageFocalPointModel
+readonly crops?: Array<ImageCropModel> | null
+readonly path: string
+readonly createDate: string
+readonly updateDate: string
     };
 
 export type ImageCropCoordinatesModel = {
-        x1?: number
-y1?: number
-x2?: number
-y2?: number
+        x1: number
+y1: number
+x2: number
+y2: number
     };
 
 export type ImageCropModel = {
         alias?: string | null
-width?: number
-height?: number
+width: number
+height: number
 coordinates?: ImageCropCoordinatesModel
     };
 
 export type ImageFocalPointModel = {
-        left?: number
-top?: number
+        left: number
+top: number
     };
 
 export type ImageWithCaptionElementModel = (IApiElementModelBase & {

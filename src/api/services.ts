@@ -7,7 +7,7 @@ export class ContentResource {
 
 	/**
 	 * @deprecated
-	 * @returns PagedIApiContentResponseModel Success
+	 * @returns PagedIApiContentResponseModel OK
 	 * @throws ApiError
 	 */
 	public static getContent(data: ContentData['payloads']['GetContent'] = {}): CancelablePromise<ContentData['responses']['GetContent']> {
@@ -41,7 +41,7 @@ startItem
 	}
 
 	/**
-	 * @returns PagedIApiContentResponseModel Success
+	 * @returns PagedIApiContentResponseModel OK
 	 * @throws ApiError
 	 */
 	public static getContent20(data: ContentData['payloads']['GetContent20'] = {}): CancelablePromise<ContentData['responses']['GetContent20']> {
@@ -77,7 +77,7 @@ startItem
 
 	/**
 	 * @deprecated
-	 * @returns IApiContentResponseModel Success
+	 * @returns IApiContentResponseModel OK
 	 * @throws ApiError
 	 */
 	public static getContentItem(data: ContentData['payloads']['GetContentItem'] = {}): CancelablePromise<ContentData['responses']['GetContentItem']> {
@@ -108,7 +108,7 @@ startItem
 
 	/**
 	 * @deprecated
-	 * @returns IApiContentResponseModel Success
+	 * @returns IApiContentResponseModel OK
 	 * @throws ApiError
 	 */
 	public static getContentItemByPath(data: ContentData['payloads']['GetContentItemByPath']): CancelablePromise<ContentData['responses']['GetContentItemByPath']> {
@@ -142,7 +142,7 @@ startItem
 	}
 
 	/**
-	 * @returns IApiContentResponseModel Success
+	 * @returns IApiContentResponseModel OK
 	 * @throws ApiError
 	 */
 	public static getContentItemByPath20(data: ContentData['payloads']['GetContentItemByPath20']): CancelablePromise<ContentData['responses']['GetContentItemByPath20']> {
@@ -178,7 +178,7 @@ startItem
 
 	/**
 	 * @deprecated
-	 * @returns IApiContentResponseModel Success
+	 * @returns IApiContentResponseModel OK
 	 * @throws ApiError
 	 */
 	public static getContentItemById(data: ContentData['payloads']['GetContentItemById']): CancelablePromise<ContentData['responses']['GetContentItemById']> {
@@ -212,7 +212,7 @@ startItem
 	}
 
 	/**
-	 * @returns IApiContentResponseModel Success
+	 * @returns IApiContentResponseModel OK
 	 * @throws ApiError
 	 */
 	public static getContentItemById20(data: ContentData['payloads']['GetContentItemById20']): CancelablePromise<ContentData['responses']['GetContentItemById20']> {
@@ -247,7 +247,7 @@ startItem
 	}
 
 	/**
-	 * @returns IApiContentResponseModel Success
+	 * @returns IApiContentResponseModel OK
 	 * @throws ApiError
 	 */
 	public static getContentItems20(data: ContentData['payloads']['GetContentItems20'] = {}): CancelablePromise<ContentData['responses']['GetContentItems20']> {
@@ -283,7 +283,7 @@ export class MediaResource {
 
 	/**
 	 * @deprecated
-	 * @returns PagedIApiMediaWithCropsResponseModel Success
+	 * @returns PagedIApiMediaWithCropsResponseModel OK
 	 * @throws ApiError
 	 */
 	public static getMedia(data: MediaData['payloads']['GetMedia'] = {}): CancelablePromise<MediaData['responses']['GetMedia']> {
@@ -313,7 +313,7 @@ apiKey
 	}
 
 	/**
-	 * @returns PagedIApiMediaWithCropsResponseModel Success
+	 * @returns PagedIApiMediaWithCropsResponseModel OK
 	 * @throws ApiError
 	 */
 	public static getMedia20(data: MediaData['payloads']['GetMedia20'] = {}): CancelablePromise<MediaData['responses']['GetMedia20']> {
@@ -345,7 +345,7 @@ apiKey
 
 	/**
 	 * @deprecated
-	 * @returns IApiMediaWithCropsResponseModel Success
+	 * @returns IApiMediaWithCropsResponseModel OK
 	 * @throws ApiError
 	 */
 	public static getMediaItem(data: MediaData['payloads']['GetMediaItem'] = {}): CancelablePromise<MediaData['responses']['GetMediaItem']> {
@@ -369,7 +369,7 @@ apiKey
 
 	/**
 	 * @deprecated
-	 * @returns IApiMediaWithCropsResponseModel Success
+	 * @returns IApiMediaWithCropsResponseModel OK
 	 * @throws ApiError
 	 */
 	public static getMediaItemByPath(data: MediaData['payloads']['GetMediaItemByPath']): CancelablePromise<MediaData['responses']['GetMediaItemByPath']> {
@@ -398,7 +398,7 @@ apiKey
 	}
 
 	/**
-	 * @returns IApiMediaWithCropsResponseModel Success
+	 * @returns IApiMediaWithCropsResponseModel OK
 	 * @throws ApiError
 	 */
 	public static getMediaItemByPath20(data: MediaData['payloads']['GetMediaItemByPath20']): CancelablePromise<MediaData['responses']['GetMediaItemByPath20']> {
@@ -429,7 +429,7 @@ apiKey
 
 	/**
 	 * @deprecated
-	 * @returns IApiMediaWithCropsResponseModel Success
+	 * @returns IApiMediaWithCropsResponseModel OK
 	 * @throws ApiError
 	 */
 	public static getMediaItemById(data: MediaData['payloads']['GetMediaItemById']): CancelablePromise<MediaData['responses']['GetMediaItemById']> {
@@ -458,7 +458,7 @@ apiKey
 	}
 
 	/**
-	 * @returns IApiMediaWithCropsResponseModel Success
+	 * @returns IApiMediaWithCropsResponseModel OK
 	 * @throws ApiError
 	 */
 	public static getMediaItemById20(data: MediaData['payloads']['GetMediaItemById20']): CancelablePromise<MediaData['responses']['GetMediaItemById20']> {
@@ -488,7 +488,7 @@ apiKey
 	}
 
 	/**
-	 * @returns IApiMediaWithCropsResponseModel Success
+	 * @returns IApiMediaWithCropsResponseModel OK
 	 * @throws ApiError
 	 */
 	public static getMediaItems20(data: MediaData['payloads']['GetMediaItems20'] = {}): CancelablePromise<MediaData['responses']['GetMediaItems20']> {
