@@ -13,5 +13,6 @@ export default defineConfig({
   prefetch: true,
   image: {
     domains: ["api.rickbutterfield.dev"]
-  }
+  },
+  trailingSlash: 'never'
 });
