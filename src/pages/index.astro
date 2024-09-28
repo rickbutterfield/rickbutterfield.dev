@@ -1,33 +1,39 @@
 ---
-import { marked } from 'marked';
-import Layout from '@/layouts/Layout.astro';
-import { Image } from 'astro:assets';
-import { ContentResource, OpenAPI, type HomePageContentModel } from '@/api';
+import { marked } from "marked";
+import Layout from "@/layouts/Layout.astro";
+import { Image } from "astro:assets";
+import { ContentResource, OpenAPI, type HomePageContentModel } from "@/api";
 
 OpenAPI.BASE = import.meta.env.PUBLIC_BASE_URL;
-const nodes = await ContentResource.getContent20({ filter: ['contentType:homePage'] });
+const nodes = await ContentResource.getContent20({
+  filter: ["contentType:homePage"],
+  expand: "properties[$all[properties[image]]]",
+});
 const node: HomePageContentModel = nodes.items[0];
 
-const {
-  title,
-  content,
-  featuredImage
-} = node.properties
-const baseUrl = import.meta.env.PUBLIC_BASE_URL_HTTPS
+const { title, content, featuredImage } = node.properties;
+const baseUrl = import.meta.env.PUBLIC_BASE_URL_HTTPS;
 
 const width: number = featuredImage[0].width;
 const height: number = featuredImage[0].height;
-const src: string = `${baseUrl}${featuredImage[0]?.url}?width=1680`;
-const alt: string = featuredImage[0]?.properties?.altText || '';
-
+const src: string = `${baseUrl}${featuredImage[0]?.url}`;
+const alt: string = featuredImage[0]?.properties?.altText || "";
 ---
 
-<Layout name={"Lead Software Engineer"}>
+<Layout name={"Lead Software Engineer & 2× Umbraco MVP"}>
   <section>
     <figure class="mb-8">
-      <Image src={src} alt={alt} width={width} height={height} class="rounded-xl" />
+      <Image
+        src={src}
+        alt={alt}
+        width={2000}
+        height={1125}
+        class="rounded-xl"
+      />
     </figure>
-    <article class="max-w-[50rem] prose prose-white dark:prose-invert" set:html={marked.parse(content)}>
-    </article>
+    <article
+      class="max-w-[50rem] prose prose-white dark:prose-invert"
+      set:html={marked.parse(content)}
+    />
   </section>
 </Layout>

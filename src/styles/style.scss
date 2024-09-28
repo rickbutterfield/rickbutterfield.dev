@@ -32,6 +32,7 @@ a,
 
 p {
   text-wrap: pretty;
+  @apply lg:text-lg lg:leading-8;
   
   &.lead {
     font-family: var(--font-stack-display);
@@ -39,15 +40,13 @@ p {
   }
 }
 
-// code {
-//   color: #c9d1d9;
-//   background: #0d1117;
-//   @apply px-1 py-1;
-// }
+lite-youtube {
+  max-width: 100% !important;
+}
 
 pre,
 .iframe {
-  @apply lg:-mr-32;
+  @apply lg:-mr-32 xl:-mr-48 2xl:-mr-60 3xl:-mr-72;
 }
 
 .prose :where(pre):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
