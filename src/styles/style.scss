@@ -30,7 +30,7 @@ a,
   }
 }
 
-p {
+p, li {
   text-wrap: pretty;
   @apply lg:text-lg lg:leading-8;
   
