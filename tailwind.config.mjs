@@ -5,8 +5,7 @@ export default {
 	theme: {
     fontFamily: {
       sans: [
-        'InterVariable',
-        'Inter',
+        'Manrope',
         'ui-sans-serif',
         'system-ui',
         'sans-serif',

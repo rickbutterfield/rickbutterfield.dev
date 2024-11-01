@@ -1,7 +1,7 @@
 ---
 import { marked } from "marked";
 import type { ImageWithCaptionElementModel } from "@/api";
-import { Image } from 'astro:assets';
+import { Image } from "astro:assets";
 
 const { data } = Astro.props;
 const typedData = data as ImageWithCaptionElementModel;
@@ -10,13 +10,22 @@ const baseUrl = import.meta.env.PUBLIC_BASE_URL_HTTPS;
 
 const width: number = typedData?.properties?.image[0].width;
 const height: number = typedData?.properties?.image[0].height;
-const src: string = `${baseUrl}${typedData?.properties?.image[0]?.url}`;
-const caption: string = typedData?.properties?.caption;
-const alt: string = typedData?.properties?.image[0]?.properties?.altText ?? caption;
+let src: string = `${baseUrl}${typedData?.properties?.image[0]?.url}?width=2000&height=1125`;
 
+if (typedData?.properties?.image[0].focalPoint !== null) {
+  src += `&rxy=${typedData?.properties?.image[0].focalPoint.left},${typedData?.properties?.image[0].focalPoint.top}`;
+  console.log(src);
+}
+
+const caption: string = typedData?.properties?.caption;
+const alt: string =
+  typedData?.properties?.image[0]?.properties?.altText ?? caption;
 ---
 
 <figure class="lg:-mr-32 xl:-mr-48 2xl:-mr-60 3xl:-mr-72">
   <Image src={src} alt={alt} width={2000} height={1125} class="rounded-lg" />
-  <figcaption class="text-gray-600 dark:text-zinc-400 italic" set:html={marked.parse(caption)}></figcaption>
+  <figcaption
+    class="text-gray-600 dark:text-zinc-400 italic"
+    set:html={marked.parse(caption)}
+  />
 </figure>
