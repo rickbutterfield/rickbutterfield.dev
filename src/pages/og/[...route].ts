@@ -13,9 +13,16 @@ let pages = {};
 blogPosts.items.forEach((post: BlogPostContentModel) => {
   if (post !== null) {
     const path = post.route?.path.substring(1);
+    const descriptionMaxLength = 100;
+    let descriptionTruncated = post.properties?.content;
+    
+    if (descriptionTruncated.length > descriptionMaxLength) {
+      descriptionTruncated = descriptionTruncated.slice(0, descriptionMaxLength - 1) + '...';
+    }
+
     pages[path] = {
       title: post.properties?.title,
-      description: post.properties?.content
+      description: descriptionTruncated
     }
   }
 });
