@@ -1,7 +1,7 @@
 :root {
-  --font-stack: Manrope, -apple-system, 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
-  --font-stack-var: var(--font-stack);
-  --font-stack-display: var(--font-stack);
+  --font-stack: Inter, -apple-system, 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+  --font-stack-var: InterVariable, var(--font-stack);
+  --font-stack-display: InterDisplay, var(--font-stack);
 
   font-family: var(--font-stack);
   font-feature-settings: 'liga' 1, 'calt' 1, "cv11";
