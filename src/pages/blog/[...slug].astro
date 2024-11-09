@@ -41,7 +41,7 @@ const { title, slug, name, content, publishedDate, grid } = Astro.props;
     style={`view-transition-name: article-${slug}`}
   >
     <h1 class="mb-1">{title}</h1>
-    <ul class="text-gray-600 dark:text-zinc-400 mb-12 not-prose">
+    <ul class="text-chalk-700 dark:text-chalk-200 mb-12 not-prose">
       <li>
         <time datetime={publishedDate.toISOString()}>
           {

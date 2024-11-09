@@ -1,23 +1,28 @@
 ---
-import BaseHead from '@/components/BaseHead.astro';
-import Header from '@/components/Header.astro';
-import Footer from '@/components/Footer.astro';
-import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+import BaseHead from "@/components/BaseHead.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
+import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
 
 const { name, image } = Astro.props;
 let pageDescription = SITE_DESCRIPTION;
-
 ---
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-	<head>
-		<BaseHead title={name + " - " + SITE_TITLE} description={pageDescription} image={image} />
-	</head>
-	<body class="bg-gray-50 dark:bg-zinc-900 text-zinc-900 dark:text-zinc-50 antialiased leading-relaxed transition-colors duration-200 selection:text-white selection:bg-indigo-800">
-		<Header title={SITE_TITLE} />
-		<main class="container max-w-[70rem] px-4 mx-auto">
-      <slot/>
+  <head>
+    <BaseHead
+      title={name + " - " + SITE_TITLE}
+      description={pageDescription}
+      image={image}
+    />
+  </head>
+  <body
+    class="relative bg-chalk-50 dark:bg-imperial-primer-950 text-imperial-primer-950 dark:text-chalk-50 antialiased leading-relaxed transition-colors duration-200 selection:text-white selection:bg-mesa-sunrise-800 focus:outline-none focus:ring-mesa-sunrise-500 focus:ring-2"
+  >
+    <Header title={SITE_TITLE} />
+    <main class="container max-w-[70rem] px-4 mx-auto">
+      <slot />
     </main>
     <Footer />
   </body>

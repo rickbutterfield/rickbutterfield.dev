@@ -22,12 +22,12 @@ h1, h2, h3, h4, h5, h6 {
 
 a,
 .prose :where(a):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
-  @apply underline underline-offset-2 decoration-indigo-600;
+  @apply underline underline-offset-2 decoration-mesa-sunrise-500;
   font-weight: inherit;
 
   &:hover,
   &:focus {
-    @apply text-indigo-600 dark:text-indigo-400;
+    @apply text-mesa-sunrise-800 dark:text-mesa-sunrise-500;
   }
 }
 
