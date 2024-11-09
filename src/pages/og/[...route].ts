@@ -41,7 +41,7 @@ export const { getStaticPaths, GET } = OGImageRoute({
   getImageOptions: (path, page) => ({
     title: page.title,
     description: page.description,
-    bgGradient: [[79, 70, 229]],
+    bgGradient: [[178, 69, 35]],
     fonts: [
       'https://rsms.me/inter/font-files/InterVariable.woff2?v=4.0',
       'https://rsms.me/inter/font-files/Inter-Regular.woff2?v=4.0',
