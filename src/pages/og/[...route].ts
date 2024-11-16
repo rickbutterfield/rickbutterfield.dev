@@ -1,9 +1,9 @@
-import { ContentResource, OpenAPI, type BlogPostContentModel } from '@/api';
+import { ContentService, OpenAPI, type BlogPostContentModel } from '@/api';
 import { OGImageRoute } from 'astro-og-canvas';
 
 OpenAPI.BASE = import.meta.env.PUBLIC_BASE_URL;
 
-const blogPosts = await ContentResource.getContent20({
+const blogPosts = await ContentService.getContent20({
   filter: ['contentType:blogPost'],
   sort: ['sortOrder:asc'],
   take: 100

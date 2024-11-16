@@ -1,6 +1,6 @@
 import rss, { type RSSFeedItem } from '@astrojs/rss';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
-import { ContentResource, OpenAPI, type ApiBlockGridItemModel, type ApiBlockGridModel, type BlogPostContentModel, type ImageWithCaptionElementModel, type RichTextElementModel, type RichTextPropertiesModel, type YouTubeVideoElementModel } from '@/api';
+import { ContentService, OpenAPI, type ApiBlockGridItemModel, type ApiBlockGridModel, type BlogPostContentModel, type ImageWithCaptionElementModel, type RichTextElementModel, type RichTextPropertiesModel, type YouTubeVideoElementModel } from '@/api';
 import { Marked } from 'marked';
 import { markedHighlight } from 'marked-highlight';
 import hljs from 'highlight.js';
@@ -68,7 +68,7 @@ const renderGridContent = (grid: ApiBlockGridModel, content: string) => {
 export async function GET(context) {
   OpenAPI.BASE = import.meta.env.PUBLIC_BASE_URL;
 
-  const posts = await ContentResource.getContent20({
+  const posts = await ContentService.getContent20({
     filter: ['contentType:blogPost'],
     sort: ['publishedDate:desc']
   });

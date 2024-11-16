@@ -1,12 +1,12 @@
 ---
 import Layout from "@/layouts/Layout.astro";
-import { OpenAPI, ContentResource, type BlogPostContentModel } from "@/api";
+import { OpenAPI, ContentService, type BlogPostContentModel } from "@/api";
 import UmbracoGrid from "@/components/UmbracoGrid.astro";
 
 export async function getStaticPaths() {
   OpenAPI.BASE = import.meta.env.PUBLIC_BASE_URL;
 
-  const posts = await ContentResource.getContent20({
+  const posts = await ContentService.getContent20({
     filter: ["contentType:blogPost"],
     expand: "properties[$all[properties[image]]]",
     take: 100

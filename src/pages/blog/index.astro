@@ -1,7 +1,7 @@
 ---
 import { marked } from "marked";
 import {
-  ContentResource,
+  ContentService,
   OpenAPI,
   type BlogsPageContentModel,
   type BlogPostContentModel,
@@ -9,14 +9,14 @@ import {
 import Layout from "@/layouts/Layout.astro";
 
 OpenAPI.BASE = import.meta.env.PUBLIC_BASE_URL;
-const nodes = await ContentResource.getContent20({
+const nodes = await ContentService.getContent20({
   filter: ["contentType:blogsPage"],
 });
 const node: BlogsPageContentModel = nodes.items[0];
 
 const { title, content } = node.properties;
 
-const blogPosts = await ContentResource.getContent20({
+const blogPosts = await ContentService.getContent20({
   filter: ["contentType:blogPost"],
   sort: ["publishedDate:desc"],
   take: 100,

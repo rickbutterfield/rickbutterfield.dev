@@ -9,7 +9,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "generate": "openapi-ts --input http://localhost:20625/umbraco/swagger/delivery/swagger.json --output src/api --debug true --enums typescript --lint true --postfixServices Resource --schemas false"
+    "generate": "openapi-ts --file openapi-ts.config.ts"
   },
   "dependencies": {
     "@astro-community/astro-embed-youtube": "^0.5.2",
@@ -19,7 +19,7 @@
     "@astrojs/tailwind": "^5.1.2",
     "@justinribeiro/lite-youtube": "^1.5.0",
     "@types/js-cookie": "^3.0.2",
-    "astro": "^4.16.10",
+    "astro": "^4.16.13",
     "astro-embed": "^0.7.2",
     "astro-og-canvas": "^0.4.2",
     "astro-robots-txt": "^0.5.0",
@@ -30,7 +30,7 @@
   "devDependencies": {
     "@astrojs/lit": "^4.3.0",
     "@astrojs/node": "^8.3.4",
-    "@hey-api/openapi-ts": "^0.37.3",
+    "@hey-api/openapi-ts": "^0.48.1",
     "@tailwindcss/typography": "^0.5.11",
     "@tgwf/gridintensity-polyfill": "^0.0.7",
     "highlight.js": "^11.9.0",

@@ -1,12 +1,12 @@
 ---
 import HeaderLink from './HeaderLink.astro';
 import { SITE_TITLE, SITE_TITLE_MOBILE } from '../consts';
-import { ContentResource, OpenAPI, type HomePageContentModel } from '@/api';
+import { ContentService, OpenAPI, type HomePageContentModel } from '@/api';
 
 OpenAPI.BASE = import.meta.env.PUBLIC_BASE_URL;
-const node: HomePageContentModel = await ContentResource.getContentItemByPath20({ path: '/' })
+const node: HomePageContentModel = await ContentService.getContentItemByPath20({ path: '/' })
 
-const pages = await ContentResource.getContent20({
+const pages = await ContentService.getContent20({
   fetch: `children:${node.id}`,
   sort: ['sortOrder:asc'],
   expand: 'all'

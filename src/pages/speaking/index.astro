@@ -1,11 +1,11 @@
 ---
 import { marked } from 'marked';
 import { Image } from 'astro:assets';
-import { ContentResource, OpenAPI, type EventInfoElementModel, type SpeakingPageContentModel, type SpeakingPostContentModel, type ApiBlockItemModel, type IApiContentResponseModel } from '@/api';
+import { ContentService, OpenAPI, type EventInfoElementModel, type SpeakingPageContentModel, type SpeakingPostContentModel, type ApiBlockItemModel, type IApiContentResponseModel } from '@/api';
 import Layout from '@/layouts/Layout.astro';
 
 OpenAPI.BASE = import.meta.env.PUBLIC_BASE_URL;
-const nodes = await ContentResource.getContent20({
+const nodes = await ContentService.getContent20({
   filter: ['contentType:speakingPage']
 });
 const node: SpeakingPageContentModel = nodes.items[0];
@@ -15,7 +15,7 @@ const {
   content
 } = node.properties
 
-const speakingPosts = await ContentResource.getContent20({
+const speakingPosts = await ContentService.getContent20({
   filter: ['contentType:speakingPost'],
   sort: ['eventDate:desc']
 });
