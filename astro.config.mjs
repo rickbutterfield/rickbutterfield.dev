@@ -17,7 +17,7 @@ export default defineConfig({
   image: {
     domains: ["api.rickbutterfield.dev"]
   },
-  trailingSlash: 'never',
+  trailingSlash: 'ignore',
   devToolbar: {
     enabled: false
   }
