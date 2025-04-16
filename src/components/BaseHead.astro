@@ -1,5 +1,6 @@
 ---
-import { ViewTransitions } from 'astro:transitions';
+import { ClientRouter } from 'astro:transitions';
+import '../styles/style.scss';
 import { getImage } from 'astro:assets';
 import faviconSrc from '../../public/favicon.svg';
 
@@ -62,8 +63,8 @@ const { title, description, image = '/placeholder-social.jpg' } = Astro.props;
 <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
 
 <!-- Styles -->
-<style lang="scss" is:global>
+<!-- <style lang="scss" is:global>
   @import "../styles/style.scss";
-</style>
+</style> -->
 
-<ViewTransitions />
+<ClientRouter />
