@@ -20,5 +20,11 @@ export default defineConfig({
   trailingSlash: 'ignore',
   devToolbar: {
     enabled: false
+  },
+  redirects: {
+    "/umbraco": {
+      status: 301,
+      destination: process.env.NODE_ENV === 'production' ? "https://api.rickbutterfield.dev/umbraco" : 'https://localhost:44389/umbraco',
+    }
   }
 });
