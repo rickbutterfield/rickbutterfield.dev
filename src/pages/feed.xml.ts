@@ -68,7 +68,7 @@ const renderGridContent = (grid: ApiBlockGridModel, content: string) => {
 export async function GET(context) {
   OpenAPI.BASE = import.meta.env.PUBLIC_BASE_URL;
 
-  const posts = await ContentService.getContent20({
+  const posts = await ContentService.queryV20({
     filter: ['contentType:blogPost'],
     sort: ['publishedDate:desc']
   });

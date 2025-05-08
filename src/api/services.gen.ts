@@ -3,7 +3,7 @@
 import type { CancelablePromise } from './core/CancelablePromise';
 import { OpenAPI } from './core/OpenAPI';
 import { request as __request } from './core/request';
-import type { GetContentData, GetContentResponse, GetContent20Data, GetContent20Response, GetContentItemData, GetContentItemResponse, GetContentItemByPathData, GetContentItemByPathResponse, GetContentItemByPath20Data, GetContentItemByPath20Response, GetContentItemByIdData, GetContentItemByIdResponse, GetContentItemById20Data, GetContentItemById20Response, GetContentItems20Data, GetContentItems20Response, GetMediaData, GetMediaResponse, GetMedia20Data, GetMedia20Response, GetMediaItemData, GetMediaItemResponse, GetMediaItemByPathData, GetMediaItemByPathResponse, GetMediaItemByPath20Data, GetMediaItemByPath20Response, GetMediaItemByIdData, GetMediaItemByIdResponse, GetMediaItemById20Data, GetMediaItemById20Response, GetMediaItems20Data, GetMediaItems20Response } from './types.gen';
+import type { QueryData, QueryResponse, QueryV20Data, QueryV20Response, ItemData, ItemResponse, ByRouteData, ByRouteResponse, ByRouteV20Data, ByRouteV20Response, ByIdData, ByIdResponse, ByIdV20Data, ByIdV20Response, ItemsV20Data, ItemsV20Response, ByPathData, ByPathResponse, ByPathV20Data, ByPathV20Response } from './types.gen';
 
 export class ContentService {
     /**
@@ -22,7 +22,7 @@ export class ContentService {
      * @returns PagedIApiContentResponseModel OK
      * @throws ApiError
      */
-    public static getContent(data: GetContentData = {}): CancelablePromise<GetContentResponse> {
+    public static query(data: QueryData = {}): CancelablePromise<QueryResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/umbraco/delivery/api/v1/content',
@@ -63,7 +63,7 @@ export class ContentService {
      * @returns PagedIApiContentResponseModel OK
      * @throws ApiError
      */
-    public static getContent20(data: GetContent20Data = {}): CancelablePromise<GetContent20Response> {
+    public static queryV20(data: QueryV20Data = {}): CancelablePromise<QueryV20Response> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/umbraco/delivery/api/v2/content',
@@ -101,7 +101,7 @@ export class ContentService {
      * @returns IApiContentResponseModel OK
      * @throws ApiError
      */
-    public static getContentItem(data: GetContentItemData = {}): CancelablePromise<GetContentItemResponse> {
+    public static item(data: ItemData = {}): CancelablePromise<ItemResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/umbraco/delivery/api/v1/content/item',
@@ -134,7 +134,7 @@ export class ContentService {
      * @returns IApiContentResponseModel OK
      * @throws ApiError
      */
-    public static getContentItemByPath(data: GetContentItemByPathData): CancelablePromise<GetContentItemByPathResponse> {
+    public static byRoute(data: ByRouteData): CancelablePromise<ByRouteResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/umbraco/delivery/api/v1/content/item/{path}',
@@ -170,7 +170,7 @@ export class ContentService {
      * @returns IApiContentResponseModel OK
      * @throws ApiError
      */
-    public static getContentItemByPath20(data: GetContentItemByPath20Data): CancelablePromise<GetContentItemByPath20Response> {
+    public static byRouteV20(data: ByRouteV20Data): CancelablePromise<ByRouteV20Response> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/umbraco/delivery/api/v2/content/item/{path}',
@@ -207,7 +207,7 @@ export class ContentService {
      * @returns IApiContentResponseModel OK
      * @throws ApiError
      */
-    public static getContentItemById(data: GetContentItemByIdData): CancelablePromise<GetContentItemByIdResponse> {
+    public static byId(data: ByIdData): CancelablePromise<ByIdResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/umbraco/delivery/api/v1/content/item/{id}',
@@ -243,7 +243,7 @@ export class ContentService {
      * @returns IApiContentResponseModel OK
      * @throws ApiError
      */
-    public static getContentItemById20(data: GetContentItemById20Data): CancelablePromise<GetContentItemById20Response> {
+    public static byIdV20(data: ByIdV20Data): CancelablePromise<ByIdV20Response> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/umbraco/delivery/api/v2/content/item/{id}',
@@ -280,7 +280,7 @@ export class ContentService {
      * @returns IApiContentResponseModel OK
      * @throws ApiError
      */
-    public static getContentItems20(data: GetContentItems20Data = {}): CancelablePromise<GetContentItems20Response> {
+    public static itemsV20(data: ItemsV20Data = {}): CancelablePromise<ItemsV20Response> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/umbraco/delivery/api/v2/content/items',
@@ -318,7 +318,7 @@ export class MediaService {
      * @returns PagedIApiMediaWithCropsResponseModel OK
      * @throws ApiError
      */
-    public static getMedia(data: GetMediaData = {}): CancelablePromise<GetMediaResponse> {
+    public static query(data: QueryData = {}): CancelablePromise<QueryResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/umbraco/delivery/api/v1/media',
@@ -352,7 +352,7 @@ export class MediaService {
      * @returns PagedIApiMediaWithCropsResponseModel OK
      * @throws ApiError
      */
-    public static getMedia20(data: GetMedia20Data = {}): CancelablePromise<GetMedia20Response> {
+    public static queryV20(data: QueryV20Data = {}): CancelablePromise<QueryV20Response> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/umbraco/delivery/api/v2/media',
@@ -383,7 +383,7 @@ export class MediaService {
      * @returns IApiMediaWithCropsResponseModel OK
      * @throws ApiError
      */
-    public static getMediaItem(data: GetMediaItemData = {}): CancelablePromise<GetMediaItemResponse> {
+    public static item(data: ItemData = {}): CancelablePromise<ItemResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/umbraco/delivery/api/v1/media/item',
@@ -406,7 +406,7 @@ export class MediaService {
      * @returns IApiMediaWithCropsResponseModel OK
      * @throws ApiError
      */
-    public static getMediaItemByPath(data: GetMediaItemByPathData): CancelablePromise<GetMediaItemByPathResponse> {
+    public static byPath(data: ByPathData): CancelablePromise<ByPathResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/umbraco/delivery/api/v1/media/item/{path}',
@@ -434,7 +434,7 @@ export class MediaService {
      * @returns IApiMediaWithCropsResponseModel OK
      * @throws ApiError
      */
-    public static getMediaItemByPath20(data: GetMediaItemByPath20Data): CancelablePromise<GetMediaItemByPath20Response> {
+    public static byPathV20(data: ByPathV20Data): CancelablePromise<ByPathV20Response> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/umbraco/delivery/api/v2/media/item/{path}',
@@ -463,7 +463,7 @@ export class MediaService {
      * @returns IApiMediaWithCropsResponseModel OK
      * @throws ApiError
      */
-    public static getMediaItemById(data: GetMediaItemByIdData): CancelablePromise<GetMediaItemByIdResponse> {
+    public static byId(data: ByIdData): CancelablePromise<ByIdResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/umbraco/delivery/api/v1/media/item/{id}',
@@ -491,7 +491,7 @@ export class MediaService {
      * @returns IApiMediaWithCropsResponseModel OK
      * @throws ApiError
      */
-    public static getMediaItemById20(data: GetMediaItemById20Data): CancelablePromise<GetMediaItemById20Response> {
+    public static byIdV20(data: ByIdV20Data): CancelablePromise<ByIdV20Response> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/umbraco/delivery/api/v2/media/item/{id}',
@@ -520,7 +520,7 @@ export class MediaService {
      * @returns IApiMediaWithCropsResponseModel OK
      * @throws ApiError
      */
-    public static getMediaItems20(data: GetMediaItems20Data = {}): CancelablePromise<GetMediaItems20Response> {
+    public static itemsV20(data: ItemsV20Data = {}): CancelablePromise<ItemsV20Response> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/umbraco/delivery/api/v2/media/items',

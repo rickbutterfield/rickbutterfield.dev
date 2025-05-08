@@ -5,7 +5,7 @@ import { Image } from "astro:assets";
 import { ContentService, OpenAPI, type HomePageContentModel } from "@/api";
 
 OpenAPI.BASE = import.meta.env.PUBLIC_BASE_URL;
-const nodes = await ContentService.getContent20({
+const nodes = await ContentService.queryV20({
   filter: ["contentType:homePage"],
   expand: "properties[$all[properties[image]]]",
 });

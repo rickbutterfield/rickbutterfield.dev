@@ -5,7 +5,7 @@ import { ContentService, OpenAPI, type EventInfoElementModel, type SpeakingPageC
 import Layout from '@/layouts/Layout.astro';
 
 OpenAPI.BASE = import.meta.env.PUBLIC_BASE_URL;
-const nodes = await ContentService.getContent20({
+const nodes = await ContentService.queryV20({
   filter: ['contentType:speakingPage']
 });
 const node: SpeakingPageContentModel = nodes.items[0];
@@ -15,10 +15,13 @@ const {
   content
 } = node.properties
 
-const speakingPosts = await ContentService.getContent20({
+const speakingPosts = await ContentService.queryV20({
   filter: ['contentType:speakingPost'],
-  sort: ['eventDate:desc']
+  sort: ['eventDate:desc'],
+  expand: 'properties[$all[properties[featuredImage]]]',
 });
+
+console.log(speakingPosts.items[1].properties?.featuredImage);
 
 const baseUrl = import.meta.env.PUBLIC_BASE_URL_HTTPS;
 ---
@@ -26,7 +29,7 @@ const baseUrl = import.meta.env.PUBLIC_BASE_URL_HTTPS;
 <Layout name={title}>
   <article class="mb-12 max-w-[50rem] prose prose-white dark:prose-invert">
     <h1>{title}</h1>
-    <div set:html={marked.parse(content)}></div>
+    <Fragment set:html={marked.parse(content)}></Fragment>
   </article>
 
   <section class="c-posts max-w-[50rem]">

@@ -9,14 +9,14 @@ import {
 import Layout from "@/layouts/Layout.astro";
 
 OpenAPI.BASE = import.meta.env.PUBLIC_BASE_URL;
-const nodes = await ContentService.getContent20({
+const nodes = await ContentService.queryV20({
   filter: ["contentType:blogsPage"],
 });
 const node: BlogsPageContentModel = nodes.items[0];
 
 const { title, content } = node.properties;
 
-const blogPosts = await ContentService.getContent20({
+const blogPosts = await ContentService.queryV20({
   filter: ["contentType:blogPost"],
   sort: ["publishedDate:desc"],
   take: 100,
@@ -26,7 +26,7 @@ const blogPosts = await ContentService.getContent20({
 <Layout name={title}>
   <article class="mb-12 max-w-[50rem] prose prose-white dark:prose-invert">
     <h1>{title}</h1>
-    <div set:html={marked.parse(content)} />
+    <Fragment set:html={marked.parse(content ?? '')} />
   </article>
 
   <section class="c-posts max-w-[50rem]">

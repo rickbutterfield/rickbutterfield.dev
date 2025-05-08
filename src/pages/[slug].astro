@@ -8,7 +8,7 @@ export async function getStaticPaths() {
   OpenAPI.BASE = import.meta.env.PUBLIC_BASE_URL;
 
   // Fetch all content of type "page" from Umbraco sorted by creation date in ascending order.
-  const pages = await ContentService.getContent20({
+  const pages = await ContentService.queryV20({
     filter: ["contentType:contentPage"],
     expand: "all",
   });

@@ -4,9 +4,9 @@ import { SITE_TITLE, SITE_TITLE_MOBILE } from '../consts';
 import { ContentService, OpenAPI, type HomePageContentModel } from '@/api';
 
 OpenAPI.BASE = import.meta.env.PUBLIC_BASE_URL;
-const node: HomePageContentModel = await ContentService.getContentItemByPath20({ path: '/' })
+const node: HomePageContentModel = await ContentService.byRouteV20({ path: '/' })
 
-const pages = await ContentService.getContent20({
+const pages = await ContentService.queryV20({
   fetch: `children:${node.id}`,
   sort: ['sortOrder:asc'],
   expand: 'all'
@@ -23,7 +23,7 @@ const pages = await ContentService.getContent20({
     <nav class="row-start-2 row-end-2 flex items-center text-lg">
 
       {pages.items.map((page, index) => (
-        <HeaderLink class=`${index === 0 ? "pr-2 md:px-2" : "px-2"} font-medium` href={page.route.path}>{page.name}</HeaderLink>
+        <HeaderLink class=`${index === 0 ? "pr-2 md:px-2" : "px-2"} font-semibold` href={page.route.path}>{page.name}</HeaderLink>
         ))}
 
       <HeaderLink target="_blank" href="/feed.xml" class="px-2">

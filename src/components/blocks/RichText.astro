@@ -19,4 +19,4 @@ const { data } = Astro.props;
 const typedData = data as RichTextElementModel;
 ---
 
-<div set:html={customMarked.parse(typedData?.properties?.content)} />
+<Fragment set:html={customMarked.parse(typedData?.properties?.content)} />

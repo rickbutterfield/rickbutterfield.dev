@@ -38,13 +38,24 @@ export type ApiContentStartItemModel = {
     path: string;
 };
 
+export type ApiLinkModel = {
+    readonly url?: string | null;
+    readonly queryString?: string | null;
+    readonly title?: string | null;
+    readonly target?: string | null;
+    readonly destinationId?: string | null;
+    readonly destinationType?: string | null;
+    readonly route?: ApiContentRouteModel | null;
+    linkType: LinkTypeModel;
+};
+
 export type BlogPostContentModel = IApiContentModelBase & {
     properties?: BlogPostPropertiesModel;
 };
 
 export type BlogPostContentResponseModel = IApiContentResponseModelBase & BlogPostContentModel;
 
-export type BlogPostPropertiesModel = PageContentPropertiesModel & PageSettingsPropertiesModel & {
+export type BlogPostPropertiesModel = PageSettingsPropertiesModel & PageContentPropertiesModel & {
     publishedDate?: string | null;
 };
 
@@ -54,7 +65,7 @@ export type BlogsPageContentModel = IApiContentModelBase & {
 
 export type BlogsPageContentResponseModel = IApiContentResponseModelBase & BlogsPageContentModel;
 
-export type BlogsPagePropertiesModel = PageContentPropertiesModel & PageSettingsPropertiesModel;
+export type BlogsPagePropertiesModel = PageSettingsPropertiesModel & PageContentPropertiesModel;
 
 export type CVentryElementModel = IApiElementModelBase & {
     properties?: CVentryPropertiesModel;
@@ -99,7 +110,7 @@ export type HomePageContentModel = IApiContentModelBase & {
 
 export type HomePageContentResponseModel = IApiContentResponseModelBase & HomePageContentModel;
 
-export type HomePagePropertiesModel = PageContentPropertiesModel & PageSettingsPropertiesModel;
+export type HomePagePropertiesModel = PageSettingsPropertiesModel & PageContentPropertiesModel;
 
 export type HttpValidationProblemDetails = ProblemDetails & {
     errors?: {
@@ -108,7 +119,7 @@ export type HttpValidationProblemDetails = ProblemDetails & {
     [key: string]: (unknown | string) | undefined;
 };
 
-export type IApiContentModel = ContentPageContentModel | HomePageContentModel | SpeakingPageContentModel | BlogPostContentModel | SpeakingPostContentModel | BlogsPageContentModel;
+export type IApiContentModel = ContentPageContentModel | HomePageContentModel | SpeakingPageContentModel | BlogPostContentModel | SpeakingPostContentModel | BlogsPageContentModel | ProjectsPageContentModel | ProjectPostContentModel;
 
 export type IApiContentModelBase = IApiElementModelBase & {
     readonly id: string;
@@ -119,7 +130,7 @@ export type IApiContentModelBase = IApiElementModelBase & {
     readonly route: ApiContentRouteModel;
 };
 
-export type IApiContentResponseModel = ContentPageContentResponseModel | HomePageContentResponseModel | SpeakingPageContentResponseModel | BlogPostContentResponseModel | SpeakingPostContentResponseModel | BlogsPageContentResponseModel;
+export type IApiContentResponseModel = ContentPageContentResponseModel | HomePageContentResponseModel | SpeakingPageContentResponseModel | BlogPostContentResponseModel | SpeakingPostContentResponseModel | BlogsPageContentResponseModel | ProjectsPageContentResponseModel | ProjectPostContentResponseModel;
 
 export type IApiContentResponseModelBase = IApiContentModelBase & {
     properties: {
@@ -211,6 +222,12 @@ export type ImageWithCaptionPropertiesModel = {
     caption?: string | null;
 };
 
+export enum LinkTypeModel {
+    CONTENT = 'Content',
+    MEDIA = 'Media',
+    EXTERNAL = 'External'
+}
+
 export type PageContentElementModel = IApiElementModelBase & {
     properties?: PageContentPropertiesModel;
 };
@@ -249,6 +266,25 @@ export type ProblemDetails = {
     instance?: string | null;
     [key: string]: (unknown | string | number) | undefined;
 };
+
+export type ProjectPostContentModel = IApiContentModelBase & {
+    properties?: ProjectPostPropertiesModel;
+};
+
+export type ProjectPostContentResponseModel = IApiContentResponseModelBase & ProjectPostContentModel;
+
+export type ProjectPostPropertiesModel = PageSettingsPropertiesModel & PageContentPropertiesModel & {
+    gitHubUrl?: Array<ApiLinkModel> | null;
+    nuGetUrl?: Array<ApiLinkModel> | null;
+};
+
+export type ProjectsPageContentModel = IApiContentModelBase & {
+    properties?: ProjectsPagePropertiesModel;
+};
+
+export type ProjectsPageContentResponseModel = IApiContentResponseModelBase & ProjectsPageContentModel;
+
+export type ProjectsPagePropertiesModel = PageSettingsPropertiesModel & PageContentPropertiesModel;
 
 export type RichTextElementModel = IApiElementModelBase & {
     properties?: RichTextPropertiesModel;
@@ -293,7 +329,7 @@ export type YouTubeVideoPropertiesModel = {
     videoID?: string | null;
 };
 
-export type GetContentData = {
+export type QueryData = {
     /**
      * Defines the language to return. Use this when querying language variant content items.
      */
@@ -336,9 +372,9 @@ export type GetContentData = {
     take?: number;
 };
 
-export type GetContentResponse = PagedIApiContentResponseModel;
+export type QueryResponse = PagedIApiContentResponseModel;
 
-export type GetContent20Data = {
+export type QueryV20Data = {
     /**
      * Defines the language to return. Use this when querying language variant content items.
      */
@@ -385,9 +421,9 @@ export type GetContent20Data = {
     take?: number;
 };
 
-export type GetContent20Response = PagedIApiContentResponseModel;
+export type QueryV20Response = PagedIApiContentResponseModel;
 
-export type GetContentItemData = {
+export type ItemData = {
     /**
      * Defines the language to return. Use this when querying language variant content items.
      */
@@ -411,9 +447,9 @@ export type GetContentItemData = {
     startItem?: string;
 };
 
-export type GetContentItemResponse = Array<IApiContentResponseModel>;
+export type ItemResponse = Array<IApiContentResponseModel>;
 
-export type GetContentItemByPathData = {
+export type ByRouteData = {
     /**
      * Defines the language to return. Use this when querying language variant content items.
      */
@@ -437,9 +473,9 @@ export type GetContentItemByPathData = {
     startItem?: string;
 };
 
-export type GetContentItemByPathResponse = IApiContentResponseModel;
+export type ByRouteResponse = IApiContentResponseModel;
 
-export type GetContentItemByPath20Data = {
+export type ByRouteV20Data = {
     /**
      * Defines the language to return. Use this when querying language variant content items.
      */
@@ -467,9 +503,9 @@ export type GetContentItemByPath20Data = {
     startItem?: string;
 };
 
-export type GetContentItemByPath20Response = IApiContentResponseModel;
+export type ByRouteV20Response = IApiContentResponseModel;
 
-export type GetContentItemByIdData = {
+export type ByIdData = {
     /**
      * Defines the language to return. Use this when querying language variant content items.
      */
@@ -493,39 +529,9 @@ export type GetContentItemByIdData = {
     startItem?: string;
 };
 
-export type GetContentItemByIdResponse = IApiContentResponseModel;
+export type ByIdResponse = IApiContentResponseModel;
 
-export type GetContentItemById20Data = {
-    /**
-     * Defines the language to return. Use this when querying language variant content items.
-     */
-    acceptLanguage?: string;
-    /**
-     * API key specified through configuration to authorize access to the API.
-     */
-    apiKey?: string;
-    /**
-     * Defines the properties that should be expanded in the response. Refer to [the documentation](https://docs.umbraco.com/umbraco-cms/reference/content-delivery-api#query-parameters) for more details on this.
-     */
-    expand?: string;
-    /**
-     * Explicitly defines which properties should be included in the response (by default all properties are included). Refer to [the documentation](https://docs.umbraco.com/umbraco-cms/reference/content-delivery-api#query-parameters) for more details on this.
-     */
-    fields?: string;
-    id: string;
-    /**
-     * Whether to request draft content.
-     */
-    preview?: boolean;
-    /**
-     * URL segment or GUID of a root content item.
-     */
-    startItem?: string;
-};
-
-export type GetContentItemById20Response = IApiContentResponseModel;
-
-export type GetContentItems20Data = {
+export type ByIdV20Data = {
     /**
      * Defines the language to return. Use this when querying language variant content items.
      */
@@ -542,6 +548,36 @@ export type GetContentItems20Data = {
      * Explicitly defines which properties should be included in the response (by default all properties are included). Refer to [the documentation](https://docs.umbraco.com/umbraco-cms/reference/content-delivery-api#query-parameters) for more details on this.
      */
     fields?: string;
+    id: string;
+    /**
+     * Whether to request draft content.
+     */
+    preview?: boolean;
+    /**
+     * URL segment or GUID of a root content item.
+     */
+    startItem?: string;
+};
+
+export type ByIdV20Response = IApiContentResponseModel;
+
+export type ItemsV20Data = {
+    /**
+     * Defines the language to return. Use this when querying language variant content items.
+     */
+    acceptLanguage?: string;
+    /**
+     * API key specified through configuration to authorize access to the API.
+     */
+    apiKey?: string;
+    /**
+     * Defines the properties that should be expanded in the response. Refer to [the documentation](https://docs.umbraco.com/umbraco-cms/reference/content-delivery-api#query-parameters) for more details on this.
+     */
+    expand?: string;
+    /**
+     * Explicitly defines which properties should be included in the response (by default all properties are included). Refer to [the documentation](https://docs.umbraco.com/umbraco-cms/reference/content-delivery-api#query-parameters) for more details on this.
+     */
+    fields?: string;
     id?: Array<(string)>;
     /**
      * Whether to request draft content.
@@ -553,93 +589,9 @@ export type GetContentItems20Data = {
     startItem?: string;
 };
 
-export type GetContentItems20Response = Array<IApiContentResponseModel>;
+export type ItemsV20Response = Array<IApiContentResponseModel>;
 
-export type GetMediaData = {
-    /**
-     * API key specified through configuration to authorize access to the API.
-     */
-    apiKey?: string;
-    /**
-     * Defines the properties that should be expanded in the response. Refer to [the documentation](https://docs.umbraco.com/umbraco-cms/reference/content-delivery-api/media-delivery-api#query-parameters) for more details on this.
-     */
-    expand?: string;
-    /**
-     * Specifies the media items to fetch. Refer to [the documentation](https://docs.umbraco.com/umbraco-cms/reference/content-delivery-api/media-delivery-api#query-parameters) for more details on this.
-     */
-    fetch?: string;
-    /**
-     * Defines how to filter the fetched media items. Refer to [the documentation](https://docs.umbraco.com/umbraco-cms/reference/content-delivery-api/media-delivery-api#query-parameters) for more details on this.
-     */
-    filter?: Array<(string)>;
-    /**
-     * Specifies the number of found media items to skip. Use this to control pagination of the response.
-     */
-    skip?: number;
-    /**
-     * Defines how to sort the found media items. Refer to [the documentation](https://docs.umbraco.com/umbraco-cms/reference/content-delivery-api/media-delivery-api#query-parameters) for more details on this.
-     */
-    sort?: Array<(string)>;
-    /**
-     * Specifies the number of found media items to take. Use this to control pagination of the response.
-     */
-    take?: number;
-};
-
-export type GetMediaResponse = PagedIApiMediaWithCropsResponseModel;
-
-export type GetMedia20Data = {
-    /**
-     * API key specified through configuration to authorize access to the API.
-     */
-    apiKey?: string;
-    /**
-     * Defines the properties that should be expanded in the response. Refer to [the documentation](https://docs.umbraco.com/umbraco-cms/reference/content-delivery-api/media-delivery-api#query-parameters) for more details on this.
-     */
-    expand?: string;
-    /**
-     * Specifies the media items to fetch. Refer to [the documentation](https://docs.umbraco.com/umbraco-cms/reference/content-delivery-api/media-delivery-api#query-parameters) for more details on this.
-     */
-    fetch?: string;
-    /**
-     * Explicitly defines which properties should be included in the response (by default all properties are included). Refer to [the documentation](https://docs.umbraco.com/umbraco-cms/reference/content-delivery-api/media-delivery-api#query-parameters) for more details on this.
-     */
-    fields?: string;
-    /**
-     * Defines how to filter the fetched media items. Refer to [the documentation](https://docs.umbraco.com/umbraco-cms/reference/content-delivery-api/media-delivery-api#query-parameters) for more details on this.
-     */
-    filter?: Array<(string)>;
-    /**
-     * Specifies the number of found media items to skip. Use this to control pagination of the response.
-     */
-    skip?: number;
-    /**
-     * Defines how to sort the found media items. Refer to [the documentation](https://docs.umbraco.com/umbraco-cms/reference/content-delivery-api/media-delivery-api#query-parameters) for more details on this.
-     */
-    sort?: Array<(string)>;
-    /**
-     * Specifies the number of found media items to take. Use this to control pagination of the response.
-     */
-    take?: number;
-};
-
-export type GetMedia20Response = PagedIApiMediaWithCropsResponseModel;
-
-export type GetMediaItemData = {
-    /**
-     * API key specified through configuration to authorize access to the API.
-     */
-    apiKey?: string;
-    /**
-     * Defines the properties that should be expanded in the response. Refer to [the documentation](https://docs.umbraco.com/umbraco-cms/reference/content-delivery-api/media-delivery-api#query-parameters) for more details on this.
-     */
-    expand?: string;
-    id?: Array<(string)>;
-};
-
-export type GetMediaItemResponse = Array<IApiMediaWithCropsResponseModel>;
-
-export type GetMediaItemByPathData = {
+export type ByPathData = {
     /**
      * API key specified through configuration to authorize access to the API.
      */
@@ -651,9 +603,9 @@ export type GetMediaItemByPathData = {
     path: string;
 };
 
-export type GetMediaItemByPathResponse = IApiMediaWithCropsResponseModel;
+export type ByPathResponse = IApiMediaWithCropsResponseModel;
 
-export type GetMediaItemByPath20Data = {
+export type ByPathV20Data = {
     /**
      * API key specified through configuration to authorize access to the API.
      */
@@ -669,62 +621,12 @@ export type GetMediaItemByPath20Data = {
     path: string;
 };
 
-export type GetMediaItemByPath20Response = IApiMediaWithCropsResponseModel;
-
-export type GetMediaItemByIdData = {
-    /**
-     * API key specified through configuration to authorize access to the API.
-     */
-    apiKey?: string;
-    /**
-     * Defines the properties that should be expanded in the response. Refer to [the documentation](https://docs.umbraco.com/umbraco-cms/reference/content-delivery-api/media-delivery-api#query-parameters) for more details on this.
-     */
-    expand?: string;
-    id: string;
-};
-
-export type GetMediaItemByIdResponse = IApiMediaWithCropsResponseModel;
-
-export type GetMediaItemById20Data = {
-    /**
-     * API key specified through configuration to authorize access to the API.
-     */
-    apiKey?: string;
-    /**
-     * Defines the properties that should be expanded in the response. Refer to [the documentation](https://docs.umbraco.com/umbraco-cms/reference/content-delivery-api/media-delivery-api#query-parameters) for more details on this.
-     */
-    expand?: string;
-    /**
-     * Explicitly defines which properties should be included in the response (by default all properties are included). Refer to [the documentation](https://docs.umbraco.com/umbraco-cms/reference/content-delivery-api/media-delivery-api#query-parameters) for more details on this.
-     */
-    fields?: string;
-    id: string;
-};
-
-export type GetMediaItemById20Response = IApiMediaWithCropsResponseModel;
-
-export type GetMediaItems20Data = {
-    /**
-     * API key specified through configuration to authorize access to the API.
-     */
-    apiKey?: string;
-    /**
-     * Defines the properties that should be expanded in the response. Refer to [the documentation](https://docs.umbraco.com/umbraco-cms/reference/content-delivery-api/media-delivery-api#query-parameters) for more details on this.
-     */
-    expand?: string;
-    /**
-     * Explicitly defines which properties should be included in the response (by default all properties are included). Refer to [the documentation](https://docs.umbraco.com/umbraco-cms/reference/content-delivery-api/media-delivery-api#query-parameters) for more details on this.
-     */
-    fields?: string;
-    id?: Array<(string)>;
-};
-
-export type GetMediaItems20Response = Array<IApiMediaWithCropsResponseModel>;
+export type ByPathV20Response = IApiMediaWithCropsResponseModel;
 
 export type $OpenApiTs = {
     '/umbraco/delivery/api/v1/content': {
         get: {
-            req: GetContentData;
+            req: QueryData;
             res: {
                 /**
                  * OK
@@ -743,7 +645,7 @@ export type $OpenApiTs = {
     };
     '/umbraco/delivery/api/v2/content': {
         get: {
-            req: GetContent20Data;
+            req: QueryV20Data;
             res: {
                 /**
                  * OK
@@ -762,7 +664,7 @@ export type $OpenApiTs = {
     };
     '/umbraco/delivery/api/v1/content/item': {
         get: {
-            req: GetContentItemData;
+            req: ItemData;
             res: {
                 /**
                  * OK
@@ -781,7 +683,7 @@ export type $OpenApiTs = {
     };
     '/umbraco/delivery/api/v1/content/item/{path}': {
         get: {
-            req: GetContentItemByPathData;
+            req: ByRouteData;
             res: {
                 /**
                  * OK
@@ -804,7 +706,7 @@ export type $OpenApiTs = {
     };
     '/umbraco/delivery/api/v2/content/item/{path}': {
         get: {
-            req: GetContentItemByPath20Data;
+            req: ByRouteV20Data;
             res: {
                 /**
                  * OK
@@ -827,7 +729,7 @@ export type $OpenApiTs = {
     };
     '/umbraco/delivery/api/v1/content/item/{id}': {
         get: {
-            req: GetContentItemByIdData;
+            req: ByIdData;
             res: {
                 /**
                  * OK
@@ -850,7 +752,7 @@ export type $OpenApiTs = {
     };
     '/umbraco/delivery/api/v2/content/item/{id}': {
         get: {
-            req: GetContentItemById20Data;
+            req: ByIdV20Data;
             res: {
                 /**
                  * OK
@@ -873,7 +775,7 @@ export type $OpenApiTs = {
     };
     '/umbraco/delivery/api/v2/content/items': {
         get: {
-            req: GetContentItems20Data;
+            req: ItemsV20Data;
             res: {
                 /**
                  * OK
@@ -892,7 +794,7 @@ export type $OpenApiTs = {
     };
     '/umbraco/delivery/api/v1/media': {
         get: {
-            req: GetMediaData;
+            req: QueryData;
             res: {
                 /**
                  * OK
@@ -907,7 +809,7 @@ export type $OpenApiTs = {
     };
     '/umbraco/delivery/api/v2/media': {
         get: {
-            req: GetMedia20Data;
+            req: QueryV20Data;
             res: {
                 /**
                  * OK
@@ -922,7 +824,7 @@ export type $OpenApiTs = {
     };
     '/umbraco/delivery/api/v1/media/item': {
         get: {
-            req: GetMediaItemData;
+            req: ItemData;
             res: {
                 /**
                  * OK
@@ -933,7 +835,7 @@ export type $OpenApiTs = {
     };
     '/umbraco/delivery/api/v1/media/item/{path}': {
         get: {
-            req: GetMediaItemByPathData;
+            req: ByPathData;
             res: {
                 /**
                  * OK
@@ -948,7 +850,7 @@ export type $OpenApiTs = {
     };
     '/umbraco/delivery/api/v2/media/item/{path}': {
         get: {
-            req: GetMediaItemByPath20Data;
+            req: ByPathV20Data;
             res: {
                 /**
                  * OK
@@ -963,7 +865,7 @@ export type $OpenApiTs = {
     };
     '/umbraco/delivery/api/v1/media/item/{id}': {
         get: {
-            req: GetMediaItemByIdData;
+            req: ByIdData;
             res: {
                 /**
                  * OK
@@ -978,7 +880,7 @@ export type $OpenApiTs = {
     };
     '/umbraco/delivery/api/v2/media/item/{id}': {
         get: {
-            req: GetMediaItemById20Data;
+            req: ByIdV20Data;
             res: {
                 /**
                  * OK
@@ -993,7 +895,7 @@ export type $OpenApiTs = {
     };
     '/umbraco/delivery/api/v2/media/items': {
         get: {
-            req: GetMediaItems20Data;
+            req: ItemsV20Data;
             res: {
                 /**
                  * OK

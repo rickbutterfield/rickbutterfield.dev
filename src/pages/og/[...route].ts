@@ -3,7 +3,7 @@ import { OGImageRoute } from 'astro-og-canvas';
 
 OpenAPI.BASE = import.meta.env.PUBLIC_BASE_URL;
 
-const blogPosts = await ContentService.getContent20({
+const blogPosts = await ContentService.queryV20({
   filter: ['contentType:blogPost'],
   sort: ['sortOrder:asc'],
   take: 100
