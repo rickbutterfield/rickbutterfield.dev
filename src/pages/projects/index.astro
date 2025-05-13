@@ -45,11 +45,11 @@ const baseUrl = import.meta.env.PUBLIC_BASE_URL_HTTPS;
           <h2 class="mb-1">{projectPost.name}</h2>
           <Fragment set:html={marked.parse(projectPost.properties.content)} />
 
-          <ul class="flex gap-4 text-chalk-700 dark:text-chalk-200 not-prose">
+          <ul class="flex gap-4 text-chalk-700 dark:text-white dark:text-chalk-200 not-prose">
             {projectPost.properties.gitHubUrl && (
               <li>
                 <a
-                  class="group inline-flex bg-chalk-50 hover:bg-chalk-100 text-sm border border-imperial-primer-100 p-2 rounded-md"
+                  class="group inline-flex bg-chalk-50 hover:bg-chalk-100 dark:bg-imperial-primer-700 hover:dark:bg-imperial-primer-950 text-sm border border-imperial-primer-100 dark:border-imperial-primer-600 p-2 rounded-md"
                   href={projectPost.properties.gitHubUrl[0]?.url}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -71,7 +71,7 @@ const baseUrl = import.meta.env.PUBLIC_BASE_URL_HTTPS;
             {projectPost.properties.nuGetUrl && (
               <li>
                 <a
-                  class="group inline-flex bg-chalk-50 hover:bg-chalk-100 text-sm border border-imperial-primer-100 p-2 rounded-md"
+                  class="group inline-flex bg-chalk-50 hover:bg-chalk-100 dark:bg-imperial-primer-700 hover:dark:bg-imperial-primer-950 text-sm border border-imperial-primer-100 dark:border-imperial-primer-600 p-2 rounded-md"
                   href={projectPost.properties.nuGetUrl[0]?.url}
                   target="_blank"
                   rel="noopener noreferrer"
