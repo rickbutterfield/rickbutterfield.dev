@@ -26,5 +26,13 @@ export default defineConfig({
       status: 301,
       destination: process.env.NODE_ENV === 'production' ? "https://api.rickbutterfield.dev/umbraco" : 'https://localhost:44389/umbraco',
     }
+  },
+  server: {
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET,POST,PUT,DELETE,OPTIONS',
+      'Access-Control-Allow-Headers': '*',
+      'Timing-Allow-Origin': '*'
+    }
   }
 });
