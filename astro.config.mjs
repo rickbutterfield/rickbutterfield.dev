@@ -29,9 +29,6 @@ export default defineConfig({
   },
   server: {
     headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'GET,POST,PUT,DELETE,OPTIONS',
-      'Access-Control-Allow-Headers': '*',
       'Timing-Allow-Origin': '*'
     }
   }
