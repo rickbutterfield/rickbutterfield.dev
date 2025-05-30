@@ -21,8 +21,6 @@ const speakingPosts = await ContentService.queryV20({
   expand: 'properties[$all[properties[featuredImage]]]',
 });
 
-console.log(speakingPosts.items[1].properties?.featuredImage);
-
 const baseUrl = import.meta.env.PUBLIC_BASE_URL_HTTPS;
 ---
 
