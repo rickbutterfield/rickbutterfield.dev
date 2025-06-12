@@ -3,50 +3,9 @@
 import type { CancelablePromise } from './core/CancelablePromise';
 import { OpenAPI } from './core/OpenAPI';
 import { request as __request } from './core/request';
-import type { QueryData, QueryResponse, QueryV20Data, QueryV20Response, ItemData, ItemResponse, ByRouteData, ByRouteResponse, ByRouteV20Data, ByRouteV20Response, ByIdData, ByIdResponse, ByIdV20Data, ByIdV20Response, ItemsV20Data, ItemsV20Response, ByPathData, ByPathResponse, ByPathV20Data, ByPathV20Response } from './types.gen';
+import type { QueryV20Data, QueryV20Response, ByRouteV20Data, ByRouteV20Response, ByIdV20Data, ByIdV20Response, ItemsV20Data, ItemsV20Response, ByPathV20Data, ByPathV20Response } from './types.gen';
 
 export class ContentService {
-    /**
-     * @deprecated
-     * @param data The data for the request.
-     * @param data.fetch Specifies the content items to fetch. Refer to [the documentation](https://docs.umbraco.com/umbraco-cms/reference/content-delivery-api#query-parameters) for more details on this.
-     * @param data.filter Defines how to filter the fetched content items. Refer to [the documentation](https://docs.umbraco.com/umbraco-cms/reference/content-delivery-api#query-parameters) for more details on this.
-     * @param data.sort Defines how to sort the found content items. Refer to [the documentation](https://docs.umbraco.com/umbraco-cms/reference/content-delivery-api#query-parameters) for more details on this.
-     * @param data.skip Specifies the number of found content items to skip. Use this to control pagination of the response.
-     * @param data.take Specifies the number of found content items to take. Use this to control pagination of the response.
-     * @param data.expand Defines the properties that should be expanded in the response. Refer to [the documentation](https://docs.umbraco.com/umbraco-cms/reference/content-delivery-api#query-parameters) for more details on this.
-     * @param data.acceptLanguage Defines the language to return. Use this when querying language variant content items.
-     * @param data.apiKey API key specified through configuration to authorize access to the API.
-     * @param data.preview Whether to request draft content.
-     * @param data.startItem URL segment or GUID of a root content item.
-     * @returns PagedIApiContentResponseModel OK
-     * @throws ApiError
-     */
-    public static query(data: QueryData = {}): CancelablePromise<QueryResponse> {
-        return __request(OpenAPI, {
-            method: 'GET',
-            url: '/umbraco/delivery/api/v1/content',
-            headers: {
-                'Accept-Language': data.acceptLanguage,
-                'Api-Key': data.apiKey,
-                Preview: data.preview,
-                'Start-Item': data.startItem
-            },
-            query: {
-                fetch: data.fetch,
-                filter: data.filter,
-                sort: data.sort,
-                skip: data.skip,
-                take: data.take,
-                expand: data.expand
-            },
-            errors: {
-                400: 'Bad Request',
-                404: 'Not Found'
-            }
-        });
-    }
-    
     /**
      * @param data The data for the request.
      * @param data.fetch Specifies the content items to fetch. Refer to [the documentation](https://docs.umbraco.com/umbraco-cms/reference/content-delivery-api#query-parameters) for more details on this.
@@ -57,6 +16,7 @@ export class ContentService {
      * @param data.expand Defines the properties that should be expanded in the response. Refer to [the documentation](https://docs.umbraco.com/umbraco-cms/reference/content-delivery-api#query-parameters) for more details on this.
      * @param data.fields Explicitly defines which properties should be included in the response (by default all properties are included). Refer to [the documentation](https://docs.umbraco.com/umbraco-cms/reference/content-delivery-api#query-parameters) for more details on this.
      * @param data.acceptLanguage Defines the language to return. Use this when querying language variant content items.
+     * @param data.acceptSegment Defines the segment to return. Use this when querying segment variant content items.
      * @param data.apiKey API key specified through configuration to authorize access to the API.
      * @param data.preview Whether to request draft content.
      * @param data.startItem URL segment or GUID of a root content item.
@@ -69,6 +29,7 @@ export class ContentService {
             url: '/umbraco/delivery/api/v2/content',
             headers: {
                 'Accept-Language': data.acceptLanguage,
+                'Accept-Segment': data.acceptSegment,
                 'Api-Key': data.apiKey,
                 Preview: data.preview,
                 'Start-Item': data.startItem
@@ -90,80 +51,12 @@ export class ContentService {
     }
     
     /**
-     * @deprecated
-     * @param data The data for the request.
-     * @param data.id
-     * @param data.expand Defines the properties that should be expanded in the response. Refer to [the documentation](https://docs.umbraco.com/umbraco-cms/reference/content-delivery-api#query-parameters) for more details on this.
-     * @param data.acceptLanguage Defines the language to return. Use this when querying language variant content items.
-     * @param data.apiKey API key specified through configuration to authorize access to the API.
-     * @param data.preview Whether to request draft content.
-     * @param data.startItem URL segment or GUID of a root content item.
-     * @returns IApiContentResponseModel OK
-     * @throws ApiError
-     */
-    public static item(data: ItemData = {}): CancelablePromise<ItemResponse> {
-        return __request(OpenAPI, {
-            method: 'GET',
-            url: '/umbraco/delivery/api/v1/content/item',
-            headers: {
-                'Accept-Language': data.acceptLanguage,
-                'Api-Key': data.apiKey,
-                Preview: data.preview,
-                'Start-Item': data.startItem
-            },
-            query: {
-                id: data.id,
-                expand: data.expand
-            },
-            errors: {
-                401: 'Unauthorized',
-                403: 'Forbidden'
-            }
-        });
-    }
-    
-    /**
-     * @deprecated
-     * @param data The data for the request.
-     * @param data.path
-     * @param data.expand Defines the properties that should be expanded in the response. Refer to [the documentation](https://docs.umbraco.com/umbraco-cms/reference/content-delivery-api#query-parameters) for more details on this.
-     * @param data.acceptLanguage Defines the language to return. Use this when querying language variant content items.
-     * @param data.apiKey API key specified through configuration to authorize access to the API.
-     * @param data.preview Whether to request draft content.
-     * @param data.startItem URL segment or GUID of a root content item.
-     * @returns IApiContentResponseModel OK
-     * @throws ApiError
-     */
-    public static byRoute(data: ByRouteData): CancelablePromise<ByRouteResponse> {
-        return __request(OpenAPI, {
-            method: 'GET',
-            url: '/umbraco/delivery/api/v1/content/item/{path}',
-            path: {
-                path: data.path
-            },
-            headers: {
-                'Accept-Language': data.acceptLanguage,
-                'Api-Key': data.apiKey,
-                Preview: data.preview,
-                'Start-Item': data.startItem
-            },
-            query: {
-                expand: data.expand
-            },
-            errors: {
-                401: 'Unauthorized',
-                403: 'Forbidden',
-                404: 'Not Found'
-            }
-        });
-    }
-    
-    /**
      * @param data The data for the request.
      * @param data.path
      * @param data.expand Defines the properties that should be expanded in the response. Refer to [the documentation](https://docs.umbraco.com/umbraco-cms/reference/content-delivery-api#query-parameters) for more details on this.
      * @param data.fields Explicitly defines which properties should be included in the response (by default all properties are included). Refer to [the documentation](https://docs.umbraco.com/umbraco-cms/reference/content-delivery-api#query-parameters) for more details on this.
      * @param data.acceptLanguage Defines the language to return. Use this when querying language variant content items.
+     * @param data.acceptSegment Defines the segment to return. Use this when querying segment variant content items.
      * @param data.apiKey API key specified through configuration to authorize access to the API.
      * @param data.preview Whether to request draft content.
      * @param data.startItem URL segment or GUID of a root content item.
@@ -179,6 +72,7 @@ export class ContentService {
             },
             headers: {
                 'Accept-Language': data.acceptLanguage,
+                'Accept-Segment': data.acceptSegment,
                 'Api-Key': data.apiKey,
                 Preview: data.preview,
                 'Start-Item': data.startItem
@@ -196,47 +90,12 @@ export class ContentService {
     }
     
     /**
-     * @deprecated
-     * @param data The data for the request.
-     * @param data.id
-     * @param data.expand Defines the properties that should be expanded in the response. Refer to [the documentation](https://docs.umbraco.com/umbraco-cms/reference/content-delivery-api#query-parameters) for more details on this.
-     * @param data.acceptLanguage Defines the language to return. Use this when querying language variant content items.
-     * @param data.apiKey API key specified through configuration to authorize access to the API.
-     * @param data.preview Whether to request draft content.
-     * @param data.startItem URL segment or GUID of a root content item.
-     * @returns IApiContentResponseModel OK
-     * @throws ApiError
-     */
-    public static byId(data: ByIdData): CancelablePromise<ByIdResponse> {
-        return __request(OpenAPI, {
-            method: 'GET',
-            url: '/umbraco/delivery/api/v1/content/item/{id}',
-            path: {
-                id: data.id
-            },
-            headers: {
-                'Accept-Language': data.acceptLanguage,
-                'Api-Key': data.apiKey,
-                Preview: data.preview,
-                'Start-Item': data.startItem
-            },
-            query: {
-                expand: data.expand
-            },
-            errors: {
-                401: 'Unauthorized',
-                403: 'Forbidden',
-                404: 'Not Found'
-            }
-        });
-    }
-    
-    /**
      * @param data The data for the request.
      * @param data.id
      * @param data.expand Defines the properties that should be expanded in the response. Refer to [the documentation](https://docs.umbraco.com/umbraco-cms/reference/content-delivery-api#query-parameters) for more details on this.
      * @param data.fields Explicitly defines which properties should be included in the response (by default all properties are included). Refer to [the documentation](https://docs.umbraco.com/umbraco-cms/reference/content-delivery-api#query-parameters) for more details on this.
      * @param data.acceptLanguage Defines the language to return. Use this when querying language variant content items.
+     * @param data.acceptSegment Defines the segment to return. Use this when querying segment variant content items.
      * @param data.apiKey API key specified through configuration to authorize access to the API.
      * @param data.preview Whether to request draft content.
      * @param data.startItem URL segment or GUID of a root content item.
@@ -252,6 +111,7 @@ export class ContentService {
             },
             headers: {
                 'Accept-Language': data.acceptLanguage,
+                'Accept-Segment': data.acceptSegment,
                 'Api-Key': data.apiKey,
                 Preview: data.preview,
                 'Start-Item': data.startItem
@@ -274,6 +134,7 @@ export class ContentService {
      * @param data.expand Defines the properties that should be expanded in the response. Refer to [the documentation](https://docs.umbraco.com/umbraco-cms/reference/content-delivery-api#query-parameters) for more details on this.
      * @param data.fields Explicitly defines which properties should be included in the response (by default all properties are included). Refer to [the documentation](https://docs.umbraco.com/umbraco-cms/reference/content-delivery-api#query-parameters) for more details on this.
      * @param data.acceptLanguage Defines the language to return. Use this when querying language variant content items.
+     * @param data.acceptSegment Defines the segment to return. Use this when querying segment variant content items.
      * @param data.apiKey API key specified through configuration to authorize access to the API.
      * @param data.preview Whether to request draft content.
      * @param data.startItem URL segment or GUID of a root content item.
@@ -286,6 +147,7 @@ export class ContentService {
             url: '/umbraco/delivery/api/v2/content/items',
             headers: {
                 'Accept-Language': data.acceptLanguage,
+                'Accept-Segment': data.acceptSegment,
                 'Api-Key': data.apiKey,
                 Preview: data.preview,
                 'Start-Item': data.startItem
@@ -305,40 +167,6 @@ export class ContentService {
 }
 
 export class MediaService {
-    /**
-     * @deprecated
-     * @param data The data for the request.
-     * @param data.fetch Specifies the media items to fetch. Refer to [the documentation](https://docs.umbraco.com/umbraco-cms/reference/content-delivery-api/media-delivery-api#query-parameters) for more details on this.
-     * @param data.filter Defines how to filter the fetched media items. Refer to [the documentation](https://docs.umbraco.com/umbraco-cms/reference/content-delivery-api/media-delivery-api#query-parameters) for more details on this.
-     * @param data.sort Defines how to sort the found media items. Refer to [the documentation](https://docs.umbraco.com/umbraco-cms/reference/content-delivery-api/media-delivery-api#query-parameters) for more details on this.
-     * @param data.skip Specifies the number of found media items to skip. Use this to control pagination of the response.
-     * @param data.take Specifies the number of found media items to take. Use this to control pagination of the response.
-     * @param data.expand Defines the properties that should be expanded in the response. Refer to [the documentation](https://docs.umbraco.com/umbraco-cms/reference/content-delivery-api/media-delivery-api#query-parameters) for more details on this.
-     * @param data.apiKey API key specified through configuration to authorize access to the API.
-     * @returns PagedIApiMediaWithCropsResponseModel OK
-     * @throws ApiError
-     */
-    public static query(data: QueryData = {}): CancelablePromise<QueryResponse> {
-        return __request(OpenAPI, {
-            method: 'GET',
-            url: '/umbraco/delivery/api/v1/media',
-            headers: {
-                'Api-Key': data.apiKey
-            },
-            query: {
-                fetch: data.fetch,
-                filter: data.filter,
-                sort: data.sort,
-                skip: data.skip,
-                take: data.take,
-                expand: data.expand
-            },
-            errors: {
-                400: 'Bad Request'
-            }
-        });
-    }
-    
     /**
      * @param data The data for the request.
      * @param data.fetch Specifies the media items to fetch. Refer to [the documentation](https://docs.umbraco.com/umbraco-cms/reference/content-delivery-api/media-delivery-api#query-parameters) for more details on this.
@@ -375,57 +203,6 @@ export class MediaService {
     }
     
     /**
-     * @deprecated
-     * @param data The data for the request.
-     * @param data.id
-     * @param data.expand Defines the properties that should be expanded in the response. Refer to [the documentation](https://docs.umbraco.com/umbraco-cms/reference/content-delivery-api/media-delivery-api#query-parameters) for more details on this.
-     * @param data.apiKey API key specified through configuration to authorize access to the API.
-     * @returns IApiMediaWithCropsResponseModel OK
-     * @throws ApiError
-     */
-    public static item(data: ItemData = {}): CancelablePromise<ItemResponse> {
-        return __request(OpenAPI, {
-            method: 'GET',
-            url: '/umbraco/delivery/api/v1/media/item',
-            headers: {
-                'Api-Key': data.apiKey
-            },
-            query: {
-                id: data.id,
-                expand: data.expand
-            }
-        });
-    }
-    
-    /**
-     * @deprecated
-     * @param data The data for the request.
-     * @param data.path
-     * @param data.expand Defines the properties that should be expanded in the response. Refer to [the documentation](https://docs.umbraco.com/umbraco-cms/reference/content-delivery-api/media-delivery-api#query-parameters) for more details on this.
-     * @param data.apiKey API key specified through configuration to authorize access to the API.
-     * @returns IApiMediaWithCropsResponseModel OK
-     * @throws ApiError
-     */
-    public static byPath(data: ByPathData): CancelablePromise<ByPathResponse> {
-        return __request(OpenAPI, {
-            method: 'GET',
-            url: '/umbraco/delivery/api/v1/media/item/{path}',
-            path: {
-                path: data.path
-            },
-            headers: {
-                'Api-Key': data.apiKey
-            },
-            query: {
-                expand: data.expand
-            },
-            errors: {
-                404: 'Not Found'
-            }
-        });
-    }
-    
-    /**
      * @param data The data for the request.
      * @param data.path
      * @param data.expand Defines the properties that should be expanded in the response. Refer to [the documentation](https://docs.umbraco.com/umbraco-cms/reference/content-delivery-api/media-delivery-api#query-parameters) for more details on this.
@@ -447,34 +224,6 @@ export class MediaService {
             query: {
                 expand: data.expand,
                 fields: data.fields
-            },
-            errors: {
-                404: 'Not Found'
-            }
-        });
-    }
-    
-    /**
-     * @deprecated
-     * @param data The data for the request.
-     * @param data.id
-     * @param data.expand Defines the properties that should be expanded in the response. Refer to [the documentation](https://docs.umbraco.com/umbraco-cms/reference/content-delivery-api/media-delivery-api#query-parameters) for more details on this.
-     * @param data.apiKey API key specified through configuration to authorize access to the API.
-     * @returns IApiMediaWithCropsResponseModel OK
-     * @throws ApiError
-     */
-    public static byId(data: ByIdData): CancelablePromise<ByIdResponse> {
-        return __request(OpenAPI, {
-            method: 'GET',
-            url: '/umbraco/delivery/api/v1/media/item/{id}',
-            path: {
-                id: data.id
-            },
-            headers: {
-                'Api-Key': data.apiKey
-            },
-            query: {
-                expand: data.expand
             },
             errors: {
                 404: 'Not Found'

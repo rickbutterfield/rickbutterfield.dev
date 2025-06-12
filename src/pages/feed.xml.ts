@@ -78,7 +78,7 @@ export async function GET(context) {
       title: post.properties?.title,
       link: post.route.path,
       pubDate: new Date(post.properties?.publishedDate),
-      description: post.properties?.content,
+      description: post.properties?.content ?? "",
       content: renderGridContent(post.properties?.grid, post.properties?.content)
     }
   });

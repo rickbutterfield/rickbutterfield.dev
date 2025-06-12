@@ -35,7 +35,7 @@
   "devDependencies": {
     "@astrojs/lit": "^4.3.0",
     "@astrojs/node": "^9.2.0",
-    "@hey-api/openapi-ts": "^0.48.1",
+    "@hey-api/openapi-ts": "^0.61.3",
     "@tailwindcss/typography": "^0.5.11",
     "@tgwf/gridintensity-polyfill": "^0.0.7",
     "highlight.js": "^11.9.0",

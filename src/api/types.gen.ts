@@ -30,7 +30,7 @@ export type ApiBlockListModel = {
 
 export type ApiContentRouteModel = {
     path: string;
-    startItem: ApiContentStartItemModel;
+    startItem: (ApiContentStartItemModel);
 };
 
 export type ApiContentStartItemModel = {
@@ -39,13 +39,13 @@ export type ApiContentStartItemModel = {
 };
 
 export type ApiLinkModel = {
-    readonly url?: string | null;
-    readonly queryString?: string | null;
-    readonly title?: string | null;
-    readonly target?: string | null;
-    readonly destinationId?: string | null;
-    readonly destinationType?: string | null;
-    readonly route?: ApiContentRouteModel | null;
+    readonly url?: (string) | null;
+    readonly queryString?: (string) | null;
+    readonly title?: (string) | null;
+    readonly target?: (string) | null;
+    readonly destinationId?: (string) | null;
+    readonly destinationType?: (string) | null;
+    readonly route?: ((ApiContentRouteModel) | null);
     linkType: LinkTypeModel;
 };
 
@@ -56,7 +56,7 @@ export type BlogPostContentModel = IApiContentModelBase & {
 export type BlogPostContentResponseModel = IApiContentResponseModelBase & BlogPostContentModel;
 
 export type BlogPostPropertiesModel = PageSettingsPropertiesModel & PageContentPropertiesModel & {
-    publishedDate?: string | null;
+    publishedDate?: (string) | null;
 };
 
 export type BlogsPageContentModel = IApiContentModelBase & {
@@ -67,17 +67,6 @@ export type BlogsPageContentResponseModel = IApiContentResponseModelBase & Blogs
 
 export type BlogsPagePropertiesModel = PageSettingsPropertiesModel & PageContentPropertiesModel;
 
-export type CVentryElementModel = IApiElementModelBase & {
-    properties?: CVentryPropertiesModel;
-};
-
-export type CVentryPropertiesModel = {
-    employerName?: string | null;
-    startDate?: string | null;
-    endDate?: string | null;
-    jobDescription?: string | null;
-};
-
 export type ContentPageContentModel = IApiContentModelBase & {
     properties?: ContentPagePropertiesModel;
 };
@@ -85,6 +74,17 @@ export type ContentPageContentModel = IApiContentModelBase & {
 export type ContentPageContentResponseModel = IApiContentResponseModelBase & ContentPageContentModel;
 
 export type ContentPagePropertiesModel = PageSettingsPropertiesModel & PageContentPropertiesModel;
+
+export type CVentryElementModel = IApiElementModelBase & {
+    properties?: CVentryPropertiesModel;
+};
+
+export type CVentryPropertiesModel = {
+    employerName?: (string) | null;
+    startDate?: (string) | null;
+    endDate?: (string) | null;
+    jobDescription?: (string) | null;
+};
 
 export type EmploymentHistoryElementModel = IApiElementModelBase & {
     properties?: EmploymentHistoryPropertiesModel;
@@ -99,9 +99,9 @@ export type EventInfoElementModel = IApiElementModelBase & {
 };
 
 export type EventInfoPropertiesModel = {
-    eventName?: string | null;
-    eventDate?: string | null;
-    eventUrl?: string | null;
+    eventName?: (string) | null;
+    eventDate?: (string) | null;
+    eventUrl?: (string) | null;
 };
 
 export type HomePageContentModel = IApiContentModelBase & {
@@ -124,29 +124,32 @@ export type IApiContentModel = ContentPageContentModel | HomePageContentModel | 
 export type IApiContentModelBase = IApiElementModelBase & {
     readonly id: string;
     readonly contentType: string;
-    readonly name?: string | null;
+    readonly name?: (string) | null;
     readonly createDate: string;
     readonly updateDate: string;
-    readonly route: ApiContentRouteModel;
+    readonly route: (ApiContentRouteModel);
 };
 
 export type IApiContentResponseModel = ContentPageContentResponseModel | HomePageContentResponseModel | SpeakingPageContentResponseModel | BlogPostContentResponseModel | SpeakingPostContentResponseModel | BlogsPageContentResponseModel | ProjectsPageContentResponseModel | ProjectPostContentResponseModel;
 
 export type IApiContentResponseModelBase = IApiContentModelBase & {
+    /**
+     *
+     */
     properties: {
         readonly id: string;
         readonly contentType: string;
-        readonly name?: string | null;
+        readonly name?: (string) | null;
         readonly createDate: string;
         readonly updateDate: string;
-        readonly route: ApiContentRouteModel;
+        readonly route: (ApiContentRouteModel);
     };
     readonly id: string;
     readonly contentType: string;
-    readonly name?: string | null;
+    readonly name?: (string) | null;
     readonly createDate: string;
     readonly updateDate: string;
-    readonly route: ApiContentRouteModel;
+    readonly route: (ApiContentRouteModel);
     readonly cultures: {
         [key: string]: (ApiContentRouteModel);
     };
@@ -164,10 +167,10 @@ export type IApiMediaWithCropsModel = {
     readonly name: string;
     readonly mediaType: string;
     readonly url: string;
-    readonly extension?: string | null;
-    readonly width?: number | null;
-    readonly height?: number | null;
-    readonly bytes?: number | null;
+    readonly extension?: (string) | null;
+    readonly width?: (number) | null;
+    readonly height?: (number) | null;
+    readonly bytes?: (number) | null;
     readonly properties: {
         [key: string]: unknown;
     };
@@ -180,10 +183,10 @@ export type IApiMediaWithCropsResponseModel = {
     readonly name: string;
     readonly mediaType: string;
     readonly url: string;
-    readonly extension?: string | null;
-    readonly width?: number | null;
-    readonly height?: number | null;
-    readonly bytes?: number | null;
+    readonly extension?: (string) | null;
+    readonly width?: (number) | null;
+    readonly height?: (number) | null;
+    readonly bytes?: (number) | null;
     readonly properties: {
         [key: string]: unknown;
     };
@@ -202,7 +205,7 @@ export type ImageCropCoordinatesModel = {
 };
 
 export type ImageCropModel = {
-    alias?: string | null;
+    alias?: (string) | null;
     width: number;
     height: number;
     coordinates?: ImageCropCoordinatesModel;
@@ -219,7 +222,7 @@ export type ImageWithCaptionElementModel = IApiElementModelBase & {
 
 export type ImageWithCaptionPropertiesModel = {
     image?: Array<IApiMediaWithCropsModel> | null;
-    caption?: string | null;
+    caption?: (string) | null;
 };
 
 export enum LinkTypeModel {
@@ -234,18 +237,9 @@ export type PageContentElementModel = IApiElementModelBase & {
 
 export type PageContentPropertiesModel = {
     featuredImage?: Array<IApiMediaWithCropsModel> | null;
-    title?: string | null;
-    content?: string | null;
+    title?: (string) | null;
+    content?: (string) | null;
     grid?: ApiBlockGridModel;
-};
-
-export type PageSettingsElementModel = IApiElementModelBase & {
-    properties?: PageSettingsPropertiesModel;
-};
-
-export type PageSettingsPropertiesModel = {
-    umbracoUrlName?: string | null;
-    umbracoUrlAlias?: string | null;
 };
 
 export type PagedIApiContentResponseModel = {
@@ -258,12 +252,21 @@ export type PagedIApiMediaWithCropsResponseModel = {
     items: Array<IApiMediaWithCropsResponseModel>;
 };
 
+export type PageSettingsElementModel = IApiElementModelBase & {
+    properties?: PageSettingsPropertiesModel;
+};
+
+export type PageSettingsPropertiesModel = {
+    umbracoUrlName?: (string) | null;
+    umbracoUrlAlias?: (string) | null;
+};
+
 export type ProblemDetails = {
-    type?: string | null;
-    title?: string | null;
-    status?: number | null;
-    detail?: string | null;
-    instance?: string | null;
+    type?: (string) | null;
+    title?: (string) | null;
+    status?: (number) | null;
+    detail?: (string) | null;
+    instance?: (string) | null;
     [key: string]: (unknown | string | number) | undefined;
 };
 
@@ -291,7 +294,7 @@ export type RichTextElementModel = IApiElementModelBase & {
 };
 
 export type RichTextPropertiesModel = {
-    content?: string | null;
+    content?: (string) | null;
 };
 
 export type SpeakingPageContentModel = IApiContentModelBase & {
@@ -317,8 +320,8 @@ export type UpdateAlertElementModel = IApiElementModelBase & {
 };
 
 export type UpdateAlertPropertiesModel = {
-    date?: string | null;
-    content?: string | null;
+    date?: (string) | null;
+    content?: (string) | null;
 };
 
 export type YouTubeVideoElementModel = IApiElementModelBase & {
@@ -326,53 +329,8 @@ export type YouTubeVideoElementModel = IApiElementModelBase & {
 };
 
 export type YouTubeVideoPropertiesModel = {
-    videoID?: string | null;
+    videoID?: (string) | null;
 };
-
-export type QueryData = {
-    /**
-     * Defines the language to return. Use this when querying language variant content items.
-     */
-    acceptLanguage?: string;
-    /**
-     * API key specified through configuration to authorize access to the API.
-     */
-    apiKey?: string;
-    /**
-     * Defines the properties that should be expanded in the response. Refer to [the documentation](https://docs.umbraco.com/umbraco-cms/reference/content-delivery-api#query-parameters) for more details on this.
-     */
-    expand?: string;
-    /**
-     * Specifies the content items to fetch. Refer to [the documentation](https://docs.umbraco.com/umbraco-cms/reference/content-delivery-api#query-parameters) for more details on this.
-     */
-    fetch?: string;
-    /**
-     * Defines how to filter the fetched content items. Refer to [the documentation](https://docs.umbraco.com/umbraco-cms/reference/content-delivery-api#query-parameters) for more details on this.
-     */
-    filter?: Array<(string)>;
-    /**
-     * Whether to request draft content.
-     */
-    preview?: boolean;
-    /**
-     * Specifies the number of found content items to skip. Use this to control pagination of the response.
-     */
-    skip?: number;
-    /**
-     * Defines how to sort the found content items. Refer to [the documentation](https://docs.umbraco.com/umbraco-cms/reference/content-delivery-api#query-parameters) for more details on this.
-     */
-    sort?: Array<(string)>;
-    /**
-     * URL segment or GUID of a root content item.
-     */
-    startItem?: string;
-    /**
-     * Specifies the number of found content items to take. Use this to control pagination of the response.
-     */
-    take?: number;
-};
-
-export type QueryResponse = PagedIApiContentResponseModel;
 
 export type QueryV20Data = {
     /**
@@ -380,6 +338,10 @@ export type QueryV20Data = {
      */
     acceptLanguage?: string;
     /**
+     * Defines the segment to return. Use this when querying segment variant content items.
+     */
+    acceptSegment?: string;
+    /**
      * API key specified through configuration to authorize access to the API.
      */
     apiKey?: string;
@@ -421,59 +383,7 @@ export type QueryV20Data = {
     take?: number;
 };
 
-export type QueryV20Response = PagedIApiContentResponseModel;
-
-export type ItemData = {
-    /**
-     * Defines the language to return. Use this when querying language variant content items.
-     */
-    acceptLanguage?: string;
-    /**
-     * API key specified through configuration to authorize access to the API.
-     */
-    apiKey?: string;
-    /**
-     * Defines the properties that should be expanded in the response. Refer to [the documentation](https://docs.umbraco.com/umbraco-cms/reference/content-delivery-api#query-parameters) for more details on this.
-     */
-    expand?: string;
-    id?: Array<(string)>;
-    /**
-     * Whether to request draft content.
-     */
-    preview?: boolean;
-    /**
-     * URL segment or GUID of a root content item.
-     */
-    startItem?: string;
-};
-
-export type ItemResponse = Array<IApiContentResponseModel>;
-
-export type ByRouteData = {
-    /**
-     * Defines the language to return. Use this when querying language variant content items.
-     */
-    acceptLanguage?: string;
-    /**
-     * API key specified through configuration to authorize access to the API.
-     */
-    apiKey?: string;
-    /**
-     * Defines the properties that should be expanded in the response. Refer to [the documentation](https://docs.umbraco.com/umbraco-cms/reference/content-delivery-api#query-parameters) for more details on this.
-     */
-    expand?: string;
-    path: string;
-    /**
-     * Whether to request draft content.
-     */
-    preview?: boolean;
-    /**
-     * URL segment or GUID of a root content item.
-     */
-    startItem?: string;
-};
-
-export type ByRouteResponse = IApiContentResponseModel;
+export type QueryV20Response = (PagedIApiContentResponseModel);
 
 export type ByRouteV20Data = {
     /**
@@ -481,6 +391,10 @@ export type ByRouteV20Data = {
      */
     acceptLanguage?: string;
     /**
+     * Defines the segment to return. Use this when querying segment variant content items.
+     */
+    acceptSegment?: string;
+    /**
      * API key specified through configuration to authorize access to the API.
      */
     apiKey?: string;
@@ -503,39 +417,17 @@ export type ByRouteV20Data = {
     startItem?: string;
 };
 
-export type ByRouteV20Response = IApiContentResponseModel;
-
-export type ByIdData = {
-    /**
-     * Defines the language to return. Use this when querying language variant content items.
-     */
-    acceptLanguage?: string;
-    /**
-     * API key specified through configuration to authorize access to the API.
-     */
-    apiKey?: string;
-    /**
-     * Defines the properties that should be expanded in the response. Refer to [the documentation](https://docs.umbraco.com/umbraco-cms/reference/content-delivery-api#query-parameters) for more details on this.
-     */
-    expand?: string;
-    id: string;
-    /**
-     * Whether to request draft content.
-     */
-    preview?: boolean;
-    /**
-     * URL segment or GUID of a root content item.
-     */
-    startItem?: string;
-};
-
-export type ByIdResponse = IApiContentResponseModel;
+export type ByRouteV20Response = (IApiContentResponseModel);
 
 export type ByIdV20Data = {
     /**
      * Defines the language to return. Use this when querying language variant content items.
      */
     acceptLanguage?: string;
+    /**
+     * Defines the segment to return. Use this when querying segment variant content items.
+     */
+    acceptSegment?: string;
     /**
      * API key specified through configuration to authorize access to the API.
      */
@@ -559,13 +451,17 @@ export type ByIdV20Data = {
     startItem?: string;
 };
 
-export type ByIdV20Response = IApiContentResponseModel;
+export type ByIdV20Response = (IApiContentResponseModel);
 
 export type ItemsV20Data = {
     /**
      * Defines the language to return. Use this when querying language variant content items.
      */
     acceptLanguage?: string;
+    /**
+     * Defines the segment to return. Use this when querying segment variant content items.
+     */
+    acceptSegment?: string;
     /**
      * API key specified through configuration to authorize access to the API.
      */
@@ -589,21 +485,7 @@ export type ItemsV20Data = {
     startItem?: string;
 };
 
-export type ItemsV20Response = Array<IApiContentResponseModel>;
-
-export type ByPathData = {
-    /**
-     * API key specified through configuration to authorize access to the API.
-     */
-    apiKey?: string;
-    /**
-     * Defines the properties that should be expanded in the response. Refer to [the documentation](https://docs.umbraco.com/umbraco-cms/reference/content-delivery-api/media-delivery-api#query-parameters) for more details on this.
-     */
-    expand?: string;
-    path: string;
-};
-
-export type ByPathResponse = IApiMediaWithCropsResponseModel;
+export type ItemsV20Response = (Array<IApiContentResponseModel>);
 
 export type ByPathV20Data = {
     /**
@@ -621,287 +503,4 @@ export type ByPathV20Data = {
     path: string;
 };
 
-export type ByPathV20Response = IApiMediaWithCropsResponseModel;
-
-export type $OpenApiTs = {
-    '/umbraco/delivery/api/v1/content': {
-        get: {
-            req: QueryData;
-            res: {
-                /**
-                 * OK
-                 */
-                200: PagedIApiContentResponseModel;
-                /**
-                 * Bad Request
-                 */
-                400: ProblemDetails | HttpValidationProblemDetails;
-                /**
-                 * Not Found
-                 */
-                404: unknown;
-            };
-        };
-    };
-    '/umbraco/delivery/api/v2/content': {
-        get: {
-            req: QueryV20Data;
-            res: {
-                /**
-                 * OK
-                 */
-                200: PagedIApiContentResponseModel;
-                /**
-                 * Bad Request
-                 */
-                400: ProblemDetails | HttpValidationProblemDetails;
-                /**
-                 * Not Found
-                 */
-                404: unknown;
-            };
-        };
-    };
-    '/umbraco/delivery/api/v1/content/item': {
-        get: {
-            req: ItemData;
-            res: {
-                /**
-                 * OK
-                 */
-                200: Array<IApiContentResponseModel>;
-                /**
-                 * Unauthorized
-                 */
-                401: unknown;
-                /**
-                 * Forbidden
-                 */
-                403: unknown;
-            };
-        };
-    };
-    '/umbraco/delivery/api/v1/content/item/{path}': {
-        get: {
-            req: ByRouteData;
-            res: {
-                /**
-                 * OK
-                 */
-                200: IApiContentResponseModel;
-                /**
-                 * Unauthorized
-                 */
-                401: unknown;
-                /**
-                 * Forbidden
-                 */
-                403: unknown;
-                /**
-                 * Not Found
-                 */
-                404: unknown;
-            };
-        };
-    };
-    '/umbraco/delivery/api/v2/content/item/{path}': {
-        get: {
-            req: ByRouteV20Data;
-            res: {
-                /**
-                 * OK
-                 */
-                200: IApiContentResponseModel;
-                /**
-                 * Unauthorized
-                 */
-                401: unknown;
-                /**
-                 * Forbidden
-                 */
-                403: unknown;
-                /**
-                 * Not Found
-                 */
-                404: unknown;
-            };
-        };
-    };
-    '/umbraco/delivery/api/v1/content/item/{id}': {
-        get: {
-            req: ByIdData;
-            res: {
-                /**
-                 * OK
-                 */
-                200: IApiContentResponseModel;
-                /**
-                 * Unauthorized
-                 */
-                401: unknown;
-                /**
-                 * Forbidden
-                 */
-                403: unknown;
-                /**
-                 * Not Found
-                 */
-                404: unknown;
-            };
-        };
-    };
-    '/umbraco/delivery/api/v2/content/item/{id}': {
-        get: {
-            req: ByIdV20Data;
-            res: {
-                /**
-                 * OK
-                 */
-                200: IApiContentResponseModel;
-                /**
-                 * Unauthorized
-                 */
-                401: unknown;
-                /**
-                 * Forbidden
-                 */
-                403: unknown;
-                /**
-                 * Not Found
-                 */
-                404: unknown;
-            };
-        };
-    };
-    '/umbraco/delivery/api/v2/content/items': {
-        get: {
-            req: ItemsV20Data;
-            res: {
-                /**
-                 * OK
-                 */
-                200: Array<IApiContentResponseModel>;
-                /**
-                 * Unauthorized
-                 */
-                401: unknown;
-                /**
-                 * Forbidden
-                 */
-                403: unknown;
-            };
-        };
-    };
-    '/umbraco/delivery/api/v1/media': {
-        get: {
-            req: QueryData;
-            res: {
-                /**
-                 * OK
-                 */
-                200: PagedIApiMediaWithCropsResponseModel;
-                /**
-                 * Bad Request
-                 */
-                400: ProblemDetails | HttpValidationProblemDetails;
-            };
-        };
-    };
-    '/umbraco/delivery/api/v2/media': {
-        get: {
-            req: QueryV20Data;
-            res: {
-                /**
-                 * OK
-                 */
-                200: PagedIApiMediaWithCropsResponseModel;
-                /**
-                 * Bad Request
-                 */
-                400: ProblemDetails | HttpValidationProblemDetails;
-            };
-        };
-    };
-    '/umbraco/delivery/api/v1/media/item': {
-        get: {
-            req: ItemData;
-            res: {
-                /**
-                 * OK
-                 */
-                200: Array<IApiMediaWithCropsResponseModel>;
-            };
-        };
-    };
-    '/umbraco/delivery/api/v1/media/item/{path}': {
-        get: {
-            req: ByPathData;
-            res: {
-                /**
-                 * OK
-                 */
-                200: IApiMediaWithCropsResponseModel;
-                /**
-                 * Not Found
-                 */
-                404: unknown;
-            };
-        };
-    };
-    '/umbraco/delivery/api/v2/media/item/{path}': {
-        get: {
-            req: ByPathV20Data;
-            res: {
-                /**
-                 * OK
-                 */
-                200: IApiMediaWithCropsResponseModel;
-                /**
-                 * Not Found
-                 */
-                404: unknown;
-            };
-        };
-    };
-    '/umbraco/delivery/api/v1/media/item/{id}': {
-        get: {
-            req: ByIdData;
-            res: {
-                /**
-                 * OK
-                 */
-                200: IApiMediaWithCropsResponseModel;
-                /**
-                 * Not Found
-                 */
-                404: unknown;
-            };
-        };
-    };
-    '/umbraco/delivery/api/v2/media/item/{id}': {
-        get: {
-            req: ByIdV20Data;
-            res: {
-                /**
-                 * OK
-                 */
-                200: IApiMediaWithCropsResponseModel;
-                /**
-                 * Not Found
-                 */
-                404: unknown;
-            };
-        };
-    };
-    '/umbraco/delivery/api/v2/media/items': {
-        get: {
-            req: ItemsV20Data;
-            res: {
-                /**
-                 * OK
-                 */
-                200: Array<IApiMediaWithCropsResponseModel>;
-            };
-        };
-    };
-};
+export type ByPathV20Response = (IApiMediaWithCropsResponseModel);
