@@ -19,10 +19,9 @@ const alt: string =
   typedData?.properties?.image[0]?.properties?.altText ?? caption;
 ---
 
-<figure class="lg:-mr-32 xl:-mr-48 2xl:-mr-60 3xl:-mr-72">
-  <Image src={src} alt={alt} width={2000} height={1125} class="rounded-lg" />
+<figure>
+  <Image src={src} alt={alt} width={2000} height={1125} />
   <figcaption
-    class="text-chalk-700 dark:text-chalk-200 italic"
     set:html={marked.parse(caption)}
   />
 </figure>

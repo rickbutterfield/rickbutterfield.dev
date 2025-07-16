@@ -37,23 +37,18 @@ const { title, slug, name, content, publishedDate, grid } = Astro.props;
 
 <Layout name={title} image={`/og${trimmedPath}.png`}>
   <article
-    class="prose prose-white dark:prose-invert mt-8 max-w-[50rem]"
     style={`view-transition-name: article-${slug}`}
   >
-    <h1 class="mb-1">{title}</h1>
-    <ul class="text-chalk-700 dark:text-chalk-200 mb-12 not-prose">
-      <li>
-        <time datetime={publishedDate.toISOString()}>
-          {
-            publishedDate.toLocaleDateString("en-gb", {
-              year: "numeric",
-              month: "short",
-              day: "numeric",
-            })
-          }
-        </time>
-      </li>
-    </ul>
+    <h1>{title}</h1>
+    <time datetime={publishedDate.toISOString()}>
+      {
+        publishedDate.toLocaleDateString("en-gb", {
+          year: "numeric",
+          month: "short",
+          day: "numeric",
+        })
+      }
+    </time>
 
     <UmbracoGrid data={grid} />
   </article>

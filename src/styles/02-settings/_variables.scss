@@ -1,63 +1,32 @@
-$text-colour: #212121;
-$muted-colour: tint($text-colour, 40%);
-$light-colour: tint($text-colour, 90%);
-
-$transition-default: 100ms ease;
+/* @link https://utopia.fyi/type/calculator?c=320,16,1.2,1240,18,1.25,5,2,&s=0.75|0.5|0.25,1.5|2|3|4|6,s-l&g=s,l,xl,12 */
 
 :root {
-  color-scheme: dark light;
+  --step--2: clamp(0.6944rem, 0.6856rem + 0.0444vw, 0.72rem);
+  --step--1: clamp(0.8333rem, 0.8101rem + 0.1159vw, 0.9rem);
+  --step-0: clamp(1rem, 0.9565rem + 0.2174vw, 1.125rem);
+  --step-1: clamp(1.2rem, 1.1283rem + 0.3587vw, 1.4063rem);
+  --step-2: clamp(1.44rem, 1.3295rem + 0.5527vw, 1.7578rem);
+  --step-3: clamp(1.728rem, 1.5648rem + 0.8161vw, 2.1973rem);
+  --step-4: clamp(2.0736rem, 1.8395rem + 1.1704vw, 2.7466rem);
+  --step-5: clamp(2.4883rem, 2.1597rem + 1.6433vw, 3.4332rem);
 
-  --font-stack: 'Inter UI', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
-  
-  --max-width: 50rem;
-  --code-text: #212121;
-  --code-background: #0d1117;
-  --accolade-background: #f5f2ee;
-  
-  // @media (prefers-color-scheme: light) {
-  //   --background: #f5f2ee;
-  //   --background-transparent: #f5f2eebf;
-  //   --text: #212121;
-  //   --brand: #256168;    
-  //   --border: #e59758;
-  //     --border-transparent: #e5975855;
-  //   --muted-colour: #{$muted-colour};
-  //   --accolade-background: #f5f2ee;
-    
-  //   [data-dark-mode="true"] {
-  //     --background: #1f2123;
-  //     --background-transparent: #1f2123bf;
-  //     --text: #f5f2ee;
-  //     --brand: #256168;
-  //     --border: #e59758;
-  //     --muted-colour: #bcb7ad;
-  //     --code-text: #ccc;
-  //     --code-background: #2d2d2d;
-  //     --accolade-background: #f5f2ee;
-  //   }
-  // }
-  
-  // @media (prefers-color-scheme: dark) {
-  //   --background: #1f2123;
-  //   --background-transparent: #1f2123bf;
-  //   --text: #f5f2ee;
-  //   --brand: #256168;
-  //   --border: #e59758;
-  //   --muted-colour: #bcb7ad;
-  //   --code-text: #ccc;
-  //   --code-background: #2d2d2d;
-  //   --accolade-background: #f5f2ee;
-    
-  //   [data-dark-mode="false"] {
-  //     --background: #f5f2ee;
-  //     --background-transparent: #f5f2eebf;
-  //     --text: #212121;
-  //     --brand: #256168;    
-  //     --border: #e59758;
-  //     --muted-colour: #{$muted-colour};
-  //     --code-text: #212121;
-  //     --code-background: #0d1117;
-  //     --accolade-background: #f5f2ee;
-  //   }
-  // }
+  --font-stack: "IBM Plex Sans", -apple-system, 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+  --font-stack-mono: "IBM Plex Mono", ui-monospace,
+    "SFMono-Regular",
+    "SF Mono",
+    Menlo,
+    Consolas,
+    "Liberation Mono",
+    monospace;
+
+  --background-color: #fdfdfd;
+  --background-color-secondary: #f5f5f5;
+  --background-color-tertiary: #e0e0e0;
+  --text-color: #303030;
+  --link-color: #3c7a9e;
+  --link-color-hover: #2d5c77;
+
+  font-family: var(--font-stack);
+  font-feature-settings: 'liga' 1, 'calt' 1, "cv11";
+  /* fix for Chrome */
 }

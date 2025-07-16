@@ -24,23 +24,20 @@ const blogPosts = await ContentService.queryV20({
 ---
 
 <Layout name={title}>
-  <article class="mb-12 max-w-[50rem] prose prose-white dark:prose-invert">
+  <article>
     <h1>{title}</h1>
     <Fragment set:html={marked.parse(content ?? '')} />
   </article>
 
-  <section class="c-posts max-w-[50rem]">
+  <section>
     {
       blogPosts.items.map((blogPost: BlogPostContentModel) => (
         <article
-          class="prose dark:prose-invert max-w-none mb-12 bg-white dark:bg-imperial-primer-900 border border-imperial-primer-200 dark:border-imperial-primer-700 rounded-xl p-5 lg:-mr-32 xl:-mr-48 2xl:-mr-60 3xl:-mr-72"
           style={`view-transition-name: article-${blogPost.id}`}
         >
-          <h2 class="mb-1">
+          <h2 class="h3">
             <a href={blogPost.route.path}>{blogPost.name}</a>
           </h2>
-          <ul class="text-chalk-700 dark:text-chalk-200 not-prose">
-            <li>
               <time
                 datetime={new Date(
                   blogPost.properties.publishedDate
@@ -55,9 +52,7 @@ const blogPosts = await ContentService.queryV20({
                   }
                 )}
               </time>
-            </li>
-          </ul>
-          <p class="lead">{blogPost.properties.content}</p>
+          <p>{blogPost.properties.content}</p>
         </article>
       ))
     }

@@ -1,66 +1,35 @@
-:root {
-  --font-stack: Inter, -apple-system, 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
-  --font-stack-var: InterVariable, var(--font-stack);
-  --font-stack-display: InterDisplay, var(--font-stack);
+/**
+ * BEMIT (BEM + ITCSS) Architecture
+ * 
+ * 01-tools: Globally used mixins and functions
+ * 02-settings: Global variables and configuration
+ * 03-generic: Low-specificity, far-reaching rulesets
+ * 04-base: Unclassed HTML elements
+ * 05-objects: Objects, abstractions, and design patterns
+ * 06-components: Discrete, complete chunks of UI
+ * 07-vendor: Third-party styles
+ * 08-trumps: High-specificity, very explicit selectors
+ */
 
-  font-family: var(--font-stack);
-  font-feature-settings: 'liga' 1, 'calt' 1, "cv11";
-  /* fix for Chrome */
-}
+/* Settings */
+@import '02-settings/fonts';
+@import '02-settings/variables';
 
-@supports (font-variation-settings: normal) {
-  :root {
-    font-family: var(--font-stack-var);
-  }
-}
+/* Generic */
+@import '03-generic/box-sizing';
+@import '03-generic/normalize';
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-stack-display);
-  text-wrap: balance;
-  @apply text-xl font-extrabold;
-}
+/* Base */
+@import '04-base/base';
+@import '04-base/typography';
 
-a,
-.prose :where(a):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
-  @apply underline underline-offset-2 decoration-mesa-sunrise-500;
-  font-weight: inherit;
+/* Objects */
+@import '05-objects/layout';
 
-  &:hover,
-  &:focus {
-    @apply text-mesa-sunrise-800 dark:text-mesa-sunrise-500;
-  }
-}
+/* Components */
+@import '06-components/dropdown';
+@import '06-components/header';
+@import '06-components/nav';
 
-p, li {
-  text-wrap: pretty;
-  @apply lg:text-lg lg:leading-8 font-medium;
-  
-  &.lead {
-    font-family: var(--font-stack-display);
-    @apply font-bold;
-  }
-}
-
-lite-youtube {
-  max-width: 100% !important;
-}
-
-pre,
-.iframe {
-  @apply lg:-mr-32 xl:-mr-48 2xl:-mr-60 3xl:-mr-72;
-}
-
-.prose :where(pre):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
-  @apply p-0;
-}
-
-.iframe {
-  iframe {
-    @apply w-full;
-  }
-}
-
-nav,
-.logo {
-  font-family: var(--font-stack-display);
-}
+/* Trumps */
+@import '08-trumps/utilities';

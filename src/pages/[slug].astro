@@ -28,9 +28,9 @@ const { name, content, grid } = Astro.props;
 ---
 
 <Layout name={name}>
-  <article class="max-w-[50rem] prose prose-white dark:prose-invert">
+  <article>
     <h1>{name}</h1>
-    <Fragment class="mb-12" set:html={marked.parse(content)} />
+    <Fragment set:html={marked.parse(content)} />
 
     <UmbracoGrid data={grid} />
   </article>

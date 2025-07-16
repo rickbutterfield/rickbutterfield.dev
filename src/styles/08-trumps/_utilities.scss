@@ -1,0 +1,9 @@
+/**
+ * Utilities: High-specificity, very explicit selectors
+ * Override anything that comes before in the triangle
+ * Prefixed with 'u-'
+ */
+
+.u-flex-direction-column {
+  flex-direction: column;
+}

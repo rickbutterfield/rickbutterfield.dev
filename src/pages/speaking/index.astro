@@ -25,27 +25,26 @@ const baseUrl = import.meta.env.PUBLIC_BASE_URL_HTTPS;
 ---
 
 <Layout name={title}>
-  <article class="mb-12 max-w-[50rem] prose prose-white dark:prose-invert">
+  <article>
     <h1>{title}</h1>
     <Fragment set:html={marked.parse(content)}></Fragment>
   </article>
 
-  <section class="c-posts max-w-[50rem]">
+  <section>
   {
     speakingPosts.items.map((speakingPost: SpeakingPostContentModel, index: number, array: IApiContentResponseModel[]) => (
-        <article class="prose dark:prose-invert max-w-none mb-12 bg-white dark:bg-imperial-primer-900 border border-imperial-primer-200 dark:border-imperial-primer-700 rounded-xl p-5 lg:-mr-32 xl:-mr-48 2xl:-mr-60 3xl:-mr-72" style={`view-transition-name: article-${speakingPost.id}`}>
+        <article style={`view-transition-name: article-${speakingPost.id}`}>
           {speakingPost?.properties?.featuredImage != null ? (
             <Image
               src=`${baseUrl}${speakingPost?.properties?.featuredImage[0]?.url}`
               alt={speakingPost?.properties?.featuredImage[0]?.properties?.altText ?? ''}
               width={speakingPost?.properties?.featuredImage[0]?.width}
-              height={speakingPost?.properties?.featuredImage[0]?.height}
-              class="rounded-md" />
+              height={speakingPost?.properties?.featuredImage[0]?.height} />
           ) : null}
-          <h2 class="mb-1"><a href={speakingPost.properties.eventUrl} target="_blank">{speakingPost.name}</a></h2>
-          <ul class="not-prose flex flex-col sm:flex-row text-chalk-700 dark:text-chalk-200">
-            <li class="inline-flex items-center">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 mr-1">
+          <h2><a href={speakingPost.properties.eventUrl} target="_blank">{speakingPost.name}</a></h2>
+          <ul>
+            <li>
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5m-9-6h.008v.008H12v-.008ZM12 15h.008v.008H12V15Zm0 2.25h.008v.008H12v-.008ZM9.75 15h.008v.008H9.75V15Zm0 2.25h.008v.008H9.75v-.008ZM7.5 15h.008v.008H7.5V15Zm0 2.25h.008v.008H7.5v-.008Zm6.75-4.5h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V15Zm0 2.25h.008v.008h-.008v-.008Zm2.25-4.5h.008v.008H16.5v-.008Zm0 2.25h.008v.008H16.5V15Z" />
                 </svg>
                 <time datetime={new Date(speakingPost.properties.eventDate).toISOString()}>
@@ -56,8 +55,8 @@ const baseUrl = import.meta.env.PUBLIC_BASE_URL_HTTPS;
                   })}
                   </time>
             </li>
-            <li class="sm:ml-3 inline-flex items-center">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 mr-1">
+            <li>
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
                 <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
               </svg>
@@ -67,13 +66,13 @@ const baseUrl = import.meta.env.PUBLIC_BASE_URL_HTTPS;
           <Fragment set:html={marked.parse(speakingPost.properties.content)} />
 
           {speakingPost.properties.additionalEvents != null ? (
-              <p class="mb-2 font-medium">Talk also given at:</p>
-              <ul class="list-disc">
+              <p>Talk also given at:</p>
+              <ul>
               {speakingPost.properties.additionalEvents?.items?.map((item) => {
                 const typedItem = item as ApiBlockItemModel;
                 const typedContent = typedItem.content as EventInfoElementModel;
                 return (
-                  <li class="list-item ml-5">
+                  <li>
                     <a href={typedContent.properties.eventUrl}>{typedContent.properties?.eventName}</a> {new Date(typedContent.properties.eventDate).toLocaleDateString('en-gb', {
                       year: 'numeric',
                       month: 'short',

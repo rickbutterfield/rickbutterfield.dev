@@ -3,4 +3,4 @@
 
 export const SITE_TITLE = 'Rick Butterfield';
 export const SITE_TITLE_MOBILE = 'RB';
-export const SITE_DESCRIPTION = '2× Umbraco MVP, Speaker and Lead Software Engineer';
+export const SITE_DESCRIPTION = '3× Umbraco MVP, Speaker and Lead Software Engineer';

@@ -30,33 +30,30 @@ const baseUrl = import.meta.env.PUBLIC_BASE_URL_HTTPS;
 ---
 
 <Layout name={title}>
-  <article class="mb-12 max-w-[50rem] prose prose-white dark:prose-invert">
+  <article>
     <h1>{title}</h1>
     <Fragment set:html={marked.parse(content ?? "")} />
   </article>
 
-  <section class="c-posts max-w-[50rem]">
+  <section>
     {
       projectPosts.items.map((projectPost: ProjectPostContentModel) => (
         <article
-          class="prose dark:prose-invert max-w-none mb-12 bg-white dark:bg-imperial-primer-900 border border-imperial-primer-200 dark:border-imperial-primer-700 rounded-xl p-5 lg:-mr-32 xl:-mr-48 2xl:-mr-60 3xl:-mr-72"
           style={`view-transition-name: article-${projectPost.id}`}
         >
-          <h2 class="mb-1">{projectPost.name}</h2>
+          <h2>{projectPost.name}</h2>
           <Fragment set:html={marked.parse(projectPost.properties.content)} />
 
-          <ul class="flex gap-4 text-chalk-700 dark:text-white dark:text-chalk-200 not-prose">
+          <ul>
             {projectPost.properties.gitHubUrl && (
               <li>
                 <a
-                  class="group inline-flex bg-chalk-50 hover:bg-chalk-100 dark:bg-imperial-primer-700 hover:dark:bg-imperial-primer-950 text-sm border border-imperial-primer-100 dark:border-imperial-primer-600 p-2 rounded-md"
                   href={projectPost.properties.gitHubUrl[0]?.url}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
                   <svg
                     aria-labelledby="simpleicons-github-icon"
-                    class="w-5 h-5 mr-2 group-hover:fill-mesa-sunrise-800 dark:fill-white dark:group-hover:fill-mesa-sunrise-500"
                     role="img"
                     viewBox="0 0 24 24"
                     xmlns="http://www.w3.org/2000/svg"
@@ -71,14 +68,12 @@ const baseUrl = import.meta.env.PUBLIC_BASE_URL_HTTPS;
             {projectPost.properties.nuGetUrl && (
               <li>
                 <a
-                  class="group inline-flex bg-chalk-50 hover:bg-chalk-100 dark:bg-imperial-primer-700 hover:dark:bg-imperial-primer-950 text-sm border border-imperial-primer-100 dark:border-imperial-primer-600 p-2 rounded-md"
                   href={projectPost.properties.nuGetUrl[0]?.url}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
                   <svg
                     aria-labelledby="simpleicons-nuget-icon"
-                    class="w-5 h-5 mr-2 group-hover:fill-mesa-sunrise-800 dark:fill-white dark:group-hover:fill-mesa-sunrise-500"
                     role="img"
                     viewBox="0 0 24 24"
                     xmlns="http://www.w3.org/2000/svg"

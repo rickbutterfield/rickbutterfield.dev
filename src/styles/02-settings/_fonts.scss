@@ -1,17 +1,36 @@
-// @font-face {
-// 	src: url('/assets/fonts/Inter-UI.var.woff2');
-// 	font-family: 'Inter UI';
-// 	font-style: normal;
-// }
-
 @font-face {
-  src: url('/assets/fonts/Inter-UI.var.woff2');
-  font-family: 'Inter UI';
-  font-style: normal;
+  font-family: "IBM Plex Sans";
+  src: url('/assets/fonts/IBM Plex Sans Var-Roman.woff2') format('woff2');
 }
 
 @font-face {
-	src: url('/assets/fonts/CascadiaMono-SemiLight.woff2');
-	font-family: 'Cascadia Mono';
-	font-style: normal;
+  font-family: "IBM Plex Sans";
+  font-style: italic;
+  src: url('/assets/fonts/IBM Plex Sans Var-Italic.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-weight: 400;
+  src: url('/assets/fonts/IBMPlexMono-Regular.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-weight: 400;
+  font-style: italic;
+  src: url('/assets/fonts/IBMPlexMono-Italic.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-weight: 450;
+  src: url('/assets/fonts/IBMPlexMono-Text.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-weight: 450;
+  font-style: italic;
+  src: url('/assets/fonts/IBMPlexMono-TextItalic.woff2') format('woff2');
 }
