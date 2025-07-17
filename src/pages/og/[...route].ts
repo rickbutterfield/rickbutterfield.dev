@@ -41,27 +41,23 @@ export const { getStaticPaths, GET } = OGImageRoute({
   getImageOptions: (path, page) => ({
     title: page.title,
     description: page.description,
-    bgGradient: [[178, 69, 35]],
+    bgGradient: [[60, 122, 158]],
     fonts: [
-      'https://rsms.me/inter/font-files/InterVariable.woff2?v=4.0',
-      'https://rsms.me/inter/font-files/Inter-Regular.woff2?v=4.0',
-      'https://rsms.me/inter/font-files/Inter-Medium.woff2?v=4.0',
-      'https://rsms.me/inter/font-files/InterDisplay-Regular.woff2?v=4.0',
-      'https://rsms.me/inter/font-files/InterDisplay-Medium.woff2?v=4.0',
-      'https://rsms.me/inter/font-files/InterDisplay-Bold.woff2?v=4.0'
+      './public/assets/fonts/IBM Plex Sans Var-Roman.ttf',
+      './public/assets/fonts/IBM Plex Sans Var-Roman.woff2'
     ],
     font: {
       title: {
         size: 65,
         lineHeight: 1.125,
         color: [255, 255, 255],
-        weight: "Bold",
-        families: ['InterDisplay', 'Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol']
+        weight: "ExtraBold",
+        families: ['IBM Plex Sans', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol']
       },
       description: {
         color: [255, 255, 255],
         weight: "Medium",
-        families: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol']
+        families: ['IBM Plex Sans', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol']
       }
     },
     padding: 48,
