@@ -25,7 +25,9 @@
   transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 
   svg {
-    margin-right: 6px;
+    width: 24px;
+    height: 24px;
+    margin-right: 8px;
   }
 
   &:hover,

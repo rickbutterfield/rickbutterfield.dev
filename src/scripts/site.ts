@@ -4,71 +4,44 @@ document.body.classList.remove('no-js');
 function checkTheme(document: Document) {
   
   const lightModeIcon = document.getElementById('icon-light');
-  lightModeIcon.classList.add('hidden');
-  
   const darkModeIcon = document.getElementById('icon-dark');
-  darkModeIcon.classList.add('hidden');
   
-  const systemModeIcon = document.getElementById('icon-system');
-  systemModeIcon.classList.add('hidden');
+  if (!lightModeIcon || !darkModeIcon) {
+    console.warn('Theme icons not found');
+    return;
+  }
+  
+  // Hide both icons first
+  lightModeIcon.classList.add('hidden');
+  darkModeIcon.classList.add('hidden');
   
   const localStorageTheme: string = localStorage.getItem('theme');
   const isLocalStorageDarkTheme: boolean = localStorageTheme === 'dark';
-  const isLocalStorageLightTheme: boolean = localStorageTheme === 'light';
-  const isMatchMediaDarkTheme: boolean = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  const currentModeText = document.getElementById('currentModeText');
 
-  if (isLocalStorageDarkTheme || (localStorageTheme == null && isMatchMediaDarkTheme)) {
-    document.documentElement.classList.add('dark');
-    currentModeText.textContent = 'Dark';
+  if (isLocalStorageDarkTheme) {
+    document.documentElement.dataset.userTheme = 'dark';
     darkModeIcon.classList.remove('hidden');
-  } else if (isLocalStorageLightTheme) {
-    document.documentElement.classList.remove('dark');
-    currentModeText.textContent = 'Light';
-    lightModeIcon.classList.remove('hidden');
   } else {
-    currentModeText.textContent = 'System';
-    document.documentElement.classList.remove('dark');
-    systemModeIcon.classList.remove('hidden');
+    document.documentElement.dataset.userTheme = 'light';
+    lightModeIcon.classList.remove('hidden');
   }
 }
 
-function toggleDropdown(dropdownToggle: HTMLElement, dropdownMenu: HTMLElement) {
-  const expanded = dropdownToggle.getAttribute('aria-expanded') === 'true' || false;
-  dropdownToggle.setAttribute('aria-expanded', !expanded);
-  dropdownMenu.classList.toggle('hidden');
-}
-
 function configureToggle() {
-  const currentModeText = document.getElementById('currentModeText');
-  const dropdownToggle = document.getElementById('dropdown-toggle');
-  const dropdownMenu = document.getElementById('dropdown-menu');
-  const lightModeOption = document.getElementById('lightModeOption');
-  const darkModeOption = document.getElementById('darkModeOption');
-  const systemModeOption = document.getElementById('systemModeOption');
+  const themeToggle = document.getElementById('theme-toggle');
 
-  // Open/close dropdown menu
-  dropdownToggle.addEventListener('click', e => toggleDropdown(dropdownToggle, dropdownMenu));
+  if (!themeToggle) {
+    console.warn('Theme toggle button not found');
+    return;
+  }
 
-  // Set selected mode
-  lightModeOption.addEventListener('click', () => {
-    currentModeText.textContent = 'Light';
-    dropdownMenu.classList.toggle('hidden');
-    localStorage.theme = 'light';
-    checkTheme(document);
-  });
-
-  darkModeOption.addEventListener('click', () => {
-    currentModeText.textContent = 'Dark';
-    dropdownMenu.classList.toggle('hidden');
-    localStorage.theme = 'dark';
-    checkTheme(document);
-  });
-
-  systemModeOption.addEventListener('click', () => {
-    currentModeText.textContent = 'System';
-    dropdownMenu.classList.toggle('hidden');
-    localStorage.removeItem('theme');
+  // Toggle between light and dark mode
+  themeToggle.addEventListener('click', () => {
+    const currentTheme = localStorage.getItem('theme');
+    const isDark = currentTheme === 'dark';
+    
+    // Toggle to opposite theme
+    localStorage.theme = isDark ? 'light' : 'dark';
     checkTheme(document);
   });
 }
@@ -80,8 +53,4 @@ document.addEventListener('astro:before-swap', (ev: any) => {
 document.addEventListener('astro:page-load', () => {
   checkTheme(document);
   configureToggle();
-});
-
-window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
-  checkTheme(document);
 });

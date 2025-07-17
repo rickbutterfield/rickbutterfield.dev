@@ -21,7 +21,7 @@ const blogPosts = await getCollection("blog");
 ---
 
 <Layout name={title}>
-  <article>
+  <article class="c-article">
     <h1>{title}</h1>
     <Fragment set:html={marked.parse(content ?? "")} />
   </article>
@@ -34,10 +34,7 @@ const blogPosts = await getCollection("blog");
         );
 
         return (
-          <article style={`view-transition-name: article-${blogPost.data.id}`}>
-            <h2 class="h3">
-              <a href={blogPost.data.slug}>{blogPost.data.name}</a>
-            </h2>
+          <article class="c-article" style={`view-transition-name: article-${blogPost.data.id}`}>
             <time datetime={publishedDate.toISOString()}>
               {publishedDate.toLocaleDateString("en-gb", {
                 year: "numeric",
@@ -45,7 +42,9 @@ const blogPosts = await getCollection("blog");
                 day: "numeric",
               })}
             </time>
-
+            <h2 class="h3">
+              <a href={blogPost.data.slug}>{blogPost.data.name}</a>
+            </h2>
             <p>{blogPost.data.content?.properties?.content}</p>
           </article>
         );

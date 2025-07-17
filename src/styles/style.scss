@@ -25,12 +25,15 @@
 
 /* Objects */
 @use '05-objects/layout';
+@use '05-objects/list';
 
 /* Components */
 @use '06-components/dropdown';
 @use '06-components/header';
 @use '06-components/nav';
 @use '06-components/footer';
+@use '06-components/article';
+@use '06-components/alert';
 
 /* Trumps */
 @use '08-trumps/utilities';

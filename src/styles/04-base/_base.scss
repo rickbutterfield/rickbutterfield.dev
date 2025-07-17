@@ -4,3 +4,9 @@ body {
   font-weight: 450;
   color: var(--text-color);
 }
+
+.iframe {
+  iframe {
+    width: 100%;
+  }
+}

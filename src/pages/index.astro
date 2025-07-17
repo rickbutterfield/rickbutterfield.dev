@@ -31,12 +31,8 @@ const alt: string = featuredImage[0]?.properties?.altText || "";
       />
     </figure>
     <article
+      class="c-article"
       set:html={marked.parse(content)}
     />
-  </section>
-
-  <section>
-    <h2>Recent Blogs</h2>
-
   </section>
 </Layout>

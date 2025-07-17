@@ -11,8 +11,19 @@ h6 {
 }
 
 h1,
+h2,
+h3,
+h4 {
+  &+.lead {
+    margin-block-start: 0.5rem;
+  }
+}
+
+h1,
 .h1 {
   font-size: var(--step-4);
+  letter-spacing: -0.035em;
+  font-variation-settings: 'wdth' 100;
 }
 
 h2,
@@ -33,25 +44,30 @@ h4,
 pre,
 code {
   font-family: var(--font-stack-mono);
+  font-weight: 450;
   font-size: var(--step-0);
-
-  p & {
+  background-color: var(--background-color-secondary);
+  padding: 2px 4px;
+  font-size: calc(var(--step-0) - 2px);
+  text-wrap-mode: wrap;
+  text-wrap-style: pretty;
+  
+  p &,
+  li & {
     display: inline;
-    background-color: var(--background-color-tertiary);
-    padding: 2px 4px;
-    font-size: var(--step-0);
   }
 }
 
 a {
   font-weight: inherit;
   color: var(--link-color);
-  transition: color 0.2s ease-in-out;
-  text-underline-offset: 2px;
+  text-underline-offset: 1.5px;
+  transition: color 0.2s ease-in-out, text-underline-offset 0.2s ease-in-out;
 
   &:hover,
   &:focus {
     color: var(--link-color-hover);
+    text-underline-offset: 3px;
   }
 }
 
@@ -67,10 +83,20 @@ li {
   }
 }
 
+p,
+ol,
+ul {
+  margin-block-start: 1rem;
+}
+
 figure {
-  margin-right: 0;
-  margin-left: 0;
+  margin: 0;
   padding: 0;
+
+  @media (min-width: 800px) {
+    margin-right: calc(-1 * var(--space-s-2xl));
+    margin-left: calc(-1 * var(--space-s-2xl));
+  }
 
   img {
     border-radius: 0.5rem;
@@ -79,18 +105,23 @@ figure {
 
   figcaption {
     font-size: var(--step--1);
-    color: var(--text-color);
+    color: var(--text-color-muted);
     margin-top: 0.5rem;
-    // text-align: center;
     font-style: italic;
     text-wrap: pretty;
+
+    @media (min-width: 800px) {
+      padding-right: var(--space-s-2xl);
+      padding-left: var(--space-s-2xl);
+    }
   }
 }
 
 time {
   font-family: var(--font-stack-mono);
   font-size: var(--step--1);
-  font-weight: 450;
+  font-weight: 500;
+  color: var(--text-color-muted);
 }
 
 lite-youtube {

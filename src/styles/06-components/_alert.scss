@@ -1,0 +1,15 @@
+.c-alert {
+  padding: var(--space-m);
+  border-radius: var(--border-radius);
+
+  time {
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    display: block;
+  }
+}
+
+.c-alert--update {
+  background-color: var(--background-color-secondary);
+  border-radius: 0.25rem;
+}
