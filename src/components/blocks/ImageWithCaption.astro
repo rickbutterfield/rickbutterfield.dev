@@ -8,20 +8,22 @@ const typedData = data as ImageWithCaptionElementModel;
 
 const baseUrl = import.meta.env.PUBLIC_BASE_URL_HTTPS;
 
-let src: string = `${baseUrl}${typedData?.properties?.image[0]?.url}?width=2000&height=1125`;
+let src: string = `${baseUrl}${typedData?.properties?.image[0]?.url}`;
 
 if (typedData?.properties?.image[0].focalPoint !== null) {
-  src += `&rxy=${typedData?.properties?.image[0].focalPoint.left},${typedData?.properties?.image[0].focalPoint.top}`;
+  src += `?rxy=${typedData?.properties?.image[0].focalPoint.left},${typedData?.properties?.image[0].focalPoint.top}`;
 }
 
 const caption: string = typedData?.properties?.caption;
-const alt: string =
-  typedData?.properties?.image[0]?.properties?.altText ?? caption;
+const alt: string = typedData?.properties?.image[0]?.properties?.altText ?? caption;
 ---
 
 <figure>
-  <Image src={src} alt={alt} width={2000} height={1125} />
-  <figcaption
-    set:html={marked.parse(caption)}
+  <Image
+    src={src}
+    alt={alt}
+    width={typedData?.properties?.image[0]?.width}
+    height={typedData?.properties?.image[0]?.height}
   />
+  <figcaption set:html={marked.parse(caption)} />
 </figure>
