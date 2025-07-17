@@ -1,0 +1,21 @@
+.o-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  &--inline {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: var(--space-s);
+
+    li {
+      display: flex;
+      align-items: center;
+      
+      svg {
+        width: 32px;
+        margin-right: var(--space-2xs);
+      }
+    }
+  }
+}

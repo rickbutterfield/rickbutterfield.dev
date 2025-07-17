@@ -1,8 +1,34 @@
 .c-footer {
-  .o-container {
-    display: block;
-    font-size: rem(13);
-    text-align: center;
-    color: var(--muted-colour);
+  padding: 2rem 0;
+  font-size: var(--step--1);
+  text-align: center;
+
+  ul {
+    display: flex;
+    margin: 0 0 1rem;
+    padding: 0;
+    justify-content: center;
+    list-style: none;
+
+    li {
+      margin: 0 1rem;
+
+      a {
+        color: var(--link-color);
+        text-decoration: none;
+        transition: color 0.2s ease-in-out;
+
+        &:hover,
+        &:focus {
+          color: var(--link-color-hover);
+        }
+
+        svg {
+          path {
+            fill: currentColor;
+          }
+        }
+      }
+    }
   }
 }

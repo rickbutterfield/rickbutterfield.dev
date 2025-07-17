@@ -1,0 +1,33 @@
+/**
+ * Navigation Component
+ */
+
+.c-nav {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 0.5rem;
+
+  ul {
+    display: flex;
+    flex-direction: row;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    li {
+      margin-right: 1rem;
+
+      &:last-of-type {
+        margin-right: 0;
+      }
+
+      a {}
+    }
+  }
+}
+
+nav,
+.logo {
+  font-family: var(--font-stack);
+}

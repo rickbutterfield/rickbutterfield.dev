@@ -1,20 +1,15 @@
 .c-alert {
-  border: 8px solid var(--border);
-  background-color: var(--border-transparent);
-  border-radius: 16px;
-  padding: 16px;
-  margin-bottom: 1.25rem;
+  padding: var(--space-m);
+  border-radius: var(--border-radius);
 
-  .date {
-    margin-top: 0 !important;
-    margin-bottom: 8px !important;
+  time {
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    display: block;
   }
+}
 
-  p {
-    text-wrap: pretty;
-    
-    &:last-of-type {
-      margin-bottom: 0 !important;
-    }
-  }
+.c-alert--update {
+  background-color: var(--background-color-secondary);
+  border-radius: 0.25rem;
 }

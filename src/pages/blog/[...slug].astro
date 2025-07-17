@@ -18,6 +18,7 @@ export async function getStaticPaths() {
     return {
       params: { slug: urlSplit[urlSplit.length - 1] },
       props: {
+        id: page.id,
         name: page.name,
         title: page.properties.title,
         content: page.properties.content,
@@ -32,28 +33,24 @@ export async function getStaticPaths() {
 let path = Astro.url.pathname;
 let trimmedPath = path.endsWith("/") ? path.slice(0, -1) : path;
 
-const { title, slug, name, content, publishedDate, grid } = Astro.props;
+const { id, title, slug, name, content, publishedDate, grid } = Astro.props;
 ---
 
 <Layout name={title} image={`/og${trimmedPath}.png`}>
   <article
-    class="prose prose-white dark:prose-invert mt-8 max-w-[50rem]"
-    style={`view-transition-name: article-${slug}`}
+    class="c-article"
+    style={`view-transition-name: article-${id}`}
   >
-    <h1 class="mb-1">{title}</h1>
-    <ul class="text-chalk-700 dark:text-chalk-200 mb-12 not-prose">
-      <li>
-        <time datetime={publishedDate.toISOString()}>
-          {
-            publishedDate.toLocaleDateString("en-gb", {
-              year: "numeric",
-              month: "short",
-              day: "numeric",
-            })
-          }
-        </time>
-      </li>
-    </ul>
+    <time datetime={publishedDate.toISOString()}>
+      {
+        publishedDate.toLocaleDateString("en-gb", {
+          year: "numeric",
+          month: "short",
+          day: "numeric",
+        })
+      }
+    </time>
+    <h1>{title}</h1>
 
     <UmbracoGrid data={grid} />
   </article>

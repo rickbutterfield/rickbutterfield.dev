@@ -41,11 +41,9 @@ const renderGridContent = (grid: ApiBlockGridModel, content: string) => {
           typedData?.properties?.image[0]?.properties?.altText ?? caption;
 
           html +=
-          `<figure class="lg:-mr-32 xl:-mr-48 2xl:-mr-60 3xl:-mr-72">
-            <img src=${src} alt=${alt} width=${2000} height=${1125} class="rounded-lg" />
-            <figcaption
-              class="text-chalk-700 dark:text-chalk-200 italic"
-            >
+          `<figure>
+            <img src=${src} alt=${alt} width=${2000} height=${1125} />
+            <figcaption>
               ${customMarked.parse(caption)}
               </figcaption>
           </figure>`;

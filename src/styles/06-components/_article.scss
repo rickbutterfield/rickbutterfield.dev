@@ -1,0 +1,36 @@
+.c-article {
+  margin-bottom: var(--space-xl);
+  border-bottom: 1.5px solid var(--text-color-muted);
+  padding-bottom: var(--space-xl);
+
+  h2, h3, h4 {
+    margin-block-start: var(--space-2xl);
+  }
+  
+  > * + *:not(img),
+  &__left > * + * {
+    margin-block-start: var(--space-m);
+  }
+  
+    time + * {
+      margin-block-start: 0;
+    }
+
+  &--project {
+    display: flex;
+    align-items: flex-start;
+
+    .c-article__left {
+      h2 {
+        margin-block-start: 0;
+      }
+    }
+
+    .c-article__right {
+      margin-block-start: 0;
+      width: 20%;
+      flex-shrink: 0;
+      padding-left: var(--space-m);
+    }
+  }
+}

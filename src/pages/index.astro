@@ -20,19 +20,18 @@ const src: string = `${baseUrl}${featuredImage[0]?.url}?width=2000&height=1125`;
 const alt: string = featuredImage[0]?.properties?.altText || "";
 ---
 
-<Layout name={"Lead Software Engineer & 2× Umbraco MVP"}>
+<Layout name={"Lead Software Engineer & 3× Umbraco MVP"}>
   <section>
-    <figure class="mb-8">
+    <figure>
       <Image
         src={src}
         alt={alt}
         width={2000}
         height={1125}
-        class="rounded-xl"
       />
     </figure>
     <article
-      class="max-w-[50rem] prose prose-white dark:prose-invert"
+      class="c-article"
       set:html={marked.parse(content)}
     />
   </section>

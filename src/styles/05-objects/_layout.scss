@@ -1,0 +1,46 @@
+/**
+ * Objects: Class-based selectors which define undecorated design patterns
+ * Objects are concerned with styling, layout, and structure
+ * Prefixed with 'o-'
+ */
+
+.o-container {
+  max-width: 70ch;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.o-btn {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  background-color: var(--background-color-secondary);
+  color: var(--text-color);
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  text-decoration: none;
+  box-shadow: 0 1px 2px var(--background-color-tertiary);
+  transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+
+  svg {
+    width: 24px;
+    height: 24px;
+    margin-right: 8px;
+  }
+
+  &:hover,
+  &:focus {
+    background-color: var(--background-color-tertiary);
+  }
+}
+
+.o-dropdown {
+  position: absolute;
+  background-color: var(--background-color-secondary);
+
+  &.hidden {
+    display: none;
+  }
+}
