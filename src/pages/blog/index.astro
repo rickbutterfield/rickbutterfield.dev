@@ -7,6 +7,7 @@ import {
   type BlogPostContentModel,
 } from "@/api";
 import Layout from "@/layouts/Layout.astro";
+import { getCollection } from "astro:content";
 
 OpenAPI.BASE = import.meta.env.PUBLIC_BASE_URL;
 const nodes = await ContentService.queryV20({
@@ -16,45 +17,39 @@ const node: BlogsPageContentModel = nodes.items[0];
 
 const { title, content } = node.properties;
 
-const blogPosts = await ContentService.queryV20({
-  filter: ["contentType:blogPost"],
-  sort: ["publishedDate:desc"],
-  take: 100,
-});
+const blogPosts = await getCollection("blog");
 ---
 
 <Layout name={title}>
   <article>
     <h1>{title}</h1>
-    <Fragment set:html={marked.parse(content ?? '')} />
+    <Fragment set:html={marked.parse(content ?? "")} />
   </article>
 
   <section>
     {
-      blogPosts.items.map((blogPost: BlogPostContentModel) => (
-        <article
-          style={`view-transition-name: article-${blogPost.id}`}
-        >
-          <h2 class="h3">
-            <a href={blogPost.route.path}>{blogPost.name}</a>
-          </h2>
-              <time
-                datetime={new Date(
-                  blogPost.properties.publishedDate
-                ).toISOString()}
-              >
-                {new Date(blogPost.properties.publishedDate).toLocaleDateString(
-                  "en-gb",
-                  {
-                    year: "numeric",
-                    month: "short",
-                    day: "numeric",
-                  }
-                )}
-              </time>
-          <p>{blogPost.properties.content}</p>
-        </article>
-      ))
+      blogPosts.map((blogPost) => {
+        const publishedDate = new Date(
+          blogPost.data.content?.properties?.publishedDate
+        );
+
+        return (
+          <article style={`view-transition-name: article-${blogPost.data.id}`}>
+            <h2 class="h3">
+              <a href={blogPost.data.slug}>{blogPost.data.name}</a>
+            </h2>
+            <time datetime={publishedDate.toISOString()}>
+              {publishedDate.toLocaleDateString("en-gb", {
+                year: "numeric",
+                month: "short",
+                day: "numeric",
+              })}
+            </time>
+
+            <p>{blogPost.data.content?.properties?.content}</p>
+          </article>
+        );
+      })
     }
   </section>
 </Layout>

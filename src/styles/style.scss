@@ -12,24 +12,25 @@
  */
 
 /* Settings */
-@import '02-settings/fonts';
-@import '02-settings/variables';
+@use '02-settings/fonts';
+@use '02-settings/variables';
 
 /* Generic */
-@import '03-generic/box-sizing';
-@import '03-generic/normalize';
+@use '03-generic/box-sizing';
+@use '03-generic/normalize';
 
 /* Base */
-@import '04-base/base';
-@import '04-base/typography';
+@use '04-base/base';
+@use '04-base/typography';
 
 /* Objects */
-@import '05-objects/layout';
+@use '05-objects/layout';
 
 /* Components */
-@import '06-components/dropdown';
-@import '06-components/header';
-@import '06-components/nav';
+@use '06-components/dropdown';
+@use '06-components/header';
+@use '06-components/nav';
+@use '06-components/footer';
 
 /* Trumps */
-@import '08-trumps/utilities';
+@use '08-trumps/utilities';
