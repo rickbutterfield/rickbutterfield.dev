@@ -25,8 +25,8 @@
 
   pre {
     @media (min-width: 800px) {
-      margin-right: calc(-1 * var(--flow-space-lg));
-      margin-left: calc(-1 * var(--flow-space-lg));
+      margin-right: calc(-1 * var(--flow-space-xl));
+      margin-left: calc(-1 * var(--flow-space-xl));
     }
   }
 }
