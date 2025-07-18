@@ -96,8 +96,8 @@ figure {
     text-wrap: pretty;
 
     @media (min-width: 800px) {
-      padding-right: var(--space-s-2xl);
-      padding-left: var(--space-s-2xl);
+      padding-right: var(--flow-space-xl);
+      padding-left: var(--flow-space-xl);
     }
   }
 }
