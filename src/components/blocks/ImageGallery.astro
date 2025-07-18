@@ -1,0 +1,51 @@
+---
+import { marked } from "marked";
+import type {
+  ImageGalleryElementModel,
+  ImageWithCaptionElementModel,
+} from "@/api";
+import { Image } from "astro:assets";
+
+const { data } = Astro.props;
+const typedData = data as ImageGalleryElementModel;
+
+const baseUrl = import.meta.env.PUBLIC_BASE_URL_HTTPS;
+---
+
+<section class="c-gallery">
+  {
+    typedData?.properties?.gallery?.items?.map((image) => {
+      const typedItem = image.content as ImageWithCaptionElementModel;
+
+      let src: string = `${baseUrl}${typedItem?.properties?.image[0]?.url}?format=webp`;
+
+      if (typedItem.properties.image[0].focalPoint !== null) {
+        src += `&rxy=${typedItem?.properties?.image[0].focalPoint.left},${typedItem?.properties?.image[0].focalPoint.top}`;
+      }
+
+      const caption: string = typedItem?.properties?.caption;
+      const alt: string =
+        typedItem?.properties?.image[0]?.properties?.altText ?? caption;
+
+      let width: number = typedItem?.properties?.image[0]?.width;
+      let height: number = typedItem?.properties?.image[0]?.height;
+
+      // Calculate scaled dimensions with max width of 2000
+      const maxWidth = 1000;
+      if (width > maxWidth) {
+        const aspectRatio = height / width;
+        width = maxWidth;
+        height = Math.round(maxWidth * aspectRatio);
+      }
+
+      return (
+        <figure>
+          <Image src={src} alt={alt} width={width} height={height} />
+          {typedItem.properties?.caption && (
+            <figcaption set:html={marked.parse(typedItem.properties.caption)} />
+          )}
+        </figure>
+      );
+    })
+  }
+</section>

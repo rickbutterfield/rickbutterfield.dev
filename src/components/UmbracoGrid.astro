@@ -1,6 +1,7 @@
 ---
 import EmploymentHistory from "./blocks/EmploymentHistory.astro";
 import ImageWithCaption from "./blocks/ImageWithCaption.astro";
+import ImageGallery from "./blocks/ImageGallery.astro";
 import RichText from "./blocks/RichText.astro";
 import UpdateAlert from "./blocks/UpdateAlert.astro";
 import YouTubeVideo from "./blocks/YouTubeVideo.astro";
@@ -17,6 +18,10 @@ const { data } = Astro.props;
 
       if (item.content?.contentType === "imageWithCaption") {
         return <ImageWithCaption data={item.content} />;
+      }
+
+      if (item.content?.contentType === "imageGallery") {
+        return <ImageGallery data={item.content} />;
       }
 
       if (item.content?.contentType === "updateAlert") {

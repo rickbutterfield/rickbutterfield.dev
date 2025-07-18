@@ -133,17 +133,6 @@ export type IApiContentModelBase = IApiElementModelBase & {
 export type IApiContentResponseModel = ContentPageContentResponseModel | HomePageContentResponseModel | SpeakingPageContentResponseModel | BlogPostContentResponseModel | SpeakingPostContentResponseModel | BlogsPageContentResponseModel | ProjectsPageContentResponseModel | ProjectPostContentResponseModel;
 
 export type IApiContentResponseModelBase = IApiContentModelBase & {
-    /**
-     *
-     */
-    properties: {
-        readonly id: string;
-        readonly contentType: string;
-        readonly name?: (string) | null;
-        readonly createDate: string;
-        readonly updateDate: string;
-        readonly route: (ApiContentRouteModel);
-    };
     readonly id: string;
     readonly contentType: string;
     readonly name?: (string) | null;
@@ -155,7 +144,7 @@ export type IApiContentResponseModelBase = IApiContentModelBase & {
     };
 };
 
-export type IApiElementModel = PageSettingsElementModel | PageContentElementModel | UpdateAlertElementModel | CVentryElementModel | YouTubeVideoElementModel | EventInfoElementModel | ImageWithCaptionElementModel | RichTextElementModel | EmploymentHistoryElementModel;
+export type IApiElementModel = PageSettingsElementModel | PageContentElementModel | UpdateAlertElementModel | CVentryElementModel | YouTubeVideoElementModel | EventInfoElementModel | ImageWithCaptionElementModel | RichTextElementModel | EmploymentHistoryElementModel | ImageGalleryElementModel;
 
 export type IApiElementModelBase = {
     readonly id: string;
@@ -214,6 +203,14 @@ export type ImageCropModel = {
 export type ImageFocalPointModel = {
     left: number;
     top: number;
+};
+
+export type ImageGalleryElementModel = IApiElementModelBase & {
+    properties?: ImageGalleryPropertiesModel;
+};
+
+export type ImageGalleryPropertiesModel = {
+    gallery?: ApiBlockListModel;
 };
 
 export type ImageWithCaptionElementModel = IApiElementModelBase & {
