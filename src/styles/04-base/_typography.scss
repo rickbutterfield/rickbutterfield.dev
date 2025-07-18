@@ -11,15 +11,6 @@ h6 {
 }
 
 h1,
-h2,
-h3,
-h4 {
-  &+.lead {
-    margin-block-start: 0.5rem;
-  }
-}
-
-h1,
 .h1 {
   font-size: var(--step-4);
   letter-spacing: -0.035em;
@@ -83,19 +74,13 @@ li {
   }
 }
 
-p,
-ol,
-ul {
-  margin-block-start: 1rem;
-}
-
 figure {
   margin: 0;
   padding: 0;
 
   @media (min-width: 800px) {
-    margin-right: calc(-1 * var(--space-s-2xl));
-    margin-left: calc(-1 * var(--space-s-2xl));
+    margin-right: calc(-1 * var(--flow-space-lg));
+    margin-left: calc(-1 * var(--flow-space-lg));
   }
 
   img {

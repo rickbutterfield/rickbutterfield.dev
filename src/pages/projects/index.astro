@@ -30,19 +30,17 @@ const baseUrl = import.meta.env.PUBLIC_BASE_URL_HTTPS;
 ---
 
 <Layout name={title}>
-  <article class="c-article">
+  <article class="c-article c-flow">
     <h1>{title}</h1>
     <Fragment set:html={marked.parse(content ?? "")} />
   </article>
-
-  <section>
     {
       projectPosts.items.map((projectPost: ProjectPostContentModel) => (
         <article
           class="c-article c-article--project"
           style={`view-transition-name: article-${projectPost.id}`}
         >
-          <div class="c-article__left">
+          <div class="c-article__left c-flow">
             <h2>{projectPost.name}</h2>
             <Fragment set:html={marked.parse(projectPost.properties.content)} />
 
@@ -99,5 +97,4 @@ const baseUrl = import.meta.env.PUBLIC_BASE_URL_HTTPS;
         </article>
       ))
     }
-  </section>
 </Layout>

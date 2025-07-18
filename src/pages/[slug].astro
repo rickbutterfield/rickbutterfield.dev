@@ -28,7 +28,7 @@ const { name, content, grid } = Astro.props;
 ---
 
 <Layout name={name}>
-  <article>
+  <article class="c-article c-flow">
     <h1>{name}</h1>
     <Fragment set:html={marked.parse(content)} />
 

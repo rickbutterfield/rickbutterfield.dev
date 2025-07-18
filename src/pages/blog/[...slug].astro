@@ -38,7 +38,7 @@ const { id, title, slug, name, content, publishedDate, grid } = Astro.props;
 
 <Layout name={title} image={`/og${trimmedPath}.png`}>
   <article
-    class="c-article"
+    class="c-article c-flow"
     style={`view-transition-name: article-${id}`}
   >
     <time datetime={publishedDate.toISOString()}>

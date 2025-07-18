@@ -25,15 +25,14 @@ const baseUrl = import.meta.env.PUBLIC_BASE_URL_HTTPS;
 ---
 
 <Layout name={title}>
-  <article class="c-article">
+  <article class="c-article c-flow">
     <h1>{title}</h1>
     <Fragment set:html={marked.parse(content)}></Fragment>
   </article>
 
-  <section>
   {
     speakingPosts.items.map((speakingPost: SpeakingPostContentModel, index: number, array: IApiContentResponseModel[]) => (
-        <article class="c-article" style={`view-transition-name: article-${speakingPost.id}`}>
+        <article class="c-article c-flow" style={`view-transition-name: article-${speakingPost.id}`}>
           {speakingPost?.properties?.featuredImage != null ? (
             <Image
               src=`${baseUrl}${speakingPost?.properties?.featuredImage[0]?.url}`
@@ -84,5 +83,4 @@ const baseUrl = import.meta.env.PUBLIC_BASE_URL_HTTPS;
         </article>
       ))
   }
-  </section>
 </Layout>

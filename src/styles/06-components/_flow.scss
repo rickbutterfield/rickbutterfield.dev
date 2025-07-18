@@ -1,0 +1,18 @@
+.c-flow {
+  > * + * {
+    margin-block-start: var(--flow-space);
+  }
+
+  > time + * {
+    margin-block-start: 0;
+  }
+
+  > :is(h2,h3,h4):not(:first-child) {
+    margin-block-start: var(--flow-space-lg);
+  }
+  
+  > :is(h1,h2,h3) + p,
+  > :is(h1,h2,h3) + ul {
+    margin-block-start: var(--space-xs-s);
+  }
+}
