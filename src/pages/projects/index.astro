@@ -1,6 +1,7 @@
 ---
 import { marked } from "marked";
 import { Image } from "astro:assets";
+import { getCollection } from "astro:content";
 import {
   ContentService,
   OpenAPI,
@@ -21,10 +22,11 @@ const node: ProjectsPageContentModel = nodes.items[0];
 
 const { title, content } = node.properties;
 
-const projectPosts = await ContentService.queryV20({
-  filter: ["contentType:projectPost"],
-  sort: ["sortOrder:asc"],
-});
+// Use the projects collection instead of direct API call
+const projectPostsCollection = await getCollection('projects');
+const projectPosts = {
+  items: projectPostsCollection.map(item => item.data.content as ProjectPostContentModel)
+};
 
 const baseUrl = import.meta.env.PUBLIC_BASE_URL_HTTPS;
 ---
@@ -91,7 +93,7 @@ const baseUrl = import.meta.env.PUBLIC_BASE_URL_HTTPS;
           </div>
           <div class="c-article__right">
             {projectPost.properties.featuredImage && (
-              <img src=`${baseUrl}${projectPost.properties.featuredImage[0].url}?format=webp` alt={projectPost.properties.featuredImage[0].properties.altText ?? projectPost.name} />
+              <img src=`${baseUrl}${projectPost.properties.featuredImage[0].url}?format=webp` alt={String(projectPost.properties.featuredImage[0].properties.altText ?? projectPost.name)} />
             )}
           </div>
         </article>

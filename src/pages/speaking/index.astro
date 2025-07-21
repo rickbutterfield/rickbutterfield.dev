@@ -1,25 +1,25 @@
 ---
 import { marked } from 'marked';
 import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
 import { ContentService, OpenAPI, type EventInfoElementModel, type SpeakingPageContentModel, type SpeakingPostContentModel, type ApiBlockItemModel, type IApiContentResponseModel } from '@/api';
 import Layout from '@/layouts/Layout.astro';
 
 OpenAPI.BASE = import.meta.env.PUBLIC_BASE_URL;
-const nodes = await ContentService.queryV20({
-  filter: ['contentType:speakingPage']
+const node: SpeakingPageContentModel = await ContentService.byRouteV20({
+  path: Astro.url.pathname
 });
-const node: SpeakingPageContentModel = nodes.items[0];
 
 const {
   title,
   content
 } = node.properties
 
-const speakingPosts = await ContentService.queryV20({
-  filter: ['contentType:speakingPost'],
-  sort: ['eventDate:desc'],
-  expand: 'properties[$all[properties[featuredImage]]]',
-});
+// Use the speaking collection instead of direct API call
+const speakingPostsCollection = await getCollection('speaking');
+const speakingPosts = {
+  items: speakingPostsCollection.map(item => item.data.content as SpeakingPostContentModel)
+};
 
 const baseUrl = import.meta.env.PUBLIC_BASE_URL_HTTPS;
 ---
@@ -34,11 +34,13 @@ const baseUrl = import.meta.env.PUBLIC_BASE_URL_HTTPS;
     speakingPosts.items.map((speakingPost: SpeakingPostContentModel, index: number, array: IApiContentResponseModel[]) => (
         <article class="c-article c-flow" style={`view-transition-name: article-${speakingPost.id}`}>
           {speakingPost?.properties?.featuredImage != null ? (
-            <Image
-              src=`${baseUrl}${speakingPost?.properties?.featuredImage[0]?.url}`
-              alt={speakingPost?.properties?.featuredImage[0]?.properties?.altText ?? ''}
-              width={speakingPost?.properties?.featuredImage[0]?.width}
-              height={speakingPost?.properties?.featuredImage[0]?.height} />
+            <figure>
+              <Image
+                src=`${baseUrl}${speakingPost?.properties?.featuredImage[0]?.url}`
+                alt={String(speakingPost?.properties?.featuredImage[0]?.properties?.altText ?? '')}
+                width={speakingPost?.properties?.featuredImage[0]?.width}
+                height={speakingPost?.properties?.featuredImage[0]?.height} />
+            </figure>
           ) : null}
           <h2><a href={speakingPost.properties.eventUrl} target="_blank">{speakingPost.name}</a></h2>
           <ul class="o-list o-list--inline">
