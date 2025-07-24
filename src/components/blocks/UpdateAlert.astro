@@ -1,23 +1,40 @@
 ---
 import type { UpdateAlertElementModel } from "@/api";
 import { Marked } from "marked";
-import { markedHighlight } from "marked-highlight";
-import hljs from "highlight.js";
-import "highlight.js/styles/github-dark.css";
+import { Code } from "astro-expressive-code/components";
 
 const { data } = Astro.props;
 const typedData = data as UpdateAlertElementModel;
 const updateDate = new Date(typedData?.properties?.date);
 
-const customMarked = new Marked(
-  markedHighlight({
-    langPrefix: "hljs language-",
-    highlight(code, lang, info) {
-      const language = hljs.getLanguage(lang) ? lang : "plaintext";
-      return hljs.highlight(code, { language }).value;
-    },
-  }),
-);
+// Store code blocks for separate rendering
+const codeBlocks: Array<{id: string, language: string, code: string}> = [];
+
+// Custom renderer to handle code blocks
+const customMarked = new Marked({
+  renderer: {
+    code({ text, lang }: { text: string; lang?: string }) {
+      // Generate a unique ID for each code block
+      const codeId = Math.random().toString(36).substring(2, 15);
+      
+      // Store the code block for later rendering
+      codeBlocks.push({
+        id: codeId,
+        language: lang || 'plaintext',
+        code: text
+      });
+      
+      // Return a placeholder that we'll replace with the Code component
+      return `<!--CODE_BLOCK_${codeId}-->`;
+    }
+  }
+});
+
+// Parse the content
+const htmlContent = await customMarked.parse(typedData?.properties?.content || '');
+
+// Split content by code block markers
+const contentParts = htmlContent.split(/(<!--CODE_BLOCK_[^>]+-->)/);
 ---
 
 <aside class="c-alert c-alert--update">
@@ -30,5 +47,18 @@ const customMarked = new Marked(
       })
     }
   </time>
-  <Fragment set:html={customMarked.parse(typedData?.properties?.content)} />
+  <Fragment>
+    {contentParts.map((part) => {
+      const codeMatch = part.match(/<!--CODE_BLOCK_([^>]+)-->/);
+      if (codeMatch) {
+        const blockId = codeMatch[1];
+        const block = codeBlocks.find(b => b.id === blockId);
+        if (block) {
+          // Use astro-expressive-code's Code component
+          return <Code code={block.code} lang={block.language} />;
+        }
+      }
+      return <Fragment set:html={part} />;
+    })}
+  </Fragment>
 </aside>

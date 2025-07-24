@@ -20,6 +20,7 @@
     "@astrojs/rss": "^4.0.12",
     "@astrojs/sitemap": "^3.4.1",
     "@justinribeiro/lite-youtube": "^1.7.1",
+    "@shikijs/transformers": "^3.8.1",
     "@types/js-cookie": "^3.0.2",
     "@vitejs/plugin-basic-ssl": "^2.0.0",
     "astro": "^5.11.2",

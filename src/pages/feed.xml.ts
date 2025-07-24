@@ -2,22 +2,20 @@ import rss, { type RSSFeedItem } from '@astrojs/rss';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 import { ContentService, OpenAPI, type ApiBlockGridItemModel, type ApiBlockGridModel, type BlogPostContentModel, type ImageWithCaptionElementModel, type RichTextElementModel, type RichTextPropertiesModel, type YouTubeVideoElementModel } from '@/api';
 import { Marked } from 'marked';
-import { markedHighlight } from 'marked-highlight';
-import hljs from 'highlight.js';
 
 const renderGridContent = (grid: ApiBlockGridModel, content: string) => {
   if (grid.items.length !== 0) {
     let html: string = '';
 
-    const customMarked = new Marked(
-      markedHighlight({
-        langPrefix: "hljs language-",
-        highlight(code, lang, info) {
-          const language = hljs.getLanguage(lang) ? lang : "plaintext";
-          return hljs.highlight(code, { language }).value;
-        },
-      }),
-    );
+    // For RSS feeds, we don't need syntax highlighting, just plain text/HTML
+    const customMarked = new Marked({
+      renderer: {
+        code({ text, lang }: { text: string; lang?: string }) {
+          // Return simple pre/code blocks for RSS feeds
+          return `<pre><code class="language-${lang || 'text'}">${text.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</code></pre>`;
+        }
+      }
+    });
 
     grid.items.forEach((item: ApiBlockGridItemModel) => {
       if (item.content.contentType == 'richText') {
@@ -36,9 +34,9 @@ const renderGridContent = (grid: ApiBlockGridModel, content: string) => {
           src += `&rxy=${typedData?.properties?.image[0].focalPoint.left},${typedData?.properties?.image[0].focalPoint.top}`;
         }
 
-        const caption: string = typedData?.properties?.caption;
+        const caption: string = typedData?.properties?.caption || '';
         const alt: string =
-          typedData?.properties?.image[0]?.properties?.altText ?? caption;
+          (typedData?.properties?.image[0]?.properties?.altText as string) ?? caption;
 
           html +=
           `<figure>

@@ -33,24 +33,42 @@ h4,
   font-size: var(--step-1);
 }
 
-code {
-  font-family: var(--font-stack-mono);
-  font-weight: 450;
-  font-size: var(--step-0);
-  background-color: var(--background-color-secondary);
-  font-size: calc(var(--step-0) - 2px);
-  text-wrap-mode: wrap;
-  text-wrap-style: pretty;
-  margin-inline: calc(-1 * var(--flow-space));
-  
+code {  
   p &,
   li & {
     display: inline;
-    margin-inline: initial;
+    font-family: var(--font-stack-mono);
+    font-weight: 450;
+    font-size: var(--step-0);
+    background-color: var(--background-color-secondary);
+    font-size: calc(var(--step-0) - 2px);
+    text-wrap-mode: wrap;
+    text-wrap-style: pretty;
     
     padding: 2px 4px;
   }
 }
+
+// Astro Expressive Code overrides
+// .expressive-code {
+//   margin: 1.5rem 0;
+  
+//   @media (min-width: 800px) {
+//     margin-right: calc(-1 * var(--flow-space-xl));
+//     margin-left: calc(-1 * var(--flow-space-xl));
+//   }
+  
+//   .frame {
+//     border-radius: 0.5rem;
+//     overflow: hidden;
+//   }
+  
+//   pre {
+//     font-family: var(--font-stack-mono) !important;
+//     font-size: var(--step--1) !important;
+//     line-height: 1.6 !important;
+//   }
+// }
 
 a {
   font-weight: inherit;

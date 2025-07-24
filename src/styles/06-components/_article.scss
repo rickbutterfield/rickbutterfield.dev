@@ -23,7 +23,15 @@
     }
   }
 
-  pre {
+  .expressive-code {
+    padding: var(--space-s);
+
+    pre {
+      > code {
+        // font-size: var(--step--1);
+      }
+    }
+
     @media (min-width: 980px) {
       margin-right: calc(-1 * var(--flow-space-xl));
       margin-left: calc(-1 * var(--flow-space-xl));
