@@ -25,6 +25,10 @@
 
   .expressive-code {
     margin-inline: calc(-1 * var(--flow-space));
+    
+    @media (min-width: 980px) {
+      margin-inline: calc(-1 * var(--flow-space-xl));
+    }
 
     code {
         counter-reset: step;
@@ -48,9 +52,5 @@
       }
     }
 
-    @media (min-width: 980px) {
-      margin-right: calc(-1 * var(--flow-space-xl));
-      margin-left: calc(-1 * var(--flow-space-xl));
-    }
   }
 }
