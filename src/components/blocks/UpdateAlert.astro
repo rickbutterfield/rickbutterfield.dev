@@ -8,7 +8,87 @@ const typedData = data as UpdateAlertElementModel;
 const updateDate = new Date(typedData?.properties?.date);
 
 // Store code blocks for separate rendering
-const codeBlocks: Array<{id: string, language: string, code: string}> = [];
+const codeBlocks: Array<{
+  id: string;
+  language: string;
+  code: string;
+  title?: string;
+  del?: string | RegExp | number | { range: string; label?: string } | Array<string | RegExp | number | { range: string; label?: string }>;
+  ins?: string | RegExp | number | { range: string; label?: string } | Array<string | RegExp | number | { range: string; label?: string }>;
+  mark?: string | RegExp | number | { range: string; label?: string } | Array<string | RegExp | number | { range: string; label?: string }>;
+}> = [];
+
+// Function to parse marker definition string into MarkerDefinition format
+function parseMarkerDefinition(markerStr: string) {
+  const markers = markerStr.split(',').map(s => s.trim());
+  
+  return markers.map(marker => {
+    // Check if it's a labeled marker like "A":5-7
+    const labelMatch = marker.match(/^"([^"]+)":(.+)$/);
+    if (labelMatch) {
+      const label = labelMatch[1];
+      const range = labelMatch[2];
+      return { range, label };
+    }
+    
+    // Check if it's a range like 5-7 or single number like 6
+    if (/^\d+(-\d+)?$/.test(marker)) {
+      if (marker.includes('-')) {
+        return { range: marker };
+      } else {
+        return parseInt(marker, 10);
+      }
+    }
+    
+    // Treat as text search string
+    return marker;
+  });
+}
+
+// Function to parse language string and extract metadata
+function parseLanguageString(lang?: string) {
+  if (!lang) return { language: 'plaintext' };
+  
+  // Extract base language (everything before first space)
+  const parts = lang.split(' ');
+  const language = parts[0] || 'plaintext';
+  
+  // Parse attributes from the rest of the string
+  const attributes = lang.slice(language.length);
+  const result: any = { language };
+  
+  // Extract title
+  const titleMatch = attributes.match(/title="([^"]+)"/);
+  if (titleMatch) {
+    result.title = titleMatch[1];
+  }
+  
+  // Extract del markers
+  const delMatch = attributes.match(/del=\{([^}]+)\}/);
+  if (delMatch) {
+    const parsed = parseMarkerDefinition(delMatch[1]);
+    result.del = parsed.length === 1 ? parsed[0] : parsed;
+  }
+  
+  // Extract ins markers
+  const insMatch = attributes.match(/ins=\{([^}]+)\}/);
+  if (insMatch) {
+    const parsed = parseMarkerDefinition(insMatch[1]);
+    result.ins = parsed.length === 1 ? parsed[0] : parsed;
+  }
+  
+  // Extract mark/highlight markers (both {6} and mark={6} syntax)
+  const markMatch = attributes.match(/(?:mark=)?\{([^}]+)\}/) && 
+    !delMatch && !insMatch && !titleMatch ? 
+    attributes.match(/\{([^}]+)\}/) : 
+    attributes.match(/mark=\{([^}]+)\}/);
+  if (markMatch) {
+    const parsed = parseMarkerDefinition(markMatch[1]);
+    result.mark = parsed.length === 1 ? parsed[0] : parsed;
+  }
+  
+  return result;
+}
 
 // Custom renderer to handle code blocks
 const customMarked = new Marked({
@@ -17,11 +97,14 @@ const customMarked = new Marked({
       // Generate a unique ID for each code block
       const codeId = Math.random().toString(36).substring(2, 15);
       
+      // Parse the language string to extract metadata
+      const parsed = parseLanguageString(lang);
+      
       // Store the code block for later rendering
       codeBlocks.push({
         id: codeId,
-        language: lang || 'plaintext',
-        code: text
+        code: text,
+        ...parsed
       });
       
       // Return a placeholder that we'll replace with the Code component
@@ -54,8 +137,19 @@ const contentParts = htmlContent.split(/(<!--CODE_BLOCK_[^>]+-->)/);
         const blockId = codeMatch[1];
         const block = codeBlocks.find(b => b.id === blockId);
         if (block) {
-          // Use astro-expressive-code's Code component
-          return <Code code={block.code} lang={block.language} />;
+          // Use astro-expressive-code's Code component with parsed attributes
+          const props: any = {
+            code: block.code,
+            lang: block.language
+          };
+          
+          // Add optional props if they exist
+          if (block.title) props.title = block.title;
+          if (block.del) props.del = block.del;
+          if (block.ins) props.ins = block.ins;
+          if (block.mark) props.mark = block.mark;
+          
+          return <Code {...props} />;
         }
       }
       return <Fragment set:html={part} />;
