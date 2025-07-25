@@ -24,7 +24,7 @@
   }
 
   .expressive-code {
-    padding: var(--space-s);
+    margin-inline: calc(-1 * var(--flow-space));
 
     code {
         counter-reset: step;
