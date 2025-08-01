@@ -123,6 +123,23 @@ figure {
   }
 }
 
+blockquote {
+  margin: 0;
+  padding: 0;
+  font-size: var(--step-1);
+  font-weight: 500;
+  font-style: italic;
+  color: var(--text-color-muted);
+  border-left: 4px solid var(--background-color-tertiary);
+  padding-left: var(--flow-space);
+  text-wrap: pretty;
+
+  // @media (min-width: 800px) {
+  //   padding-right: var(--flow-space-xl);
+  //   padding-left: var(--flow-space-xl);
+  // }
+}
+
 time {
   font-family: var(--font-stack-mono);
   font-size: var(--step--1);
