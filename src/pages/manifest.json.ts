@@ -23,7 +23,7 @@ export const GET: APIRoute = async () => {
 
   const manifest = {
     name: 'Rick Butterfield',
-    description: 'Lead Software Engineer &amp; Umbraco MVP',
+    description: 'Senior Developer at Umbraco',
     start_url: '/',
     display: 'standalone',
     theme_color: "rgb(79, 70, 229)",
