@@ -33,10 +33,26 @@ export default defineConfig({
         ]
       }
     }),
-    mdx(), 
-    sitemap(), 
-    robotsTxt(), 
-    lit(), 
+    mdx(),
+    sitemap({
+      changefreq: 'weekly',
+      priority: 0.7,
+      lastmod: new Date(),
+      serialize(item) {
+        // Higher priority for main pages
+        if (item.url.endsWith('/') || item.url.endsWith('/blog/') || item.url.endsWith('/projects/') || item.url.endsWith('/speaking/')) {
+          item.priority = 0.9;
+        }
+        // Blog posts get moderate priority
+        if (item.url.includes('/blog/') && !item.url.endsWith('/blog/')) {
+          item.priority = 0.8;
+          item.changefreq = 'monthly';
+        }
+        return item;
+      }
+    }),
+    robotsTxt(),
+    lit(),
     serviceWorker()
   ],
   prefetch: true,

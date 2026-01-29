@@ -1,2 +1,31 @@
 /*
   Timing-Allow-Origin: *
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  X-XSS-Protection: 1; mode=block
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+
+# Cache static assets for 1 year (immutable)
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Cache fonts for 1 year
+/assets/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Cache images for 30 days
+/assets/images/*
+  Cache-Control: public, max-age=2592000
+
+# Cache OG images for 7 days
+/og/*
+  Cache-Control: public, max-age=604800
+
+# HTML pages - always revalidate
+/*.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+# Service worker - no cache
+/sw.js
+  Cache-Control: no-cache, no-store, must-revalidate

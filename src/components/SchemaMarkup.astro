@@ -1,0 +1,110 @@
+---
+export interface Props {
+  type: 'Article' | 'WebPage' | 'WebSite';
+  title: string;
+  description?: string;
+  image?: string;
+  datePublished?: Date;
+  dateModified?: Date;
+  slug?: string;
+}
+
+const { type, title, description, image, datePublished, dateModified, slug } = Astro.props;
+
+const siteUrl = Astro.site?.toString() || 'https://rickbutterfield.dev';
+const canonicalUrl = new URL(Astro.url.pathname, siteUrl).toString();
+const imageUrl = image ? new URL(image, siteUrl).toString() : undefined;
+
+// Author/Person schema
+const authorSchema = {
+  "@type": "Person",
+  "name": "Rick Butterfield",
+  "url": siteUrl,
+  "jobTitle": "Senior Developer",
+  "worksFor": {
+    "@type": "Organization",
+    "name": "Umbraco"
+  }
+};
+
+// Base website schema
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "Rick Butterfield",
+  "description": "Senior Developer at Umbraco",
+  "url": siteUrl,
+  "author": authorSchema
+};
+
+// Article schema for blog posts
+const articleSchema = type === 'Article' ? {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": title,
+  "description": description,
+  "image": imageUrl,
+  "datePublished": datePublished?.toISOString(),
+  "dateModified": (dateModified || datePublished)?.toISOString(),
+  "author": authorSchema,
+  "publisher": {
+    "@type": "Person",
+    "name": "Rick Butterfield",
+    "url": siteUrl
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": canonicalUrl
+  }
+} : null;
+
+// WebPage schema
+const webPageSchema = type === 'WebPage' ? {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": title,
+  "description": description,
+  "url": canonicalUrl,
+  "author": authorSchema
+} : null;
+
+// Breadcrumb schema
+const pathSegments = Astro.url.pathname.split('/').filter(Boolean);
+const breadcrumbItems = [
+  {
+    "@type": "ListItem",
+    "position": 1,
+    "name": "Home",
+    "item": siteUrl
+  }
+];
+
+let currentPath = '';
+pathSegments.forEach((segment, index) => {
+  currentPath += `/${segment}`;
+  breadcrumbItems.push({
+    "@type": "ListItem",
+    "position": index + 2,
+    "name": segment.charAt(0).toUpperCase() + segment.slice(1).replace(/-/g, ' '),
+    "item": new URL(currentPath, siteUrl).toString()
+  });
+});
+
+const breadcrumbSchema = pathSegments.length > 0 ? {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": breadcrumbItems
+} : null;
+
+// Combine schemas
+const schemas = [
+  websiteSchema,
+  articleSchema,
+  webPageSchema,
+  breadcrumbSchema
+].filter(Boolean);
+---
+
+{schemas.map((schema) => (
+  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+))}

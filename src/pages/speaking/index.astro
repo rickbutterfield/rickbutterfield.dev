@@ -36,7 +36,9 @@ const baseUrl = import.meta.env.PUBLIC_BASE_URL_HTTPS;
                 src=`${baseUrl}${speakingPost?.properties?.featuredImage[0]?.url}`
                 alt={String(speakingPost?.properties?.featuredImage[0]?.properties?.altText ?? '')}
                 width={speakingPost?.properties?.featuredImage[0]?.width}
-                height={speakingPost?.properties?.featuredImage[0]?.height} />
+                height={speakingPost?.properties?.featuredImage[0]?.height}
+                loading="lazy"
+                decoding="async" />
             </figure>
           ) : null}
           <h2><a href={speakingPost.properties.eventUrl} target="_blank">{speakingPost.name}</a></h2>

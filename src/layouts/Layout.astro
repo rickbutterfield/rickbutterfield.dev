@@ -2,10 +2,20 @@
 import BaseHead from "@/components/BaseHead.astro";
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
+import SchemaMarkup from "@/components/SchemaMarkup.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
 
-const { name, image } = Astro.props;
-let pageDescription = SITE_DESCRIPTION;
+export interface Props {
+  name: string;
+  image?: string;
+  description?: string;
+  schemaType?: 'Article' | 'WebPage' | 'WebSite';
+  datePublished?: Date;
+  dateModified?: Date;
+}
+
+const { name, image, description, schemaType = 'WebPage', datePublished, dateModified } = Astro.props;
+let pageDescription = description || SITE_DESCRIPTION;
 ---
 
 <!doctype html>
@@ -15,6 +25,14 @@ let pageDescription = SITE_DESCRIPTION;
       title={name + " - " + SITE_TITLE}
       description={pageDescription}
       image={image}
+    />
+    <SchemaMarkup
+      type={schemaType}
+      title={name}
+      description={pageDescription}
+      image={image}
+      datePublished={datePublished}
+      dateModified={dateModified}
     />
   </head>
   <body class="">

@@ -31,7 +31,7 @@ let trimmedPath = path.endsWith("/") ? path.slice(0, -1) : path;
 const { id, title, slug, name, content, publishedDate, grid } = Astro.props;
 ---
 
-<Layout name={title} image={`/og${trimmedPath}.png`}>
+<Layout name={title} image={`/og${trimmedPath}.png`} schemaType="Article" datePublished={publishedDate} description={content}>
   <article
     class="c-article c-flow"
     style={`view-transition-name: article-${id}`}

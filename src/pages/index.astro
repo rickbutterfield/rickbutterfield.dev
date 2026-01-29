@@ -20,7 +20,7 @@ const alt: string = featuredImage[0]?.properties?.altText || "";
   <section>
     <article class="c-article c-flow">
       <figure>
-        <Image src={src} alt={alt} width={2000} height={1125} />
+        <Image src={src} alt={alt} width={2000} height={1125} loading="eager" fetchpriority="high" decoding="async" />
       </figure>
       <Fragment set:html={marked.parse(content)} />
     </article>

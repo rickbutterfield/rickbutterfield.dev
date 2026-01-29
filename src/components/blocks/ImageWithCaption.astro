@@ -36,6 +36,8 @@ if (width > maxWidth) {
     alt={alt}
     width={width}
     height={height}
+    loading="lazy"
+    decoding="async"
   />
   <figcaption set:html={marked.parse(caption)} />
 </figure>

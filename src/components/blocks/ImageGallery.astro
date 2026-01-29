@@ -40,7 +40,7 @@ const baseUrl = import.meta.env.PUBLIC_BASE_URL_HTTPS;
 
       return (
         <figure>
-          <Image src={src} alt={alt} width={width} height={height} />
+          <Image src={src} alt={alt} width={width} height={height} loading="lazy" decoding="async" />
           {typedItem.properties?.caption && (
             <figcaption set:html={marked.parse(typedItem.properties.caption)} />
           )}
