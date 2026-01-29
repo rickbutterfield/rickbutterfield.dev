@@ -1,27 +1,23 @@
 ---
 import { marked } from "marked";
 import Layout from "@/layouts/Layout.astro";
-import { ContentService, OpenAPI, type ContentPageContentModel } from "@/api";
 import UmbracoGrid from "@/components/UmbracoGrid.astro";
+import { getCollection } from "astro:content";
 
 export async function getStaticPaths() {
-  OpenAPI.BASE = import.meta.env.PUBLIC_BASE_URL;
+  const contentPagesCollection = await getCollection("contentPages");
 
-  // Fetch all content of type "page" from Umbraco sorted by creation date in ascending order.
-  const pages = await ContentService.queryV20({
-    filter: ["contentType:contentPage"],
-    expand: "all",
+  return contentPagesCollection.map((entry) => {
+    const page = entry.data.content;
+    return {
+      params: { slug: entry.data.slug },
+      props: {
+        name: page.name,
+        content: page.properties?.content,
+        grid: page.properties?.grid,
+      },
+    };
   });
-
-  // Create a page for each one using the slug as the route, and pass in the props.
-  return pages.items.map((page: ContentPageContentModel) => ({
-    params: { slug: page.route.path.replaceAll("/", "") },
-    props: {
-      name: page.name,
-      content: page.properties?.content,
-      grid: page.properties?.grid,
-    },
-  }));
 }
 
 const { name, content, grid } = Astro.props;

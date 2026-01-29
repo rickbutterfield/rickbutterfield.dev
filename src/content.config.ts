@@ -1,17 +1,21 @@
 import { defineCollection, z } from 'astro:content';
-import { ContentService, OpenAPI, type BlogPostContentModel, type ProjectPostContentModel, type SpeakingPostContentModel } from './api';
+import { client, ContentService, type BlogPostContentModel, type ProjectPostContentModel, type SpeakingPostContentModel, type HomePageContentModel, type BlogsPageContentModel, type ProjectsPageContentModel, type SpeakingPageContentModel, type ContentPageContentModel, type IApiContentResponseModel } from './api';
 import type { ZodType } from 'astro/zod';
 
-OpenAPI.BASE = import.meta.env.PUBLIC_BASE_URL;
+client.setConfig({ baseUrl: import.meta.env.PUBLIC_BASE_URL });
+
 const blog = defineCollection({
   loader: async() => {
     const response = await ContentService.queryV20({
-      filter: ["contentType:blogPost"],
-      sort: ["publishedDate:desc"],
-      take: 100,
+      query: {
+        filter: ["contentType:blogPost"],
+        sort: ["publishedDate:desc"],
+        take: 100,
+        expand: "properties[$all[properties[image]]]",
+      }
     });
 
-    return response.items.map((item: BlogPostContentModel) => ({
+    return (response.data.items as BlogPostContentModel[]).map((item) => ({
       id: item.id,
       name: item.name,
       slug: item.route.path,
@@ -26,14 +30,125 @@ const blog = defineCollection({
   })
 });
 
+const homePage = defineCollection({
+  loader: async() => {
+    const response = await ContentService.queryV20({
+      query: {
+        filter: ["contentType:homePage"],
+        expand: "properties[$all[properties[image]]]",
+      }
+    });
+
+    return (response.data.items as HomePageContentModel[]).map((item) => ({
+      id: item.id,
+      name: item.name,
+      content: item,
+    }));
+  },
+  schema: z.object({
+    id: z.string(),
+    name: z.string(),
+    content: z.any() as ZodType<HomePageContentModel>,
+  })
+});
+
+const blogsPage = defineCollection({
+  loader: async() => {
+    const response = await ContentService.queryV20({
+      query: {
+        filter: ["contentType:blogsPage"],
+      }
+    });
+
+    return (response.data.items as BlogsPageContentModel[]).map((item) => ({
+      id: item.id,
+      name: item.name,
+      content: item,
+    }));
+  },
+  schema: z.object({
+    id: z.string(),
+    name: z.string(),
+    content: z.any() as ZodType<BlogsPageContentModel>,
+  })
+});
+
+const projectsPage = defineCollection({
+  loader: async() => {
+    const response = await ContentService.queryV20({
+      query: {
+        filter: ["contentType:projectsPage"],
+      }
+    });
+
+    return (response.data.items as ProjectsPageContentModel[]).map((item) => ({
+      id: item.id,
+      name: item.name,
+      content: item,
+    }));
+  },
+  schema: z.object({
+    id: z.string(),
+    name: z.string(),
+    content: z.any() as ZodType<ProjectsPageContentModel>,
+  })
+});
+
+const speakingPage = defineCollection({
+  loader: async() => {
+    const response = await ContentService.queryV20({
+      query: {
+        filter: ["contentType:speakingPage"],
+      }
+    });
+
+    return (response.data.items as SpeakingPageContentModel[]).map((item) => ({
+      id: item.id,
+      name: item.name,
+      content: item,
+    }));
+  },
+  schema: z.object({
+    id: z.string(),
+    name: z.string(),
+    content: z.any() as ZodType<SpeakingPageContentModel>,
+  })
+});
+
+const contentPages = defineCollection({
+  loader: async() => {
+    const response = await ContentService.queryV20({
+      query: {
+        filter: ["contentType:contentPage"],
+        expand: "all",
+      }
+    });
+
+    return (response.data.items as ContentPageContentModel[]).map((item) => ({
+      id: item.id,
+      name: item.name,
+      slug: item.route.path.replaceAll("/", ""),
+      content: item,
+    }));
+  },
+  schema: z.object({
+    id: z.string(),
+    name: z.string(),
+    slug: z.string(),
+    content: z.any() as ZodType<ContentPageContentModel>,
+  })
+});
+
 const projects = defineCollection({
   loader: async() => {
     const response = await ContentService.queryV20({
-      filter: ["contentType:projectPost"],
-      sort: ["sortOrder:asc"],
+      query: {
+        filter: ["contentType:projectPost"],
+        sort: ["sortOrder:asc"],
+      }
     });
 
-    return response.items.map((item: ProjectPostContentModel) => ({
+    return (response.data.items as ProjectPostContentModel[]).map((item) => ({
       id: item.id,
       name: item.name,
       slug: item.route.path,
@@ -51,12 +166,14 @@ const projects = defineCollection({
 const speaking = defineCollection({
   loader: async() => {
     const response = await ContentService.queryV20({
-      filter: ["contentType:speakingPost"],
-      sort: ["eventDate:desc"],
-      expand: 'properties[$all[properties[featuredImage]]]',
+      query: {
+        filter: ["contentType:speakingPost"],
+        sort: ["eventDate:desc"],
+        expand: 'properties[$all[properties[featuredImage]]]',
+      }
     });
 
-    return response.items.map((item: SpeakingPostContentModel) => ({
+    return (response.data.items as SpeakingPostContentModel[]).map((item) => ({
       id: item.id,
       name: item.name,
       slug: item.route.path,
@@ -71,4 +188,35 @@ const speaking = defineCollection({
   })
 });
 
-export const collections = { blog, projects, speaking };
+const navigation = defineCollection({
+  loader: async() => {
+    // First get the homepage to find its ID
+    const homeResponse = await ContentService.queryV20({
+      query: {
+        filter: ["contentType:homePage"],
+      }
+    });
+    const homePageId = homeResponse.data.items[0].id;
+
+    // Then fetch children of homepage for navigation
+    const response = await ContentService.queryV20({
+      query: {
+        fetch: `children:${homePageId}`,
+        sort: ["sortOrder:asc"],
+      }
+    });
+
+    return response.data.items.map((item: IApiContentResponseModel) => ({
+      id: item.id,
+      name: item.name,
+      path: item.route.path,
+    }));
+  },
+  schema: z.object({
+    id: z.string(),
+    name: z.string(),
+    path: z.string(),
+  })
+});
+
+export const collections = { blog, projects, speaking, homePage, blogsPage, projectsPage, speakingPage, contentPages, navigation };

@@ -1,18 +1,9 @@
 ---
 import HeaderLink from "./HeaderLink.astro";
 import { SITE_TITLE, SITE_TITLE_MOBILE } from "../consts";
-import { ContentService, OpenAPI, type HomePageContentModel } from "@/api";
+import { getCollection } from "astro:content";
 
-OpenAPI.BASE = import.meta.env.PUBLIC_BASE_URL;
-const node: HomePageContentModel = await ContentService.byRouteV20({
-  path: "/",
-});
-
-const pages = await ContentService.queryV20({
-  fetch: `children:${node.id}`,
-  sort: ["sortOrder:asc"],
-  expand: "all",
-});
+const navigationItems = await getCollection("navigation");
 ---
 
 <header class="c-header">
@@ -29,9 +20,9 @@ const pages = await ContentService.queryV20({
         <nav class="c-nav">
           <ul>
             {
-              pages.items.map((page, index) => (
+              navigationItems.map((item) => (
                 <li>
-                  <HeaderLink href={page.route.path}>{page.name}</HeaderLink>
+                  <HeaderLink href={item.data.path}>{item.data.name}</HeaderLink>
                 </li>
               ))
             }

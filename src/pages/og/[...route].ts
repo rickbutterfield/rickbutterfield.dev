@@ -1,16 +1,12 @@
-import { ContentService, OpenAPI, type BlogPostContentModel } from '@/api';
+import { type BlogPostContentModel } from '@/api';
 import { OGImageRoute } from 'astro-og-canvas';
+import { getCollection } from 'astro:content';
 
-OpenAPI.BASE = import.meta.env.PUBLIC_BASE_URL;
+const blogPosts = await getCollection('blog');
 
-const blogPosts = await ContentService.queryV20({
-  filter: ['contentType:blogPost'],
-  sort: ['sortOrder:asc'],
-  take: 100
-});
-
-let pages = {};
-blogPosts.items.forEach((post: BlogPostContentModel) => {
+let pages: Record<string, { title: string; description: string }> = {};
+blogPosts.forEach((blogPost) => {
+  const post = blogPost.data.content as BlogPostContentModel;
   if (post !== null) {
     const path = post.route?.path.substring(1);
     const descriptionMaxLength = 100;
@@ -27,7 +23,7 @@ blogPosts.items.forEach((post: BlogPostContentModel) => {
   }
 });
 
-export const { getStaticPaths, GET } = OGImageRoute({
+export const { getStaticPaths, GET } = await OGImageRoute({
   // Tell us the name of your dynamic route segment.
   // In this case it’s `route`, because the file is named `[...route].ts`.
   param: 'route',

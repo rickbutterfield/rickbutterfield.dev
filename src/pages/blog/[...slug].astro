@@ -1,18 +1,13 @@
 ---
 import Layout from "@/layouts/Layout.astro";
-import { OpenAPI, ContentService, type BlogPostContentModel } from "@/api";
 import UmbracoGrid from "@/components/UmbracoGrid.astro";
+import { getCollection } from "astro:content";
 
 export async function getStaticPaths() {
-  OpenAPI.BASE = import.meta.env.PUBLIC_BASE_URL;
+  const blogPosts = await getCollection("blog");
 
-  const posts = await ContentService.queryV20({
-    filter: ["contentType:blogPost"],
-    expand: "properties[$all[properties[image]]]",
-    take: 100
-  });
-
-  return posts.items.map((page: BlogPostContentModel) => {
+  return blogPosts.map((post) => {
+    const page = post.data.content;
     const urlSplit = page.route.path.split("/");
 
     return {

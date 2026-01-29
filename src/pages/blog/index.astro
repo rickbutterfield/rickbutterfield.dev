@@ -1,19 +1,10 @@
 ---
 import { marked } from "marked";
-import {
-  ContentService,
-  OpenAPI,
-  type BlogsPageContentModel,
-  type BlogPostContentModel,
-} from "@/api";
 import Layout from "@/layouts/Layout.astro";
 import { getCollection } from "astro:content";
 
-OpenAPI.BASE = import.meta.env.PUBLIC_BASE_URL;
-const nodes = await ContentService.queryV20({
-  filter: ["contentType:blogsPage"],
-});
-const node: BlogsPageContentModel = nodes.items[0];
+const blogsPageCollection = await getCollection("blogsPage");
+const node = blogsPageCollection[0].data.content;
 
 const { title, content } = node.properties;
 

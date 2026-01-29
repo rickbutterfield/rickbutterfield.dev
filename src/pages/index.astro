@@ -2,14 +2,10 @@
 import { marked } from "marked";
 import Layout from "@/layouts/Layout.astro";
 import { Image } from "astro:assets";
-import { ContentService, OpenAPI, type HomePageContentModel } from "@/api";
+import { getCollection } from "astro:content";
 
-OpenAPI.BASE = import.meta.env.PUBLIC_BASE_URL;
-const nodes = await ContentService.queryV20({
-  filter: ["contentType:homePage"],
-  expand: "properties[$all[properties[image]]]",
-});
-const node: HomePageContentModel = nodes.items[0];
+const homePageCollection = await getCollection("homePage");
+const node = homePageCollection[0].data.content;
 
 const { title, content, featuredImage } = node.properties;
 const baseUrl = import.meta.env.PUBLIC_BASE_URL_HTTPS;

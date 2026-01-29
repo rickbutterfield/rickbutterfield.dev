@@ -1,7 +1,8 @@
 import rss, { type RSSFeedItem } from '@astrojs/rss';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
-import { ContentService, OpenAPI, type ApiBlockGridItemModel, type ApiBlockGridModel, type BlogPostContentModel, type ImageWithCaptionElementModel, type RichTextElementModel, type RichTextPropertiesModel, type YouTubeVideoElementModel } from '@/api';
+import { type ApiBlockGridItemModel, type ApiBlockGridModel, type BlogPostContentModel, type ImageWithCaptionElementModel, type RichTextElementModel, type RichTextPropertiesModel, type YouTubeVideoElementModel } from '@/api';
 import { Marked } from 'marked';
+import { getCollection } from 'astro:content';
 
 const renderGridContent = (grid: ApiBlockGridModel, content: string) => {
   if (grid.items.length !== 0) {
@@ -62,14 +63,10 @@ const renderGridContent = (grid: ApiBlockGridModel, content: string) => {
 }
 
 export async function GET(context) {
-  OpenAPI.BASE = import.meta.env.PUBLIC_BASE_URL;
+  const blogPosts = await getCollection('blog');
 
-  const posts = await ContentService.queryV20({
-    filter: ['contentType:blogPost'],
-    sort: ['publishedDate:desc']
-  });
-
-  const items = posts.items.map((post: BlogPostContentModel) => {
+  const items = blogPosts.map((blogPost) => {
+    const post = blogPost.data.content;
     return {
       title: post.properties?.title,
       link: post.route.path,

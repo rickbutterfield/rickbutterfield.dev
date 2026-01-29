@@ -3,26 +3,15 @@ import { marked } from "marked";
 import { Image } from "astro:assets";
 import { getCollection } from "astro:content";
 import {
-  ContentService,
-  OpenAPI,
-  type EventInfoElementModel,
-  type ProjectsPageContentModel,
-  type SpeakingPostContentModel,
-  type ApiBlockItemModel,
-  type IApiContentResponseModel,
   type ProjectPostContentModel,
 } from "@/api";
 import Layout from "@/layouts/Layout.astro";
 
-OpenAPI.BASE = import.meta.env.PUBLIC_BASE_URL;
-const nodes = await ContentService.queryV20({
-  filter: ["contentType:projectsPage"],
-});
-const node: ProjectsPageContentModel = nodes.items[0];
+const projectsPageCollection = await getCollection("projectsPage");
+const node = projectsPageCollection[0].data.content;
 
 const { title, content } = node.properties;
 
-// Use the projects collection instead of direct API call
 const projectPostsCollection = await getCollection('projects');
 const projectPosts = {
   items: projectPostsCollection.map(item => item.data.content as ProjectPostContentModel)
