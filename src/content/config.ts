@@ -1,4 +1,5 @@
-import { defineCollection, z } from 'astro:content';
+import { defineCollection } from 'astro:content';
+import { z } from 'astro/zod';
 
 const blog = defineCollection({
 	// Type-check frontmatter using a schema
@@ -26,8 +27,8 @@ const speaking = defineCollection({
     title: z.string(),
     excerpt: z.string(),
     event: z.string(),
-    externalUrl: z.string().url().optional(),
-    additionalEvents: z.array(z.object({ name: z.string(), date: z.date(), url: z.string().url().optional() })).optional(),
+    externalUrl: z.url().optional(),
+    additionalEvents: z.array(z.object({ name: z.string(), date: z.date(), url: z.url().optional() })).optional(),
     // Transform string to Date object
     pubDate: z
       .string()

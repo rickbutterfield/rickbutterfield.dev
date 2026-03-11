@@ -21,7 +21,7 @@ let width: number = typedData?.properties?.image[0]?.width;
 let height: number = typedData?.properties?.image[0]?.height;
 
 // Calculate scaled dimensions with max width of 2000
-const maxWidth = 1000;
+const maxWidth = 1500;
 if (width > maxWidth) {
   const aspectRatio = height / width;
   width = maxWidth;

@@ -1,0 +1,60 @@
+---
+import type { GetStaticPaths } from "astro";
+import { marked } from "marked";
+import Layout from "@/layouts/Layout.astro";
+import { getCollection } from "astro:content";
+
+export const getStaticPaths = (async ({ paginate }) => {
+  const blogsPageCollection = await getCollection("blogsPage");
+  const blogPosts = (await getCollection("blog")).sort(
+    (a, b) =>
+      new Date(b.data.content?.properties?.publishedDate).getTime() -
+      new Date(a.data.content?.properties?.publishedDate).getTime()
+  );
+
+  return paginate(blogPosts, {
+    pageSize: 10,
+    props: { blogsPage: blogsPageCollection[0] },
+  });
+}) satisfies GetStaticPaths;
+
+const { page, blogsPage } = Astro.props;
+const { title, content } = blogsPage.data.content.properties;
+---
+
+<Layout name={title}>
+  <article class="c-article c-flow">
+    <h1>{title}</h1>
+    <Fragment set:html={marked.parse(content ?? "")} />
+  </article>
+
+  {
+    page.data.map((blogPost) => {
+      const publishedDate = new Date(
+        blogPost.data.content?.properties?.publishedDate
+      );
+
+      return (
+        <article class="c-article c-flow" style={`view-transition-name: article-${blogPost.data.id}`}>
+          <time datetime={publishedDate.toISOString()}>
+            {publishedDate.toLocaleDateString("en-gb", {
+              year: "numeric",
+              month: "short",
+              day: "numeric",
+            })}
+          </time>
+          <h2 class="h3">
+            <a href={blogPost.data.slug}>{blogPost.data.name}</a>
+          </h2>
+          <p>{blogPost.data.content?.properties?.content}</p>
+        </article>
+      );
+    })
+  }
+
+  <nav class="c-pagination" aria-label="Pagination">
+    {page.url.prev && <a href={page.url.prev}>&larr; Newer posts</a>}
+    <span>Page {page.currentPage} of {page.lastPage}</span>
+    {page.url.next && <a href={page.url.next}>Older posts &rarr;</a>}
+  </nav>
+</Layout>

@@ -1,4 +1,5 @@
-import { defineCollection, z } from 'astro:content';
+import { defineCollection } from 'astro:content';
+import { z } from 'astro/zod';
 import { client, ContentService, type BlogPostContentModel, type ProjectPostContentModel, type SpeakingPostContentModel, type HomePageContentModel, type BlogsPageContentModel, type ProjectsPageContentModel, type SpeakingPageContentModel, type ContentPageContentModel, type IApiContentResponseModel } from './api';
 import type { ZodType } from 'astro/zod';
 
