@@ -39,8 +39,8 @@ export const { getStaticPaths, GET } = await OGImageRoute({
     description: page.description,
     bgGradient: [[60, 122, 158]],
     fonts: [
-      './public/assets/fonts/IBM Plex Sans Var-Roman.ttf',
-      './public/assets/fonts/IBM Plex Sans Var-Roman.woff2'
+      './public/assets/fonts/GeistSans-Variable.ttf',
+      './public/assets/fonts/GeistSans-Variable.woff2'
     ],
     font: {
       title: {
@@ -48,12 +48,12 @@ export const { getStaticPaths, GET } = await OGImageRoute({
         lineHeight: 1.125,
         color: [255, 255, 255],
         weight: "ExtraBold",
-        families: ['IBM Plex Sans', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol']
+        families: ['Geist Sans', 'ui-sans-serif', 'system-ui', 'sans-serif']
       },
       description: {
         color: [255, 255, 255],
         weight: "Medium",
-        families: ['IBM Plex Sans', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol']
+        families: ['Geist Sans', 'ui-sans-serif', 'system-ui', 'sans-serif']
       }
     },
     padding: 48,
