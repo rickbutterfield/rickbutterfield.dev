@@ -5,16 +5,21 @@ export default {
 	theme: {
     fontFamily: {
       sans: [
-        'InterVariable',
-        'Inter',
+        '"Geist Sans"',
         'ui-sans-serif',
         'system-ui',
+        '-apple-system',
         'sans-serif',
-        '"Apple Color Emoji"',
-        '"Segoe UI Emoji"',
-        '"Segoe UI Symbol"',
-        '"Noto Color Emoji"',
-      ]
+      ],
+      mono: [
+        '"Geist Mono"',
+        'ui-monospace',
+        '"SFMono-Regular"',
+        '"SF Mono"',
+        'Menlo',
+        'Consolas',
+        'monospace',
+      ],
     },
 		extend: {
       typography: ({theme}) => ({

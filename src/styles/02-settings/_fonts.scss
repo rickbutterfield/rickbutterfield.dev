@@ -1,58 +1,31 @@
 @font-face {
-  font-family: "IBM Plex Sans";
+  font-family: "Geist Sans";
+  font-weight: 100 900;
+  font-style: normal;
   font-display: swap;
-  src: url('/assets/fonts/IBM Plex Sans Var-Roman.woff2') format('woff2');
+  src: url('/assets/fonts/GeistSans-Variable.woff2') format('woff2');
 }
 
 @font-face {
-  font-family: "IBM Plex Sans";
+  font-family: "Geist Sans";
+  font-weight: 100 900;
   font-style: italic;
   font-display: swap;
-  src: url('/assets/fonts/IBM Plex Sans Var-Italic.woff2') format('woff2');
+  src: url('/assets/fonts/GeistSans-VariableItalic.woff2') format('woff2');
 }
 
 @font-face {
-  font-family: "IBM Plex Mono";
-  font-weight: 400;
+  font-family: "Geist Mono";
+  font-weight: 100 900;
+  font-style: normal;
   font-display: swap;
-  src: url('/assets/fonts/IBMPlexMono-Regular.woff2') format('woff2');
+  src: url('/assets/fonts/GeistMono-Variable.woff2') format('woff2');
 }
 
 @font-face {
-  font-family: "IBM Plex Mono";
-  font-weight: 400;
+  font-family: "Geist Mono";
+  font-weight: 100 900;
   font-style: italic;
   font-display: swap;
-  src: url('/assets/fonts/IBMPlexMono-Italic.woff2') format('woff2');
-}
-
-@font-face {
-  font-family: "IBM Plex Mono";
-  font-weight: 450;
-  font-display: swap;
-  src: url('/assets/fonts/IBMPlexMono-Text.woff2') format('woff2');
-}
-
-@font-face {
-  font-family: "IBM Plex Mono";
-  font-weight: 450;
-  font-style: italic;
-  font-display: swap;
-  src: url('/assets/fonts/IBMPlexMono-TextItalic.woff2') format('woff2');
-}
-
-
-@font-face {
-  font-family: "IBM Plex Mono";
-  font-weight: 500;
-  font-display: swap;
-  src: url('/assets/fonts/IBMPlexMono-Medium.woff2') format('woff2');
-}
-
-@font-face {
-  font-family: "IBM Plex Mono";
-  font-weight: 500;
-  font-style: italic;
-  font-display: swap;
-  src: url('/assets/fonts/IBMPlexMono-MediumItalic.woff2') format('woff2');
+  src: url('/assets/fonts/GeistMono-VariableItalic.woff2') format('woff2');
 }
