@@ -10,7 +10,10 @@
       "Bash(npm outdated:*)",
       "Bash(npm run build:*)",
       "Bash(npx update-browserslist-db@latest)",
-      "Bash(npx tsc:*)"
+      "Bash(npx tsc:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(cd \"D:/Community/rickbutterfield.dev\" && rm tailwind.config.mjs)"
     ],
     "deny": [],
     "ask": []
