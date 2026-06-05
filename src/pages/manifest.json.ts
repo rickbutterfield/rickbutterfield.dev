@@ -26,8 +26,8 @@ export const GET: APIRoute = async () => {
     description: 'Senior Developer at Umbraco',
     start_url: '/',
     display: 'standalone',
-    theme_color: "rgb(79, 70, 229)",
-    background_color: "rgb(79, 70, 229)",
+    theme_color: "#c2410c",
+    background_color: "#faf8f5",
     icons
   }
 

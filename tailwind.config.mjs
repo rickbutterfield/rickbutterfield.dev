@@ -5,14 +5,21 @@ export default {
 	theme: {
     fontFamily: {
       sans: [
-        '"Geist Sans"',
+        '"Inter"',
+        'ui-sans-serif',
+        'system-ui',
+        '-apple-system',
+        'sans-serif',
+      ],
+      heading: [
+        '"Hanken Grotesk"',
         'ui-sans-serif',
         'system-ui',
         '-apple-system',
         'sans-serif',
       ],
       mono: [
-        '"Geist Mono"',
+        '"IBM Plex Mono"',
         'ui-monospace',
         '"SFMono-Regular"',
         '"SF Mono"',

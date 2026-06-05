@@ -37,10 +37,10 @@ export const { getStaticPaths, GET } = await OGImageRoute({
   getImageOptions: (path, page) => ({
     title: page.title,
     description: page.description,
-    bgGradient: [[60, 122, 158]],
+    bgGradient: [[194, 65, 12]],
     fonts: [
-      './public/assets/fonts/GeistSans-Variable.ttf',
-      './public/assets/fonts/GeistSans-Variable.woff2'
+      './public/assets/fonts/HankenGrotesk-Variable.ttf',
+      './public/assets/fonts/HankenGrotesk-Variable.woff2'
     ],
     font: {
       title: {
@@ -48,12 +48,12 @@ export const { getStaticPaths, GET } = await OGImageRoute({
         lineHeight: 1.125,
         color: [255, 255, 255],
         weight: "ExtraBold",
-        families: ['Geist Sans', 'ui-sans-serif', 'system-ui', 'sans-serif']
+        families: ['Hanken Grotesk', 'ui-sans-serif', 'system-ui', 'sans-serif']
       },
       description: {
         color: [255, 255, 255],
         weight: "Medium",
-        families: ['Geist Sans', 'ui-sans-serif', 'system-ui', 'sans-serif']
+        families: ['Hanken Grotesk', 'ui-sans-serif', 'system-ui', 'sans-serif']
       }
     },
     padding: 48,

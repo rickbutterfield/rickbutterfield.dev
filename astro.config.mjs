@@ -57,7 +57,9 @@ export default defineConfig({
   ],
   prefetch: true,
   image: {
-    domains: ["api.rickbutterfield.dev"]
+    domains: ["api.rickbutterfield.dev"],
+    // Required to rasterize favicon.svg into the PNG favicons/manifest icons
+    dangerouslyProcessSVG: true
   },
   trailingSlash: 'ignore',
   devToolbar: {
