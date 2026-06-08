@@ -94,3 +94,4 @@ Defined in `.env.local` (gitignored). Public (client-exposed) vars use the `PUBL
 - **Regenerate API types:** start the Umbraco backend, then `npm run generate`
 - **Key files:** `astro.config.mjs`, `src/content.config.ts`, `src/api/`, `openapi-ts.config.ts`, `.env.local`
 - **Backend repo:** `../rick-butterfield` (Umbraco Cloud — supplies all content)
+
