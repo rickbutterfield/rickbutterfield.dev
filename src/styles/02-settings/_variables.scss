@@ -47,23 +47,26 @@
   --font-stack-heading: "Hanken Grotesk", ui-sans-serif, system-ui, -apple-system, 'BlinkMacSystemFont', 'Segoe UI', sans-serif;
   --font-stack-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
 
-  --background-color: #faf8f5;
-  --background-color-secondary: #f3efe9;
+  --background-color: #f5f3ee;
+  --background-color-secondary: #fff;
   --background-color-tertiary: #e5dfd5;
-  --text-color: #292524;
-  --text-color-muted: #78716c;
-  --link-color: #c2410c;
-  --link-color-hover: #9a3412;
+  --text-color: #1c1c14;
+  --text-color-muted: #1c1c1480;
+  --link-color: #1b5e4b;
+  --link-color-hover: #093a2a;
 
   font-family: var(--font-stack);
 }
 
 [data-user-theme="dark"] {
-  --background-color: #1c1917;
-  --background-color-secondary: #24201c;
-  --background-color-tertiary: #312b25;
-  --text-color: #e7e5e4;
-  --text-color-muted: #a8a29e;
-  --link-color: #fdba74;
-  --link-color-hover: #fb923c;
+  /* Warm inversion of the Rust & Stone light palette: olive/brown-tinted
+     near-blacks (mirroring #1c1c14) rather than cool greys, a warm cream
+     text, and a lifted forest green to keep the brand link identity. */
+  --background-color: #1a1712;
+  --background-color-secondary: #221e18;
+  --background-color-tertiary: #2d2820;
+  --text-color: #ece7dd;
+  --text-color-muted: #a39a8c;
+  --link-color: #5cba9b;
+  --link-color-hover: #34a17c;
 }

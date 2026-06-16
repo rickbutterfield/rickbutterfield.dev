@@ -1,3 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <rect width="512" height="512" rx="50" ry="50" fill="#c2410c"/>
+  <style>
+    /* Mirrors --link-color: light #1b5e4b / dark #5cba9b.
+       The fill attribute is the default (used by non-supporting
+       browsers and the PNG/ICO rasterizer); the media query
+       overrides it for OS-level dark mode. */
+    @media (prefers-color-scheme: dark) {
+      .bg { fill: #5cba9b; }
+    }
+  </style>
+  <rect class="bg" width="512" height="512" rx="50" ry="50" fill="#1b5e4b"/>
 </svg>
