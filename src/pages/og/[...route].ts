@@ -37,10 +37,11 @@ export const { getStaticPaths, GET } = await OGImageRoute({
   getImageOptions: (path, page) => ({
     title: page.title,
     description: page.description,
-    bgGradient: [[60, 122, 158]],
+    bgGradient: [[9, 58, 42], [9, 58, 42]], // #1b5e4b → #093a2a (--link-color → --link-color-hover)
     fonts: [
-      './public/assets/fonts/IBM Plex Sans Var-Roman.ttf',
-      './public/assets/fonts/IBM Plex Sans Var-Roman.woff2'
+      './public/assets/fonts/HankenGrotesk-Variable.ttf',
+      './public/assets/fonts/HankenGrotesk-Variable.woff2',
+      './public/assets/fonts/Inter-UI.var.woff2'
     ],
     font: {
       title: {
@@ -48,12 +49,12 @@ export const { getStaticPaths, GET } = await OGImageRoute({
         lineHeight: 1.125,
         color: [255, 255, 255],
         weight: "ExtraBold",
-        families: ['IBM Plex Sans', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol']
+        families: ['Hanken Grotesk', 'ui-sans-serif', 'system-ui', 'sans-serif']
       },
       description: {
         color: [255, 255, 255],
         weight: "Medium",
-        families: ['IBM Plex Sans', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol']
+        families: ['Inter UI', 'Hanken Grotesk', 'ui-sans-serif', 'system-ui', 'sans-serif']
       }
     },
     padding: 48,

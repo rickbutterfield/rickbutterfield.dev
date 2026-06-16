@@ -1,0 +1,18 @@
+/**
+ * Home Component
+ *
+ * Homepage-specific typography: the intro paragraph becomes the
+ * page's display moment, set in the heading face.
+ */
+
+.c-home {
+  .lead {
+    font-family: var(--font-stack-heading);
+    font-feature-settings: "ss01" 1;
+    font-size: var(--step-3);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.2;
+    text-wrap: balance;
+  }
+}
