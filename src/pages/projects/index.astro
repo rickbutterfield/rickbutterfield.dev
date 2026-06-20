@@ -12,7 +12,9 @@ const node = projectsPageCollection[0].data.content;
 
 const { title, content } = node.properties;
 
-const projectPostsCollection = await getCollection('projects');
+const projectPostsCollection = (await getCollection('projects')).sort(
+  (a, b) => a.data.order - b.data.order
+);
 const projectPosts = {
   items: projectPostsCollection.map(item => item.data.content as ProjectPostContentModel)
 };

@@ -149,10 +149,11 @@ const projects = defineCollection({
       }
     });
 
-    return (response.data.items as ProjectPostContentModel[]).map((item) => ({
+    return (response.data.items as ProjectPostContentModel[]).map((item, index) => ({
       id: item.id,
       name: item.name,
       slug: item.route.path,
+      order: index,
       content: item,
     }));
   },
@@ -160,6 +161,7 @@ const projects = defineCollection({
     id: z.string(),
     slug: z.string(),
     name: z.string(),
+    order: z.number(),
     content: z.any() as ZodType<ProjectPostContentModel>,
   })
 });
