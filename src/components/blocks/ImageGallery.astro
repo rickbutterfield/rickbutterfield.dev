@@ -17,18 +17,18 @@ const baseUrl = import.meta.env.PUBLIC_BASE_URL_HTTPS;
     typedData?.properties?.gallery?.items?.map((image) => {
       const typedItem = image.content as ImageWithCaptionElementModel;
 
-      let src: string = `${baseUrl}${typedItem?.properties?.image[0]?.url}?format=webp`;
+      let src: string = `${baseUrl}${typedItem?.properties?.image?.[0]?.url}?format=webp`;
 
-      if (typedItem.properties.image[0].focalPoint !== null) {
-        src += `&rxy=${typedItem?.properties?.image[0].focalPoint.left},${typedItem?.properties?.image[0].focalPoint.top}`;
+      if (typedItem.properties?.image?.[0]?.focalPoint != null) {
+        src += `&rxy=${typedItem.properties.image[0].focalPoint.left},${typedItem.properties.image[0].focalPoint.top}`;
       }
 
-      const caption: string = typedItem?.properties?.caption;
+      const caption: string = typedItem?.properties?.caption ?? '';
       const alt: string =
-        typedItem?.properties?.image[0]?.properties?.altText ?? caption;
+        (typedItem?.properties?.image?.[0]?.properties?.altText as string) ?? caption;
 
-      let width: number = typedItem?.properties?.image[0]?.width;
-      let height: number = typedItem?.properties?.image[0]?.height;
+      let width: number = (typedItem?.properties?.image?.[0]?.width ?? 0) as number;
+      let height: number = (typedItem?.properties?.image?.[0]?.height ?? 0) as number;
 
       // Calculate scaled dimensions with max width of 2000
       const maxWidth = 1500;

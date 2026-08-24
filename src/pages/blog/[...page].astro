@@ -8,8 +8,8 @@ export const getStaticPaths = (async ({ paginate }) => {
   const blogsPageCollection = await getCollection("blogsPage");
   const blogPosts = (await getCollection("blog")).sort(
     (a, b) =>
-      new Date(b.data.content?.properties?.publishedDate).getTime() -
-      new Date(a.data.content?.properties?.publishedDate).getTime()
+      new Date(b.data.content?.properties?.publishedDate ?? '').getTime() -
+      new Date(a.data.content?.properties?.publishedDate ?? '').getTime()
   );
 
   return paginate(blogPosts, {
@@ -19,10 +19,10 @@ export const getStaticPaths = (async ({ paginate }) => {
 }) satisfies GetStaticPaths;
 
 const { page, blogsPage } = Astro.props;
-const { title, content } = blogsPage.data.content.properties;
+const { title, content } = blogsPage.data.content.properties ?? {};
 ---
 
-<Layout name={title}>
+<Layout name={title ?? ''}>
   <article class="c-article c-flow">
     <h1>{title}</h1>
     <Fragment set:html={marked.parse(content ?? "")} />
@@ -31,7 +31,7 @@ const { title, content } = blogsPage.data.content.properties;
   {
     page.data.map((blogPost) => {
       const publishedDate = new Date(
-        blogPost.data.content?.properties?.publishedDate
+        blogPost.data.content?.properties?.publishedDate ?? ''
       );
 
       return (

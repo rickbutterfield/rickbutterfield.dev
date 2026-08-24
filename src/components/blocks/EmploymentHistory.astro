@@ -18,7 +18,7 @@ const typedData = data as EmploymentHistoryElementModel;
             {typedItem.properties?.startDate} &ndash;{" "}
             {typedItem.properties?.endDate ?? "Present"}
           </time>
-          <div set:html={marked.parse(typedItem.properties?.jobDescription)} />
+          <div set:html={marked.parse(typedItem.properties?.jobDescription ?? '')} />
         </article>
       );
     }

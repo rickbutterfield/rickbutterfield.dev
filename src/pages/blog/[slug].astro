@@ -15,11 +15,11 @@ export async function getStaticPaths() {
       props: {
         id: page.id,
         name: page.name,
-        title: page.properties.title,
-        content: page.properties.content,
+        title: page.properties?.title,
+        content: page.properties?.content,
         slug: page.route.path,
-        publishedDate: new Date(page.properties.publishedDate),
-        grid: page.properties.grid,
+        publishedDate: new Date(page.properties?.publishedDate ?? ''),
+        grid: page.properties?.grid,
       },
     };
   });
@@ -31,7 +31,7 @@ let trimmedPath = path.endsWith("/") ? path.slice(0, -1) : path;
 const { id, title, slug, name, content, publishedDate, grid } = Astro.props;
 ---
 
-<Layout name={title} image={`/og${trimmedPath}.png`} schemaType="Article" datePublished={publishedDate} description={content}>
+<Layout name={title ?? ''} image={`/og${trimmedPath}.png`} schemaType="Article" datePublished={publishedDate} description={content ?? undefined}>
   <article
     class="c-article c-flow"
     style={`view-transition-name: article-${id}`}

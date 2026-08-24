@@ -12,7 +12,7 @@ export async function getStaticPaths() {
     return {
       params: { slug: entry.data.slug },
       props: {
-        name: page.name,
+        name: page.name ?? '',
         content: page.properties?.content,
         grid: page.properties?.grid,
       },

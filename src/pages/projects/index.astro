@@ -10,7 +10,7 @@ import Layout from "@/layouts/Layout.astro";
 const projectsPageCollection = await getCollection("projectsPage");
 const node = projectsPageCollection[0].data.content;
 
-const { title, content } = node.properties;
+const { title, content } = node.properties ?? {};
 
 const projectPostsCollection = (await getCollection('projects')).sort(
   (a, b) => a.data.order - b.data.order
@@ -22,7 +22,7 @@ const projectPosts = {
 const baseUrl = import.meta.env.PUBLIC_BASE_URL_HTTPS;
 ---
 
-<Layout name={title}>
+<Layout name={title ?? ''}>
   <article class="c-article c-flow">
     <h1>{title}</h1>
     <Fragment set:html={marked.parse(content ?? "")} />
@@ -35,10 +35,10 @@ const baseUrl = import.meta.env.PUBLIC_BASE_URL_HTTPS;
         >
           <div class="c-article__left c-flow">
             <h2>{projectPost.name}</h2>
-            <Fragment set:html={marked.parse(projectPost.properties.content)} />
+            <Fragment set:html={marked.parse(projectPost.properties?.content ?? '')} />
 
             <ul class="o-list o-list--inline">
-              {projectPost.properties.gitHubUrl && (
+              {projectPost.properties?.gitHubUrl && (
                 <li>
                   <a
                     href={projectPost.properties.gitHubUrl[0]?.url}
@@ -59,7 +59,7 @@ const baseUrl = import.meta.env.PUBLIC_BASE_URL_HTTPS;
                   </a>
                 </li>
               )}
-              {projectPost.properties.nuGetUrl && (
+              {projectPost.properties?.nuGetUrl && (
                 <li>
                   <a
                     href={projectPost.properties.nuGetUrl[0]?.url}
@@ -83,8 +83,8 @@ const baseUrl = import.meta.env.PUBLIC_BASE_URL_HTTPS;
             </ul>
           </div>
           <div class="c-article__right">
-            {projectPost.properties.featuredImage && (
-              <img src=`${baseUrl}${projectPost.properties.featuredImage[0].url}?format=webp` alt={String(projectPost.properties.featuredImage[0].properties.altText ?? projectPost.name)} />
+            {projectPost.properties?.featuredImage && (
+              <img src={`${baseUrl}${projectPost.properties.featuredImage[0].url}?format=webp`} alt={String(projectPost.properties.featuredImage[0].properties.altText ?? projectPost.name)} />
             )}
           </div>
         </article>

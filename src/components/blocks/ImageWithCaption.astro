@@ -8,17 +8,17 @@ const typedData = data as ImageWithCaptionElementModel;
 
 const baseUrl = import.meta.env.PUBLIC_BASE_URL_HTTPS;
 
-let src: string = `${baseUrl}${typedData?.properties?.image[0]?.url}?format=webp`;
+let src: string = `${baseUrl}${typedData?.properties?.image?.[0]?.url}?format=webp`;
 
-if (typedData?.properties?.image[0].focalPoint !== null) {
-  src += `&rxy=${typedData?.properties?.image[0].focalPoint.left},${typedData?.properties?.image[0].focalPoint.top}`;
+if (typedData?.properties?.image?.[0]?.focalPoint != null) {
+  src += `&rxy=${typedData.properties.image[0].focalPoint.left},${typedData.properties.image[0].focalPoint.top}`;
 }
 
-const caption: string = typedData?.properties?.caption;
-const alt: string = typedData?.properties?.image[0]?.properties?.altText ?? caption;
+const caption: string = typedData?.properties?.caption ?? '';
+const alt: string = typedData?.properties?.image?.[0]?.properties?.altText as string ?? caption;
 
-let width: number = typedData?.properties?.image[0]?.width;
-let height: number = typedData?.properties?.image[0]?.height;
+let width: number = (typedData?.properties?.image?.[0]?.width ?? 0) as number;
+let height: number = (typedData?.properties?.image?.[0]?.height ?? 0) as number;
 
 // Calculate scaled dimensions with max width of 2000
 const maxWidth = 1500;

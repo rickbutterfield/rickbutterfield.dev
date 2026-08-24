@@ -7,13 +7,14 @@ import { getCollection } from "astro:content";
 const homePageCollection = await getCollection("homePage");
 const node = homePageCollection[0].data.content;
 
-const { title, content, featuredImage } = node.properties;
+const { content, featuredImage } = node.properties ?? {};
 const baseUrl = import.meta.env.PUBLIC_BASE_URL_HTTPS;
 
-const width: number = featuredImage[0].width;
-const height: number = featuredImage[0].height;
-const src: string = `${baseUrl}${featuredImage[0]?.url}?width=2000&height=1125`;
-const alt: string = featuredImage[0]?.properties?.altText || "";
+const heroImage = featuredImage?.[0];
+const width: number = (heroImage?.width ?? 0) as number;
+const height: number = (heroImage?.height ?? 0) as number;
+const src: string = `${baseUrl}${heroImage?.url}?width=2000&height=1125`;
+const alt: string = heroImage?.properties?.altText as string || "";
 ---
 
 <Layout name={"Senior Developer at Umbraco"}>
@@ -22,7 +23,7 @@ const alt: string = featuredImage[0]?.properties?.altText || "";
       <figure>
         <Image src={src} alt={alt} width={2000} height={1125} loading="eager" fetchpriority="high" decoding="async" />
       </figure>
-      <Fragment set:html={marked.parse(content)} />
+      <Fragment set:html={marked.parse(content ?? '')} />
     </article>
   </section>
 </Layout>

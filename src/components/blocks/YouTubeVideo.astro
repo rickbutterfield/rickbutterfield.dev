@@ -4,7 +4,7 @@ import { type YouTubeVideoElementModel } from "@/api";
 
 const { data } = Astro.props;
 const typedData = data as YouTubeVideoElementModel;
-const videoId = typedData?.properties?.videoID;
+const videoId = typedData?.properties?.videoID ?? '';
 ---
 
 <figure>

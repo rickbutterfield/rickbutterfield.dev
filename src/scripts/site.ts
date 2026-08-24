@@ -15,7 +15,7 @@ function checkTheme(document: Document) {
   lightModeIcon.classList.add('hidden');
   darkModeIcon.classList.add('hidden');
   
-  const localStorageTheme: string = localStorage.getItem('theme');
+  const localStorageTheme: string | null = localStorage.getItem('theme');
   const isLocalStorageDarkTheme: boolean = localStorageTheme === 'dark';
 
   if (isLocalStorageDarkTheme) {

@@ -176,10 +176,11 @@ const speaking = defineCollection({
       }
     });
 
-    return (response.data.items as SpeakingPostContentModel[]).map((item) => ({
+    return (response.data.items as SpeakingPostContentModel[]).map((item, index) => ({
       id: item.id,
       name: item.name,
       slug: item.route.path,
+      order: index,
       content: item,
     }));
   },
@@ -187,6 +188,7 @@ const speaking = defineCollection({
     id: z.string(),
     slug: z.string(),
     name: z.string(),
+    order: z.number(),
     content: z.any() as ZodType<SpeakingPostContentModel>,
   })
 });

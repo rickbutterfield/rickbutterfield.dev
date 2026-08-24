@@ -1,6 +1,7 @@
-import rss, { type RSSFeedItem } from '@astrojs/rss';
+import rss from '@astrojs/rss';
+import type { APIContext } from 'astro';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
-import { type ApiBlockGridItemModel, type ApiBlockGridModel, type BlogPostContentModel, type ImageWithCaptionElementModel, type RichTextElementModel, type RichTextPropertiesModel, type YouTubeVideoElementModel } from '@/api';
+import { type ApiBlockGridItemModel, type ApiBlockGridModel, type ImageWithCaptionElementModel, type RichTextElementModel, type YouTubeVideoElementModel } from '@/api';
 import { Marked } from 'marked';
 import { getCollection } from 'astro:content';
 
@@ -21,7 +22,7 @@ const renderGridContent = (grid: ApiBlockGridModel, content: string) => {
     grid.items.forEach((item: ApiBlockGridItemModel) => {
       if (item.content.contentType == 'richText') {
         const typedData = item.content as RichTextElementModel;
-        html += customMarked.parse(typedData?.properties.content);
+        html += customMarked.parse(typedData?.properties?.content ?? '');
       }
 
       if (item.content.contentType == "imageWithCaption") {
@@ -29,15 +30,15 @@ const renderGridContent = (grid: ApiBlockGridModel, content: string) => {
 
         const baseUrl = import.meta.env.PUBLIC_BASE_URL_HTTPS;
 
-        let src: string = `${baseUrl}${typedData?.properties?.image[0]?.url}?width=2000&height=1125`;
+        let src: string = `${baseUrl}${typedData?.properties?.image?.[0]?.url}?width=2000&height=1125`;
 
-        if (typedData?.properties?.image[0].focalPoint !== null) {
-          src += `&rxy=${typedData?.properties?.image[0].focalPoint.left},${typedData?.properties?.image[0].focalPoint.top}`;
+        if (typedData?.properties?.image?.[0]?.focalPoint != null) {
+          src += `&rxy=${typedData.properties.image[0].focalPoint.left},${typedData.properties.image[0].focalPoint.top}`;
         }
 
         const caption: string = typedData?.properties?.caption || '';
         const alt: string =
-          (typedData?.properties?.image[0]?.properties?.altText as string) ?? caption;
+          (typedData?.properties?.image?.[0]?.properties?.altText as string) ?? caption;
 
           html +=
           `<figure>
@@ -50,9 +51,9 @@ const renderGridContent = (grid: ApiBlockGridModel, content: string) => {
 
       if (item.content.contentType == "youTubeVideo") {
         const typedData = item.content as YouTubeVideoElementModel;
-        
+
         html +=
-          `<iframe src="https://www.youtube-nocookie.com/embed/${typedData.properties.videoID}?autoplay=0&playsinline=1" />`;
+          `<iframe src="https://www.youtube-nocookie.com/embed/${typedData.properties?.videoID ?? ''}?autoplay=0&playsinline=1" />`;
       }
     });
 
@@ -62,24 +63,24 @@ const renderGridContent = (grid: ApiBlockGridModel, content: string) => {
   return `<p>${content}</p>`;
 }
 
-export async function GET(context) {
+export async function GET(context: APIContext) {
   const blogPosts = await getCollection('blog');
 
   const items = blogPosts.map((blogPost) => {
     const post = blogPost.data.content;
     return {
-      title: post.properties?.title,
+      title: post.properties?.title ?? '',
       link: post.route.path,
-      pubDate: new Date(post.properties?.publishedDate),
+      pubDate: new Date(post.properties?.publishedDate ?? ''),
       description: post.properties?.content ?? "",
-      content: renderGridContent(post.properties?.grid, post.properties?.content)
+      content: renderGridContent(post.properties?.grid ?? { gridColumns: 0, items: [] }, post.properties?.content ?? '')
     }
   });
 
 	return rss({
 		title: SITE_TITLE,
 		description: SITE_DESCRIPTION,
-		site: context.site,
+		site: context.site!,
 		items: items
 	});
 }

@@ -5,12 +5,13 @@ import ImageGallery from "./blocks/ImageGallery.astro";
 import RichText from "./blocks/RichText.astro";
 import UpdateAlert from "./blocks/UpdateAlert.astro";
 import YouTubeVideo from "./blocks/YouTubeVideo.astro";
+import type { ApiBlockGridItemModel } from "@/api";
 
 const { data } = Astro.props;
 ---
 
 {
-  data?.items.map((item) => {
+  data?.items.map((item: ApiBlockGridItemModel) => {
     if (item.content !== null) {
       if (item.content?.contentType === "richText") {
         return <RichText data={item.content} />;

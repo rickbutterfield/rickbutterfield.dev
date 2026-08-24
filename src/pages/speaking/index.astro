@@ -2,18 +2,17 @@
 import { marked } from 'marked';
 import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
-import { type EventInfoElementModel, type SpeakingPostContentModel, type ApiBlockItemModel, type IApiContentResponseModel } from '@/api';
+import { type EventInfoElementModel, type SpeakingPostContentModel, type ApiBlockItemModel } from '@/api';
 import Layout from '@/layouts/Layout.astro';
 
 const speakingPageCollection = await getCollection("speakingPage");
 const node = speakingPageCollection[0].data.content;
 
-const {
-  title,
-  content
-} = node.properties
+const { title, content } = node.properties ?? {};
 
-const speakingPostsCollection = await getCollection('speaking');
+const speakingPostsCollection = (await getCollection('speaking')).sort(
+  (a, b) => a.data.order - b.data.order
+);
 const speakingPosts = {
   items: speakingPostsCollection.map(item => item.data.content as SpeakingPostContentModel)
 };
@@ -21,34 +20,34 @@ const speakingPosts = {
 const baseUrl = import.meta.env.PUBLIC_BASE_URL_HTTPS;
 ---
 
-<Layout name={title}>
+<Layout name={title ?? ''}>
   <article class="c-article c-flow">
     <h1>{title}</h1>
-    <Fragment set:html={marked.parse(content)}></Fragment>
+    <Fragment set:html={marked.parse(content ?? '')}></Fragment>
   </article>
 
   {
-    speakingPosts.items.map((speakingPost: SpeakingPostContentModel, index: number, array: IApiContentResponseModel[]) => (
+    speakingPosts.items.map((speakingPost: SpeakingPostContentModel) => (
         <article class="c-article c-flow" style={`view-transition-name: article-${speakingPost.id}`}>
           {speakingPost?.properties?.featuredImage != null ? (
             <figure>
               <Image
-                src=`${baseUrl}${speakingPost?.properties?.featuredImage[0]?.url}`
+                src={`${baseUrl}${speakingPost?.properties?.featuredImage[0]?.url}`}
                 alt={String(speakingPost?.properties?.featuredImage[0]?.properties?.altText ?? '')}
-                width={speakingPost?.properties?.featuredImage[0]?.width}
-                height={speakingPost?.properties?.featuredImage[0]?.height}
+                width={speakingPost?.properties?.featuredImage[0]?.width as number}
+                height={speakingPost?.properties?.featuredImage[0]?.height as number}
                 loading="lazy"
                 decoding="async" />
             </figure>
           ) : null}
-          <h2><a href={speakingPost.properties.eventUrl} target="_blank">{speakingPost.name}</a></h2>
+          <h2><a href={speakingPost.properties?.eventUrl} target="_blank">{speakingPost.name}</a></h2>
           <ul class="o-list o-list--inline">
             <li>
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5m-9-6h.008v.008H12v-.008ZM12 15h.008v.008H12V15Zm0 2.25h.008v.008H12v-.008ZM9.75 15h.008v.008H9.75V15Zm0 2.25h.008v.008H9.75v-.008ZM7.5 15h.008v.008H7.5V15Zm0 2.25h.008v.008H7.5v-.008Zm6.75-4.5h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V15Zm0 2.25h.008v.008h-.008v-.008Zm2.25-4.5h.008v.008H16.5v-.008Zm0 2.25h.008v.008H16.5V15Z" />
                 </svg>
-                <time datetime={new Date(speakingPost.properties.eventDate).toISOString()}>
-                  {new Date(speakingPost.properties.eventDate).toLocaleDateString('en-gb', {
+                <time datetime={new Date(speakingPost.properties?.eventDate ?? '').toISOString()}>
+                  {new Date(speakingPost.properties?.eventDate ?? '').toLocaleDateString('en-gb', {
                     year: 'numeric',
                     month: 'short',
                     day: 'numeric',
@@ -63,17 +62,17 @@ const baseUrl = import.meta.env.PUBLIC_BASE_URL_HTTPS;
               {speakingPost?.properties?.eventName}
             </li>
           </ul>
-          <Fragment set:html={marked.parse(speakingPost.properties.content)} />
+          <Fragment set:html={marked.parse(speakingPost.properties?.content ?? '')} />
 
-          {speakingPost.properties.additionalEvents != null ? (
+          {speakingPost.properties?.additionalEvents != null ? (
               <p>Talk also given at:</p>
               <ul>
-              {speakingPost.properties.additionalEvents?.items?.map((item) => {
+              {speakingPost.properties?.additionalEvents?.items?.map((item) => {
                 const typedItem = item as ApiBlockItemModel;
                 const typedContent = typedItem.content as EventInfoElementModel;
                 return (
                   <li>
-                    <a href={typedContent.properties.eventUrl}>{typedContent.properties?.eventName}</a> {new Date(typedContent.properties.eventDate).toLocaleDateString('en-gb', {
+                    <a href={typedContent.properties?.eventUrl}>{typedContent.properties?.eventName}</a> {new Date(typedContent.properties?.eventDate ?? '').toLocaleDateString('en-gb', {
                       year: 'numeric',
                       month: 'short',
                       day: 'numeric'

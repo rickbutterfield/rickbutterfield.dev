@@ -5,7 +5,7 @@ import { Code } from "astro-expressive-code/components";
 
 const { data } = Astro.props;
 const typedData = data as UpdateAlertElementModel;
-const updateDate = new Date(typedData?.properties?.date);
+const updateDate = new Date(typedData?.properties?.date ?? '');
 
 // Store code blocks for separate rendering
 const codeBlocks: Array<{

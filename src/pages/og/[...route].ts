@@ -17,24 +17,20 @@ blogPosts.forEach((blogPost) => {
     }
 
     pages[path] = {
-      title: post.properties?.title,
+      title: post.properties?.title ?? '',
       description: descriptionTruncated
     }
   }
 });
 
 export const { getStaticPaths, GET } = await OGImageRoute({
-  // Tell us the name of your dynamic route segment.
-  // In this case it’s `route`, because the file is named `[...route].ts`.
-  param: 'route',
-
   // A collection of pages to generate images for.
   // The keys of this object are used to generate the path for that image.
   // In this example, we generate one image at `/open-graph/example.png`.
   pages: pages,
 
   // For each page, this callback will be used to customize the OpenGraph image.
-  getImageOptions: (path, page) => ({
+  getImageOptions: (_path, page) => ({
     title: page.title,
     description: page.description,
     bgGradient: [[9, 58, 42], [9, 58, 42]], // #1b5e4b → #093a2a (--link-color → --link-color-hover)
