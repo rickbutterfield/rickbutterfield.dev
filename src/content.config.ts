@@ -176,7 +176,11 @@ const speaking = defineCollection({
       }
     });
 
-    return (response.data.items as SpeakingPostContentModel[]).map((item, index) => ({
+    const items = (response.data.items as SpeakingPostContentModel[]).sort((a, b) =>
+      new Date(b.properties?.eventDate ?? 0).getTime() - new Date(a.properties?.eventDate ?? 0).getTime()
+    );
+
+    return items.map((item, index) => ({
       id: item.id,
       name: item.name,
       slug: item.route.path,
