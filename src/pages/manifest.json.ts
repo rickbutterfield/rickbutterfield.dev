@@ -1,6 +1,7 @@
 import type { APIRoute } from 'astro'
 import { getImage } from 'astro:assets'
 import favicon from '../../public/favicon.svg';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 
 const faviconPngSizes = [192, 512];
 
@@ -22,8 +23,8 @@ export const GET: APIRoute = async () => {
   )
 
   const manifest = {
-    name: 'Rick Butterfield',
-    description: 'Senior Developer at Umbraco',
+    name: SITE_TITLE,
+    description: SITE_DESCRIPTION,
     start_url: '/',
     display: 'standalone',
     theme_color: "#c2410c",

@@ -52,6 +52,7 @@ export type ApiLinkModel = {
     readonly destinationType?: string | null;
     route?: ApiContentRouteModel | null;
     linkType: LinkTypeModel;
+    readonly culture?: string | null;
 };
 
 export type BlogPostContentModel = Omit<IApiContentModelBase, 'contentType'> & {
@@ -137,15 +138,17 @@ export type HomePageContentResponseModel = Omit<IApiContentResponseModelBase, 'c
     contentType: 'homePage';
 };
 
-export type HomePagePropertiesModel = PageSettingsPropertiesModel & PageContentPropertiesModel;
+export type HomePagePropertiesModel = PageSettingsPropertiesModel & PageContentPropertiesModel & {
+    siteTitle?: string | null;
+    siteTitleMobile?: string | null;
+    siteDescription?: string | null;
+};
 
 export type HttpValidationProblemDetails = ProblemDetails & {
     errors?: {
         [key: string]: Array<string>;
     };
-    [key: string]: unknown | {
-        [key: string]: Array<string>;
-    } | undefined;
+    [key: string]: unknown;
 };
 
 export type IApiContentModel = ContentPageContentModel | HomePageContentModel | SpeakingPageContentModel | ProjectPostContentModel | BlogPostContentModel | ProjectsPageContentModel | SpeakingPostContentModel | BlogsPageContentModel;
@@ -307,7 +310,7 @@ export type ProblemDetails = {
     status?: number | null;
     detail?: string | null;
     instance?: string | null;
-    [key: string]: unknown | string | null | string | null | number | null | string | null | string | null | undefined;
+    [key: string]: unknown;
 };
 
 export type ProjectPostContentModel = Omit<IApiContentModelBase, 'contentType'> & {
@@ -426,28 +429,28 @@ export type ApiLinkModelWritable = {
     linkType: LinkTypeModel;
 };
 
-export type BlogPostContentModelWritable = IApiContentModelBaseWritable & {
-    contentType?: 'BlogPostContentModelWritable';
+export type BlogPostContentModelWritable = Omit<IApiContentModelBaseWritable2, 'contentType'> & {
+    contentType: 'blogPost';
 } & {
     properties?: BlogPostPropertiesModelWritable;
 };
 
-export type BlogPostContentResponseModelWritable = IApiContentResponseModelBaseWritable & BlogPostContentModelWritable & {
-    contentType?: 'BlogPostContentResponseModelWritable';
+export type BlogPostContentResponseModelWritable = Omit<IApiContentResponseModelBaseWritable2, 'contentType'> & Omit<BlogPostContentModelWritable, 'contentType'> & {
+    contentType: 'blogPost';
 };
 
 export type BlogPostPropertiesModelWritable = PageSettingsPropertiesModel & PageContentPropertiesModelWritable & {
     publishedDate?: string | null;
 };
 
-export type BlogsPageContentModelWritable = IApiContentModelBaseWritable & {
-    contentType?: 'BlogsPageContentModelWritable';
+export type BlogsPageContentModelWritable = Omit<IApiContentModelBaseWritable2, 'contentType'> & {
+    contentType: 'blogsPage';
 } & {
     properties?: BlogsPagePropertiesModelWritable;
 };
 
-export type BlogsPageContentResponseModelWritable = IApiContentResponseModelBaseWritable & BlogsPageContentModelWritable & {
-    contentType?: 'BlogsPageContentResponseModelWritable';
+export type BlogsPageContentResponseModelWritable = Omit<IApiContentResponseModelBaseWritable2, 'contentType'> & Omit<BlogsPageContentModelWritable, 'contentType'> & {
+    contentType: 'blogsPage';
 };
 
 export type BlogsPagePropertiesModelWritable = PageSettingsPropertiesModel & PageContentPropertiesModelWritable;
@@ -456,14 +459,14 @@ export type CVentryElementModelWritable = {
     properties?: CVentryPropertiesModel;
 };
 
-export type ContentPageContentModelWritable = IApiContentModelBaseWritable & {
-    contentType?: 'ContentPageContentModelWritable';
+export type ContentPageContentModelWritable = Omit<IApiContentModelBaseWritable2, 'contentType'> & {
+    contentType: 'contentPage';
 } & {
     properties?: ContentPagePropertiesModelWritable;
 };
 
-export type ContentPageContentResponseModelWritable = IApiContentResponseModelBaseWritable & ContentPageContentModelWritable & {
-    contentType?: 'ContentPageContentResponseModelWritable';
+export type ContentPageContentResponseModelWritable = Omit<IApiContentResponseModelBaseWritable2, 'contentType'> & Omit<ContentPageContentModelWritable, 'contentType'> & {
+    contentType: 'contentPage';
 };
 
 export type ContentPagePropertiesModelWritable = PageSettingsPropertiesModel & PageContentPropertiesModelWritable;
@@ -480,17 +483,21 @@ export type EventInfoElementModelWritable = {
     properties?: EventInfoPropertiesModel;
 };
 
-export type HomePageContentModelWritable = IApiContentModelBaseWritable & {
-    contentType?: 'HomePageContentModelWritable';
+export type HomePageContentModelWritable = Omit<IApiContentModelBaseWritable2, 'contentType'> & {
+    contentType: 'homePage';
 } & {
     properties?: HomePagePropertiesModelWritable;
 };
 
-export type HomePageContentResponseModelWritable = IApiContentResponseModelBaseWritable & HomePageContentModelWritable & {
-    contentType?: 'HomePageContentResponseModelWritable';
+export type HomePageContentResponseModelWritable = Omit<IApiContentResponseModelBaseWritable2, 'contentType'> & Omit<HomePageContentModelWritable, 'contentType'> & {
+    contentType: 'homePage';
 };
 
-export type HomePagePropertiesModelWritable = PageSettingsPropertiesModel & PageContentPropertiesModelWritable;
+export type HomePagePropertiesModelWritable = PageSettingsPropertiesModel & PageContentPropertiesModelWritable & {
+    siteTitle?: string | null;
+    siteTitleMobile?: string | null;
+    siteDescription?: string | null;
+};
 
 export type IApiContentModelWritable = ContentPageContentModelWritable | HomePageContentModelWritable | SpeakingPageContentModelWritable | ProjectPostContentModelWritable | BlogPostContentModelWritable | ProjectsPageContentModelWritable | SpeakingPostContentModelWritable | BlogsPageContentModelWritable;
 
@@ -500,8 +507,8 @@ export type IApiContentModelBaseWritable = {
 
 export type IApiContentResponseModelWritable = ContentPageContentResponseModelWritable | HomePageContentResponseModelWritable | SpeakingPageContentResponseModelWritable | ProjectPostContentResponseModelWritable | BlogPostContentResponseModelWritable | ProjectsPageContentResponseModelWritable | SpeakingPostContentResponseModelWritable | BlogsPageContentResponseModelWritable;
 
-export type IApiContentResponseModelBaseWritable = IApiContentModelBaseWritable & {
-    contentType?: 'IApiContentResponseModelBaseWritable';
+export type IApiContentResponseModelBaseWritable = Omit<IApiContentModelBaseWritable2, 'contentType'> & {
+    contentType: 'IApiContentResponseModelBaseWritable';
 };
 
 export type IApiElementModelWritable = PageSettingsElementModelWritable | PageContentElementModelWritable | UpdateAlertElementModelWritable | CVentryElementModelWritable | YouTubeVideoElementModelWritable | ImageGalleryElementModelWritable | EventInfoElementModelWritable | ImageWithCaptionElementModelWritable | RichTextElementModelWritable | EmploymentHistoryElementModelWritable;
@@ -556,14 +563,14 @@ export type PagedIApiMediaWithCropsResponseModelWritable = {
     items: Array<IApiMediaWithCropsResponseModelWritable>;
 };
 
-export type ProjectPostContentModelWritable = IApiContentModelBaseWritable & {
-    contentType?: 'ProjectPostContentModelWritable';
+export type ProjectPostContentModelWritable = Omit<IApiContentModelBaseWritable2, 'contentType'> & {
+    contentType: 'projectPost';
 } & {
     properties?: ProjectPostPropertiesModelWritable;
 };
 
-export type ProjectPostContentResponseModelWritable = IApiContentResponseModelBaseWritable & ProjectPostContentModelWritable & {
-    contentType?: 'ProjectPostContentResponseModelWritable';
+export type ProjectPostContentResponseModelWritable = Omit<IApiContentResponseModelBaseWritable2, 'contentType'> & Omit<ProjectPostContentModelWritable, 'contentType'> & {
+    contentType: 'projectPost';
 };
 
 export type ProjectPostPropertiesModelWritable = PageSettingsPropertiesModel & PageContentPropertiesModelWritable & {
@@ -571,14 +578,14 @@ export type ProjectPostPropertiesModelWritable = PageSettingsPropertiesModel & P
     nuGetUrl?: Array<ApiLinkModelWritable> | null;
 };
 
-export type ProjectsPageContentModelWritable = IApiContentModelBaseWritable & {
-    contentType?: 'ProjectsPageContentModelWritable';
+export type ProjectsPageContentModelWritable = Omit<IApiContentModelBaseWritable2, 'contentType'> & {
+    contentType: 'projectsPage';
 } & {
     properties?: ProjectsPagePropertiesModelWritable;
 };
 
-export type ProjectsPageContentResponseModelWritable = IApiContentResponseModelBaseWritable & ProjectsPageContentModelWritable & {
-    contentType?: 'ProjectsPageContentResponseModelWritable';
+export type ProjectsPageContentResponseModelWritable = Omit<IApiContentResponseModelBaseWritable2, 'contentType'> & Omit<ProjectsPageContentModelWritable, 'contentType'> & {
+    contentType: 'projectsPage';
 };
 
 export type ProjectsPagePropertiesModelWritable = PageSettingsPropertiesModel & PageContentPropertiesModelWritable;
@@ -587,26 +594,26 @@ export type RichTextElementModelWritable = {
     properties?: RichTextPropertiesModel;
 };
 
-export type SpeakingPageContentModelWritable = IApiContentModelBaseWritable & {
-    contentType?: 'SpeakingPageContentModelWritable';
+export type SpeakingPageContentModelWritable = Omit<IApiContentModelBaseWritable2, 'contentType'> & {
+    contentType: 'speakingPage';
 } & {
     properties?: SpeakingPagePropertiesModelWritable;
 };
 
-export type SpeakingPageContentResponseModelWritable = IApiContentResponseModelBaseWritable & SpeakingPageContentModelWritable & {
-    contentType?: 'SpeakingPageContentResponseModelWritable';
+export type SpeakingPageContentResponseModelWritable = Omit<IApiContentResponseModelBaseWritable2, 'contentType'> & Omit<SpeakingPageContentModelWritable, 'contentType'> & {
+    contentType: 'speakingPage';
 };
 
 export type SpeakingPagePropertiesModelWritable = PageSettingsPropertiesModel & PageContentPropertiesModelWritable;
 
-export type SpeakingPostContentModelWritable = IApiContentModelBaseWritable & {
-    contentType?: 'SpeakingPostContentModelWritable';
+export type SpeakingPostContentModelWritable = Omit<IApiContentModelBaseWritable2, 'contentType'> & {
+    contentType: 'speakingPost';
 } & {
     properties?: SpeakingPostPropertiesModelWritable;
 };
 
-export type SpeakingPostContentResponseModelWritable = IApiContentResponseModelBaseWritable & SpeakingPostContentModelWritable & {
-    contentType?: 'SpeakingPostContentResponseModelWritable';
+export type SpeakingPostContentResponseModelWritable = Omit<IApiContentResponseModelBaseWritable2, 'contentType'> & Omit<SpeakingPostContentModelWritable, 'contentType'> & {
+    contentType: 'speakingPost';
 };
 
 export type SpeakingPostPropertiesModelWritable = PageSettingsPropertiesModel & PageContentPropertiesModelWritable & EventInfoPropertiesModel & {
@@ -619,6 +626,31 @@ export type UpdateAlertElementModelWritable = {
 
 export type YouTubeVideoElementModelWritable = {
     properties?: YouTubeVideoPropertiesModel;
+};
+
+export type IApiContentModelBaseWritable2 = Omit<IApiElementModelBase, 'contentType'> & {
+    contentType: 'IApiContentModelBaseWritable2';
+} & {
+    readonly id: string;
+    readonly contentType: string;
+    readonly name?: string | null;
+    readonly createDate: string;
+    readonly updateDate: string;
+    route: ApiContentRouteModel;
+};
+
+export type IApiContentResponseModelBaseWritable2 = Omit<IApiContentModelBase, 'contentType'> & {
+    contentType: 'IApiContentResponseModelBaseWritable2';
+} & {
+    readonly id: string;
+    readonly contentType: string;
+    readonly name?: string | null;
+    readonly createDate: string;
+    readonly updateDate: string;
+    route: ApiContentRouteModel;
+    readonly cultures: {
+        [key: string]: ApiContentRouteModel;
+    };
 };
 
 export type QueryV20Data = {

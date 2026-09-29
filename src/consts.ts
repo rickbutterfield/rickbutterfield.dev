@@ -1,6 +1,12 @@
-// Place any global data in this file.
-// You can import this data from anywhere in your site by using the `import` keyword.
+// Global site data, sourced from the Settings tab on the Home node in Umbraco.
+// The literals are fallbacks for when the fields are empty.
+import { getCollection } from 'astro:content';
 
-export const SITE_TITLE = 'Rick Butterfield';
-export const SITE_TITLE_MOBILE = 'RB';
-export const SITE_DESCRIPTION = 'Senior Developer at Umbraco';
+const [homePage] = await getCollection('homePage');
+const settings = homePage?.data.content.properties;
+
+export const SITE_TITLE = settings?.siteTitle || 'Rick Butterfield';
+export const SITE_TITLE_MOBILE = settings?.siteTitleMobile || 'RB';
+export const SITE_DESCRIPTION = settings?.siteDescription || 'Senior Developer at Umbraco';
+export const SITE_JOB_TITLE = 'Staff Engineer';
+export const SITE_EMPLOYER = 'Umbraco';

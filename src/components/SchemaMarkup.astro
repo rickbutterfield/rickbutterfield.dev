@@ -1,4 +1,6 @@
 ---
+import { SITE_TITLE, SITE_DESCRIPTION, SITE_JOB_TITLE, SITE_EMPLOYER } from "../consts";
+
 export interface Props {
   type: 'Article' | 'WebPage' | 'WebSite';
   title: string;
@@ -18,12 +20,12 @@ const imageUrl = image ? new URL(image, siteUrl).toString() : undefined;
 // Author/Person schema
 const authorSchema = {
   "@type": "Person",
-  "name": "Rick Butterfield",
+  "name": SITE_TITLE,
   "url": siteUrl,
-  "jobTitle": "Senior Developer",
+  "jobTitle": SITE_JOB_TITLE,
   "worksFor": {
     "@type": "Organization",
-    "name": "Umbraco"
+    "name": SITE_EMPLOYER
   }
 };
 
@@ -31,8 +33,8 @@ const authorSchema = {
 const websiteSchema = {
   "@context": "https://schema.org",
   "@type": "WebSite",
-  "name": "Rick Butterfield",
-  "description": "Senior Developer at Umbraco",
+  "name": SITE_TITLE,
+  "description": SITE_DESCRIPTION,
   "url": siteUrl,
   "author": authorSchema
 };
@@ -49,7 +51,7 @@ const articleSchema = type === 'Article' ? {
   "author": authorSchema,
   "publisher": {
     "@type": "Person",
-    "name": "Rick Butterfield",
+    "name": SITE_TITLE,
     "url": siteUrl
   },
   "mainEntityOfPage": {

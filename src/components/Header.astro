@@ -1,6 +1,6 @@
 ---
 import HeaderLink from "./HeaderLink.astro";
-import { SITE_TITLE, SITE_TITLE_MOBILE } from "../consts";
+import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
 import { getCollection } from "astro:content";
 
 const navigationItems = await getCollection("navigation");
@@ -14,7 +14,7 @@ const navigationItems = await getCollection("navigation");
           <a href="/"><strong>{SITE_TITLE}</strong></a>
         </div>
         <div>
-          <span>Senior Developer at Umbraco</span>
+          <span>{SITE_DESCRIPTION}</span>
         </div>
 
         <nav class="c-nav">

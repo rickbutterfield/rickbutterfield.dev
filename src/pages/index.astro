@@ -3,6 +3,7 @@ import { marked } from "marked";
 import Layout from "@/layouts/Layout.astro";
 import { Image } from "astro:assets";
 import { getCollection } from "astro:content";
+import { SITE_DESCRIPTION } from "../consts";
 
 const homePageCollection = await getCollection("homePage");
 const node = homePageCollection[0].data.content;
@@ -17,7 +18,7 @@ const src: string = `${baseUrl}${heroImage?.url}?width=2000&height=1125`;
 const alt: string = heroImage?.properties?.altText as string || "";
 ---
 
-<Layout name={"Senior Developer at Umbraco"}>
+<Layout name={SITE_DESCRIPTION}>
   <section>
     <article class="c-article c-flow c-home">
       <figure>
