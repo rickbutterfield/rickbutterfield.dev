@@ -4,9 +4,9 @@ The public-facing personal site at https://rickbutterfield.dev. It is the **fron
 
 ## 1. Architecture
 
-- **Runtime:** Node `>=22.12.0` (`.nvmrc` pins `22.12.0`). ESM only (`"type": "module"`).
+- **Runtime:** Node `>=22.12.0` (`.nvmrc` pins `22.22.0`; Astro's `unifont` → `undici@8` needs Node `>=22.19.0`). ESM only (`"type": "module"`).
 - **Framework:** Astro 6 (`astro.config.mjs`). TypeScript, extends `astro/tsconfigs/base`.
-- **Rendering:** Static site generation. Content is fetched from the headless Umbraco Delivery API during `astro build` — there is no runtime database call from this app. `@astrojs/node` is present as a dev dependency for `astro preview`/SSR adapter use, but the production output is static (`dist/client`).
+- **Rendering:** Static site generation. Content is fetched from the headless Umbraco Delivery API during `astro build` — there is no runtime database call from this app. No SSR adapter is installed; the production output is static (`dist/`).
 - **Web components:** Lit (`@astrojs/lit`) for any client-side islands.
 - **Styling:** SCSS using an ITCSS layering convention under `src/styles/` (`02-settings`, `03-generic`, `04-base`, `05-objects`, `06-components`, `08-trumps`), entry `src/styles/style.scss`.
 - **Path alias:** `@/*` → `src/*` (see `tsconfig.json`).
