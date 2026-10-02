@@ -5,21 +5,23 @@
  * grid in the bottom-right corner of the page. Colours come from the --bg-*
  * tokens in 02-settings/_variables.scss, which the dark-theme mixin redefines.
  *
- * The washes and grain sit on a fixed layer behind the content, so they stay
- * in the corners of the screen as you scroll.
+ * The washes sit on a fixed layer behind the content, so they stay in the
+ * corners of the screen as you scroll. The grain is body's background, which
+ * propagates to the canvas, so it covers everything.
  *
- * iOS Safari 26+ doesn't draw fixed or sticky layers under its status bar and
- * toolbar, whatever their offsets, and env(safe-area-inset-*) is 0 in the
- * browser. It fills each bar with one solid colour instead: the
- * background-color of a fixed element at that edge (within 4px of the top or
- * 3px of the bottom, at least 80% wide and 3px tall), or else body's. So two
- * strips, mostly pushed off-screen, hand it --bg-tint-top and
- * --bg-tint-bottom: the page colour under the wash in the corner next to each
- * bar. `-webkit-touch-callout` limits them to iOS.
- * See https://jahir.dev/blog/safari-toolbar
+ * iOS Safari 26+ only draws the scrolling page under its floating toolbar:
+ * fixed and sticky boxes stop at the toolbar's top edge whatever their
+ * offsets (env(safe-area-inset-*) is 0 in the browser anyway), and the
+ * status bar is filled with body's background-color. So on iOS the wash
+ * layer fades out over its last --bg-fade instead of ending in a hard line
+ * above the toolbar. `-webkit-touch-callout` limits that to iOS.
  */
 
-// Grain over the washes in opposite corners
+:root > body {
+  background-image: var(--bg-grain);
+}
+
+// Soft colour washes in opposite corners
 body::before {
   content: "";
   position: fixed;
@@ -27,32 +29,15 @@ body::before {
   z-index: -1;
   pointer-events: none;
   background:
-    var(--bg-grain),
     radial-gradient(ellipse 60vmax 50vmax at 0% 0%, var(--bg-wash-1), transparent 70%),
     radial-gradient(ellipse 55vmax 45vmax at 100% 100%, var(--bg-wash-2), transparent 70%);
 }
 
-// Tint strips for the iOS Safari status bar and toolbar
 @supports (-webkit-touch-callout: none) {
-  body::after,
-  html:root::after {
-    content: "";
-    position: fixed;
-    left: 0;
-    right: 0;
-    height: 12px;
-    z-index: -1;
-    pointer-events: none;
-  }
+  body::before {
+    --bg-fade: 6rem;
 
-  body::after {
-    top: -8px;
-    background-color: var(--bg-tint-top);
-  }
-
-  html:root::after {
-    bottom: -8px;
-    background-color: var(--bg-tint-bottom);
+    mask-image: linear-gradient(to top, transparent, #000 var(--bg-fade));
   }
 }
 
