@@ -56,12 +56,14 @@
   --link-color-hover: #093a2a;
 
   font-family: var(--font-stack);
+  color-scheme: light;
 }
 
-[data-user-theme="dark"] {
+@mixin dark-theme {
   /* Warm inversion of the Rust & Stone light palette: olive/brown-tinted
      near-blacks (mirroring #1c1c14) rather than cool greys, a warm cream
      text, and a lifted forest green to keep the brand link identity. */
+  color-scheme: dark;
   --background-color: #1a1712;
   --background-color-secondary: #221e18;
   --background-color-tertiary: #2d2820;
@@ -69,4 +71,16 @@
   --text-color-muted: #a39a8c;
   --link-color: #5cba9b;
   --link-color-hover: #34a17c;
+}
+
+// Set by the inline script in BaseHead.astro / scripts/site.ts
+[data-user-theme="dark"] {
+  @include dark-theme;
+}
+
+// No JavaScript: follow the OS theme
+@media (prefers-color-scheme: dark) {
+  :root:not([data-user-theme]) {
+    @include dark-theme;
+  }
 }

@@ -36,7 +36,21 @@ const { title, description, image = '/placeholder-social.jpg' } = Astro.props;
 <meta name="msapplication-TileColor" content="#1b5e4b">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#1b5e4b">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#5cba9b">
-<meta name="color-scheme" content="dark light">
+<meta name="color-scheme" content="light dark">
+
+<!-- Set the theme before first paint to avoid a flash; the toggle logic lives in scripts/site.ts -->
+<script is:inline>
+  (() => {
+    const system = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    let theme = system;
+    try {
+      const stored = localStorage.getItem('theme');
+      if (stored === system) localStorage.removeItem('theme');
+      else if (stored === 'light' || stored === 'dark') theme = stored;
+    } catch {}
+    document.documentElement.dataset.userTheme = theme;
+  })();
+</script>
 
 <!-- View Transitions -->
 <meta name="view-transition" content="same-origin" />

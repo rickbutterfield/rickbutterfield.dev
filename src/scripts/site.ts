@@ -1,30 +1,51 @@
 document.body.classList.remove('no-js');
 
-// On page load or when changing themes, best to add inline in `head` to avoid FOUC
-function checkTheme(document: Document) {
-  
+// Two-state theme toggle: the site follows the OS theme, and the toggle switches
+// to the opposite of it. Only that override is stored; toggling back clears it.
+// See https://lea.verou.me/blog/2026/dark-mode-toggles-2/
+// The initial theme is set by an inline script in BaseHead.astro to avoid a flash.
+type Theme = 'light' | 'dark';
+
+const systemDark = window.matchMedia('(prefers-color-scheme: dark)');
+
+function getSystemTheme(): Theme {
+  return systemDark.matches ? 'dark' : 'light';
+}
+
+function getOverride(): Theme | null {
+  try {
+    const stored = localStorage.getItem('theme');
+    return stored === 'light' || stored === 'dark' ? stored : null;
+  } catch {
+    return null;
+  }
+}
+
+function setOverride(theme: Theme | null) {
+  try {
+    if (theme) {
+      localStorage.setItem('theme', theme);
+    } else {
+      localStorage.removeItem('theme');
+    }
+  } catch {
+    // Storage unavailable (e.g. private mode): the toggle still works for this page
+  }
+}
+
+function getTheme(): Theme {
+  return getOverride() ?? getSystemTheme();
+}
+
+function applyTheme(document: Document, theme: Theme = getTheme()) {
+  document.documentElement.dataset.userTheme = theme;
+
   const lightModeIcon = document.getElementById('icon-light');
   const darkModeIcon = document.getElementById('icon-dark');
-  
-  if (!lightModeIcon || !darkModeIcon) {
-    console.warn('Theme icons not found');
-    return;
-  }
-  
-  // Hide both icons first
-  lightModeIcon.classList.add('hidden');
-  darkModeIcon.classList.add('hidden');
-  
-  const localStorageTheme: string | null = localStorage.getItem('theme');
-  const isLocalStorageDarkTheme: boolean = localStorageTheme === 'dark';
+  lightModeIcon?.classList.toggle('hidden', theme === 'dark');
+  darkModeIcon?.classList.toggle('hidden', theme === 'light');
 
-  if (isLocalStorageDarkTheme) {
-    document.documentElement.dataset.userTheme = 'dark';
-    darkModeIcon.classList.remove('hidden');
-  } else {
-    document.documentElement.dataset.userTheme = 'light';
-    lightModeIcon.classList.remove('hidden');
-  }
+  document.getElementById('theme-toggle')?.setAttribute('aria-pressed', String(theme === 'dark'));
 }
 
 function configureToggle() {
@@ -35,22 +56,27 @@ function configureToggle() {
     return;
   }
 
-  // Toggle between light and dark mode
   themeToggle.addEventListener('click', () => {
-    const currentTheme = localStorage.getItem('theme');
-    const isDark = currentTheme === 'dark';
-    
-    // Toggle to opposite theme
-    localStorage.theme = isDark ? 'light' : 'dark';
-    checkTheme(document);
+    const next: Theme = getTheme() === 'dark' ? 'light' : 'dark';
+    // Back to matching the OS means "follow the system" again, so drop the override
+    setOverride(next === getSystemTheme() ? null : next);
+    applyTheme(document, next);
   });
 }
 
+// Follow OS changes; an override that now matches the system is no longer needed
+systemDark.addEventListener('change', () => {
+  if (getOverride() === getSystemTheme()) {
+    setOverride(null);
+  }
+  applyTheme(document);
+});
+
 document.addEventListener('astro:before-swap', (ev: any) => {
-  checkTheme(ev.newDocument);
+  applyTheme(ev.newDocument);
 });
 
 document.addEventListener('astro:page-load', () => {
-  checkTheme(document);
+  applyTheme(document);
   configureToggle();
 });
