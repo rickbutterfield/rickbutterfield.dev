@@ -1,8 +1,13 @@
 body {
   background-color: var(--background-color);
   // viewport-fit=cover draws the page under the status bar and home
-  // indicator; keep the content clear of them
-  padding-block: env(safe-area-inset-top, 0) env(safe-area-inset-bottom, 0);
+  // indicator; keep the content clear of them. The header and footer padding
+  // adds the breathing room on top. safe-area-max-inset-* (Chromium only so
+  // far) holds steady as the browser toolbar collapses, so the page doesn't
+  // shift on scroll; elsewhere it falls back to the live inset.
+  padding-block:
+    env(safe-area-max-inset-top, env(safe-area-inset-top, 0))
+    env(safe-area-max-inset-bottom, env(safe-area-inset-bottom, 0));
   font-size: var(--step-0);
   font-weight: 450;
   color: var(--text-color);
