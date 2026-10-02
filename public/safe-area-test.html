@@ -43,6 +43,10 @@
   /* J: sticky instead of fixed, one screen tall, taking up no space */
   #j { position: sticky; top: 0; height: 100lvh; margin-bottom: -100lvh; background: linear-gradient(rgb(0 160 0 / .5), rgb(160 0 160 / .5)); }
 
+  /* K: 12px red strips at top and bottom, 8px off-screen (the new fix) */
+  #k1, #k2 { position: fixed; left: 0; right: 0; height: 12px; background-color: #d33; }
+  #k1 { top: -8px; } #k2 { bottom: -8px; }
+
   #probe { position: fixed; visibility: hidden; padding: env(safe-area-inset-top, 0px) env(safe-area-inset-right, 0px) env(safe-area-inset-bottom, 0px) env(safe-area-inset-left, 0px); }
   #svh { position: fixed; height: 100svh; } #lvh { position: fixed; height: 100lvh; } #dvh { position: fixed; height: 100dvh; }
   #svh, #lvh, #dvh { visibility: hidden; width: 0; }
@@ -57,6 +61,8 @@
 <div class="layer" id="g"></div>
 <div class="layer" id="h"></div>
 <div class="layer" id="i"></div>
+<div class="layer" id="k1"></div>
+<div class="layer" id="k2"></div>
 <div id="probe"></div><div id="svh"></div><div id="lvh"></div><div id="dvh"></div>
 <main>
   <h1>Safe area test</h1>
@@ -69,15 +75,16 @@
   <label><input type="radio" name="l" value="f"> F: html background-color red, body page colour</label>
   <label><input type="radio" name="l" value="g"> G: invisible red 1px fixed strip at the top</label>
   <label><input type="radio" name="l" value="h"> H: visible red 1px fixed strip at the top</label>
-  <label><input type="radio" name="l" value="i"> I: green, fixed, bottom −150px (the new fix)</label>
+  <label><input type="radio" name="l" value="i"> I: green, fixed, bottom −150px</label>
   <label><input type="radio" name="l" value="j"> J: green→purple, sticky, one screen tall</label>
+  <label><input type="radio" name="l" value="k"> K: red 12px strips at top and bottom (the new fix)</label>
   <label><input type="radio" name="l" value="" checked> None</label>
   <table id="out"></table>
   <div class="spacer"><p>Bottom of the page</p></div>
 </main>
 <script>
   const show = (v) => {
-    document.querySelectorAll('.layer').forEach((el) => el.classList.toggle('on', el.id === v));
+    document.querySelectorAll('.layer').forEach((el) => el.classList.toggle('on', el.id === v || (v === 'k' && el.id.startsWith('k'))));
     document.documentElement.classList.toggle('e', v === 'e');
     document.documentElement.classList.toggle('f', v === 'f');
   };
