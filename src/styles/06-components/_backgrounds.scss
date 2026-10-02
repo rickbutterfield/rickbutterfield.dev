@@ -7,13 +7,21 @@
  *
  * body's background propagates to the canvas, so these layers at z-index -1
  * sit between the page colour and the content.
+ *
+ * The fixed layers use the large viewport height rather than `inset: 0`:
+ * fixed boxes are sized to the small viewport, so on iOS Safari they stop
+ * short of the area behind the toolbar and the plain page colour shows
+ * through there. viewport-fit=cover (BaseHead.astro) lets them reach under
+ * the status bar too.
  */
 
 body::before,
 body::after {
   content: "";
   position: fixed;
-  inset: 0;
+  inset: 0 0 auto;
+  height: 100vh;
+  height: 100lvh;
   z-index: -1;
   pointer-events: none;
 }
