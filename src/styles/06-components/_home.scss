@@ -1,12 +1,12 @@
 /**
  * Home Component
  *
- * Homepage-specific typography: the intro paragraph becomes the
- * page's display moment, set in the heading face.
+ * Homepage-specific typography: the intro heading becomes the
+ * page's display moment; the .lead paragraph after it keeps the base lead style.
  */
 
 .c-home {
-  .lead {
+  h2 {
     font-family: var(--font-stack-heading);
     font-feature-settings: "ss01" 1;
     font-size: var(--step-3);
