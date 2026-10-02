@@ -40,12 +40,16 @@
   /* I: fixed, bottom pulled down 150px (the new site fix) */
   #i { position: fixed; inset: 0 0 -150px; background: linear-gradient(to top, rgb(0 160 0 / .5), rgb(0 160 0 / .1)); }
 
+  /* J: sticky instead of fixed, one screen tall, taking up no space */
+  #j { position: sticky; top: 0; height: 100lvh; margin-bottom: -100lvh; background: linear-gradient(rgb(0 160 0 / .5), rgb(160 0 160 / .5)); }
+
   #probe { position: fixed; visibility: hidden; padding: env(safe-area-inset-top, 0px) env(safe-area-inset-right, 0px) env(safe-area-inset-bottom, 0px) env(safe-area-inset-left, 0px); }
   #svh { position: fixed; height: 100svh; } #lvh { position: fixed; height: 100lvh; } #dvh { position: fixed; height: 100dvh; }
   #svh, #lvh, #dvh { visibility: hidden; width: 0; }
 </style>
 </head>
 <body>
+<div class="layer" id="j"></div>
 <div class="layer" id="a"></div>
 <div class="layer" id="b"></div>
 <div class="layer" id="c"></div>
@@ -66,6 +70,7 @@
   <label><input type="radio" name="l" value="g"> G: invisible red 1px fixed strip at the top</label>
   <label><input type="radio" name="l" value="h"> H: visible red 1px fixed strip at the top</label>
   <label><input type="radio" name="l" value="i"> I: green, fixed, bottom −150px (the new fix)</label>
+  <label><input type="radio" name="l" value="j"> J: green→purple, sticky, one screen tall</label>
   <label><input type="radio" name="l" value="" checked> None</label>
   <table id="out"></table>
   <div class="spacer"><p>Bottom of the page</p></div>
