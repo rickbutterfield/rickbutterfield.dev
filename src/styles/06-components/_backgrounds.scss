@@ -1,0 +1,54 @@
+/**
+ * Backgrounds Component
+ *
+ * Page background decoration: paper grain, two soft colour washes, and a dot
+ * grid in the bottom-right corner of the page. Colours come from the --bg-*
+ * tokens in 02-settings/_variables.scss, which the dark-theme mixin redefines.
+ *
+ * body's background propagates to the canvas, so these layers at z-index -1
+ * sit between the page colour and the content.
+ */
+
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+
+// Soft colour washes in opposite corners
+body::before {
+  background:
+    radial-gradient(ellipse 60vmax 50vmax at 0% 0%, var(--bg-wash-1), transparent 70%),
+    radial-gradient(ellipse 55vmax 45vmax at 100% 100%, var(--bg-wash-2), transparent 70%);
+}
+
+// Paper grain over the washes
+body::after {
+  background-image: var(--bg-grain);
+  opacity: var(--bg-grain-opacity);
+}
+
+// Dot grid in the bottom-right corner of the page (scrolls with it, so it
+// appears as you reach the footer), fading out from the corner. <html> is the
+// containing block so it sits at the end of the document, not the viewport.
+// `html:root` rather than `html` so scripts/blockpreview-css.mjs doesn't copy
+// this onto BlockPreview's :host (it rewrites plain `html` rules).
+html:root {
+  position: relative;
+  min-height: 100%;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: auto 0 0 auto;
+    z-index: -1;
+    pointer-events: none;
+    width: min(60vmax, 900px);
+    aspect-ratio: 1;
+    background: radial-gradient(var(--bg-dot) 1.25px, transparent 1.75px) 100% 100% / 20px 20px;
+    mask-image: radial-gradient(circle at 100% 100%, #000, transparent 70%);
+  }
+}
