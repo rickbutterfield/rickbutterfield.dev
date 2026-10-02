@@ -1,6 +1,6 @@
 import { defineCollection } from 'astro:content';
 import { z } from 'astro/zod';
-import { client, ContentService, type BlogPostContentModel, type ProjectPostContentModel, type SpeakingPostContentModel, type HomePageContentModel, type BlogsPageContentModel, type ProjectsPageContentModel, type SpeakingPageContentModel, type ContentPageContentModel, type IApiContentResponseModel } from './api';
+import { client, ContentService, type BlogPostContentModel, type ProjectPostContentModel, type SpeakingPostContentModel, type HomePageContentModel, type BlogsPageContentModel, type ProjectsPageContentModel, type SpeakingPageContentModel, type ContentPageContentModel, type IApiContentResponseModel, type PageSettingsPropertiesModel } from './api';
 import type { ZodType } from 'astro/zod';
 
 client.setConfig({ baseUrl: import.meta.env.PUBLIC_BASE_URL });
@@ -217,7 +217,8 @@ const navigation = defineCollection({
 
     return response.data.items.map((item: IApiContentResponseModel) => ({
       id: item.id,
-      name: item.name,
+      // Pages using the Page Settings composition can override their nav label
+      name: (item.properties as PageSettingsPropertiesModel | undefined)?.navigationTitle || item.name,
       path: item.route.path,
     }));
   },

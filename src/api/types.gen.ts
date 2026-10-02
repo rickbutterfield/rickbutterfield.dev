@@ -292,6 +292,7 @@ export type PageSettingsElementModel = Omit<IApiElementModelBase, 'contentType'>
 export type PageSettingsPropertiesModel = {
     umbracoUrlName?: string | null;
     umbracoUrlAlias?: string | null;
+    navigationTitle?: string | null;
 };
 
 export type PagedIApiContentResponseModel = {
