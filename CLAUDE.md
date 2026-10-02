@@ -71,7 +71,7 @@ src/
 
 ## 4. Environment variables
 
-Defined in `.env.local` (gitignored). Public (client-exposed) vars use the `PUBLIC_` prefix per Astro convention.
+Defined in `.env.local` locally (note: currently tracked in git, not gitignored) and as Workers Builds variables in production (see §7). Public (client-exposed) vars use the `PUBLIC_` prefix per Astro convention.
 
 - `PUBLIC_BASE_URL` — base URL of the Umbraco Delivery API; consumed in `content.config.ts` to configure the API client.
 - `PUBLIC_BASE_URL_HTTPS` — HTTPS base URL used to build absolute media/image URLs in pages and block components (`index.astro`, `feed.xml.ts`, `projects`/`speaking` index pages, `ImageGallery`/`ImageWithCaption`).
@@ -86,6 +86,26 @@ Defined in `.env.local` (gitignored). Public (client-exposed) vars use the `PUBL
 - Collection schemas use `z.any() as ZodType<...ContentModel>` to keep the rich Umbraco model typed without re-declaring every field. The real shape comes from `types.gen.ts`.
 - Block components in `src/components/blocks/` mirror the Umbraco block grid component types (`RichText`, `ImageGallery`, `ImageWithCaption`, `YouTubeVideo`, `EmploymentHistory`, `UpdateAlert`) — they correspond to the `.cshtml` partials in the Umbraco repo.
 - `middleware.ts` only sets a `Timing-Allow-Origin` header (also set in `server.headers`) for performance-measurement CORS.
+
+## 7. Deployment (Cloudflare Workers)
+
+The site is an assets-only Cloudflare **Worker** named `rickbutterfield` (`wrangler.jsonc`, `assets.directory: ./dist`), built by **Workers Builds** from this repo. `rickbutterfield.dev` and `www.rickbutterfield.dev` are Worker custom domains. It moved off Cloudflare Pages on 01-10-2026; the old `rickbutterfield-dev` Pages project is disconnected from Git and kept only as a rollback until it is deleted.
+
+Build settings live in the Cloudflare dashboard, not the repo (Worker → Settings → Build). Both triggers ("Deploy default branch" → `npx wrangler deploy`, "Deploy non-production branches" → `npx wrangler versions upload`) use:
+
+- **Build variables:** `PUBLIC_BASE_URL` and `PUBLIC_BASE_URL_HTTPS` = `https://api.rickbutterfield.dev` (**no trailing slash**, or media URLs become `//media/...`), and `SKIP_DEPENDENCY_INSTALL=1`.
+- **Build command:**
+  ```
+  (mv node_modules/.astro /tmp/astro-cache 2>/dev/null || true) && npm ci --no-audit --no-fund && (mv /tmp/astro-cache node_modules/.astro 2>/dev/null || true) && npm run build
+  ```
+  Workers Builds restores Astro's cache (`node_modules/.astro`) *before* its automatic `npm clean-install`, which wipes `node_modules` and with it every optimised image. Skipping the automatic install and moving the cache aside around `npm ci` keeps it, which took builds from ~91 s to ~44 s.
+
+Other deploy facts:
+
+- **Node** comes from `.nvmrc` (no `NODE_VERSION` variable on the Worker). Keep it at `>=22.19.0` for `undici@8`.
+- **Wrangler** is a dev dependency so the deploy step doesn't download it every build.
+- **Umbraco publish → rebuild:** a Workers Builds deploy hook ("Umbraco publish", branch `main`) is configured as a webhook in the Umbraco Cloud backoffice (Settings → Webhooks). Treat the hook URL as a secret; it is not stored in this repo.
+- **Headers** come from `public/_headers` (Workers static assets supports it like Pages did). Unknown URLs return a real 404; Pages used to serve the home page with a 200.
 
 ## Quick Reference
 
