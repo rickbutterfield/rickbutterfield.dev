@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Safe area test</title>
+<style>
+  :root { color-scheme: light; font: 15px/1.4 system-ui, sans-serif; }
+  html { position: relative; min-height: 100%; }
+  body { margin: 0; background: #f5f3ee; color: #1c1c14; }
+  main { padding: calc(env(safe-area-inset-top, 0px) + 16px) 16px calc(env(safe-area-inset-bottom, 0px) + 16px); }
+  table { border-collapse: collapse; width: 100%; font: 13px ui-monospace, monospace; }
+  td { border-bottom: 1px solid #0002; padding: 3px 4px; }
+  td:last-child { text-align: right; }
+  label { display: block; margin: 6px 0; }
+  .spacer { height: 150vh; display: grid; place-items: end center; }
+
+  /* Test layers: semi-transparent so Safari 26 doesn't clip them for being opaque */
+  .layer { pointer-events: none; z-index: -1; display: none; }
+  .on { display: block; }
+  /* A: fixed, inset 0 */
+  #a { position: fixed; inset: 0; background: linear-gradient(rgb(255 0 0 / .35), rgb(255 0 0 / .35)); outline: 4px dashed red; outline-offset: -4px; }
+  /* B: fixed, pulled out 150px on every side */
+  #b { position: fixed; inset: -150px; background: rgb(0 0 255 / .3); }
+  /* C: fixed, 100lvh tall */
+  #c { position: fixed; inset: 0 0 auto; height: 100lvh; background: rgb(255 160 0 / .35); }
+  /* D: absolute over the whole document, like the dot grid */
+  #d { position: absolute; inset: 0; background: linear-gradient(rgb(0 160 0 / .45), rgb(160 0 160 / .45)); }
+  /* E: html background (canvas) */
+  html.e { background: linear-gradient(#0aa, #a0a) #0aa; }
+  html.e body { background: transparent; }
+
+  #probe { position: fixed; visibility: hidden; padding: env(safe-area-inset-top, 0px) env(safe-area-inset-right, 0px) env(safe-area-inset-bottom, 0px) env(safe-area-inset-left, 0px); }
+  #svh { position: fixed; height: 100svh; } #lvh { position: fixed; height: 100lvh; } #dvh { position: fixed; height: 100dvh; }
+  #svh, #lvh, #dvh { visibility: hidden; width: 0; }
+</style>
+</head>
+<body>
+<div class="layer" id="a"></div>
+<div class="layer" id="b"></div>
+<div class="layer" id="c"></div>
+<div class="layer" id="d"></div>
+<div id="probe"></div><div id="svh"></div><div id="lvh"></div><div id="dvh"></div>
+<main>
+  <h1>Safe area test</h1>
+  <p>Turn on one layer at a time, then look under the status bar and the toolbar, at the top of the page and after scrolling. A screenshot of each is ideal.</p>
+  <label><input type="radio" name="l" value="a"> A: red, fixed, inset 0</label>
+  <label><input type="radio" name="l" value="b"> B: blue, fixed, inset −150px</label>
+  <label><input type="radio" name="l" value="c"> C: orange, fixed, 100lvh tall</label>
+  <label><input type="radio" name="l" value="d"> D: green→purple, absolute over the document (like the dots)</label>
+  <label><input type="radio" name="l" value="e"> E: teal→magenta, html background</label>
+  <label><input type="radio" name="l" value="" checked> None</label>
+  <table id="out"></table>
+  <div class="spacer"><p>Bottom of the page</p></div>
+</main>
+<script>
+  const show = (v) => {
+    document.querySelectorAll('.layer').forEach((el) => el.classList.toggle('on', el.id === v));
+    document.documentElement.classList.toggle('e', v === 'e');
+  };
+  document.querySelectorAll('input[name=l]').forEach((r) => r.addEventListener('change', () => show(r.value)));
+
+  const out = document.getElementById('out');
+  const px = (id, prop) => getComputedStyle(document.getElementById(id))[prop];
+  const render = () => {
+    const vv = window.visualViewport;
+    const rows = {
+      'safe-area top / bottom': `${px('probe', 'paddingTop')} / ${px('probe', 'paddingBottom')}`,
+      'safe-area left / right': `${px('probe', 'paddingLeft')} / ${px('probe', 'paddingRight')}`,
+      'innerHeight': innerHeight,
+      'visualViewport height': vv ? Math.round(vv.height) : 'n/a',
+      'clientHeight': document.documentElement.clientHeight,
+      'screen height': screen.height,
+      '100svh / 100dvh / 100lvh': `${px('svh', 'height')} / ${px('dvh', 'height')} / ${px('lvh', 'height')}`,
+      'scrollY': Math.round(scrollY),
+      'standalone (home screen)': String(navigator.standalone ?? matchMedia('(display-mode: standalone)').matches),
+      'user agent': navigator.userAgent.replace(/^Mozilla\/5\.0 /, ''),
+    };
+    out.innerHTML = Object.entries(rows).map(([k, v]) => `<tr><td>${k}</td><td>${v}</td></tr>`).join('');
+  };
+  render();
+  addEventListener('resize', render);
+  addEventListener('scroll', render, { passive: true });
+  window.visualViewport && visualViewport.addEventListener('resize', render);
+</script>
+</body>
+</html>
