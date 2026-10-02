@@ -2,6 +2,7 @@
 import { marked } from "marked";
 import Layout from "@/layouts/Layout.astro";
 import UmbracoGrid from "@/components/UmbracoGrid.astro";
+import { Image } from "astro:assets";
 import { getCollection } from "astro:content";
 
 export async function getStaticPaths() {
@@ -15,17 +16,35 @@ export async function getStaticPaths() {
         name: page.name ?? '',
         content: page.properties?.content,
         grid: page.properties?.grid,
+        featuredImage: page.properties?.featuredImage?.[0],
       },
     };
   });
 }
 
-const { name, content, grid } = Astro.props;
+const { name, content, grid, featuredImage } = Astro.props;
+const baseUrl = import.meta.env.PUBLIC_BASE_URL_HTTPS;
+
+// Scale the featured image down to the article width, keeping its aspect ratio
+const maxWidth = 1500;
+let width: number = (featuredImage?.width ?? 0) as number;
+let height: number = (featuredImage?.height ?? 0) as number;
+if (width > maxWidth) {
+  height = Math.round(maxWidth * (height / width));
+  width = maxWidth;
+}
+const src: string = `${baseUrl}${featuredImage?.url}?format=webp`;
+const alt: string = featuredImage?.properties?.altText as string || "";
 ---
 
 <Layout name={name}>
   <article class="c-article c-flow">
     <h1>{name}</h1>
+    {featuredImage && width > 0 && (
+      <figure>
+        <Image src={src} alt={alt} width={width} height={height} loading="eager" fetchpriority="high" decoding="async" />
+      </figure>
+    )}
     {content && (
       <Fragment set:html={marked.parse(content)} />
     )}
