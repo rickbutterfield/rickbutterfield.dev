@@ -1,5 +1,8 @@
 body {
   background-color: var(--background-color);
+  // viewport-fit=cover draws the page under the status bar and home
+  // indicator; keep the content clear of them
+  padding-block: env(safe-area-inset-top, 0) env(safe-area-inset-bottom, 0);
   font-size: var(--step-0);
   font-weight: 450;
   color: var(--text-color);

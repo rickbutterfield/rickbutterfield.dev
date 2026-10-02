@@ -7,7 +7,7 @@
 .o-container {
   max-width: 75ch;
   margin: 0 auto;
-  padding: 0 var(--flow-space);
+  padding: 0 max(var(--flow-space), env(safe-area-inset-right, 0)) 0 max(var(--flow-space), env(safe-area-inset-left, 0));
 }
 
 .o-btn {
