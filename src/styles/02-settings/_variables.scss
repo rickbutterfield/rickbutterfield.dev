@@ -1,10 +1,11 @@
 /* @link https://utopia.fyi/type/calculator?c=320,16,1.2,1240,18,1.25,5,2,&s=0.75|0.5|0.25,1.5|2|3|4|6,s-l&g=s,l,xl,12 */
 /* @link https://utopia.fyi/space/calculator?c=320,16,1.2,1240,18,1.25,5,2,&s=0.75|0.5|0.25,1.5|2|3|4|6,s-l&g=s,l,xl,12 */
 
-// Tileable noise as an inline SVG: $channel 0 = black grain (light theme), 1 = white grain (dark theme)
-@function grain-svg($channel) {
+// Tileable noise as an inline SVG: $channel 0 = black grain (light theme), 1 = white grain (dark theme).
+// $alpha is baked into the noise because it's a background layer, which can't take opacity.
+@function grain-svg($channel, $alpha) {
   $c: $channel;
-  @return url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 #{$c} 0 0 0 0 #{$c} 0 0 0 0 #{$c} 0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  @return url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 #{$c} 0 0 0 0 #{$c} 0 0 0 0 #{$c} 0 0 0 #{$alpha} 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
 :root {
@@ -63,8 +64,7 @@
 
   // Background decoration (06-components/_backgrounds.scss); the dots derive
   // from --text-color so they flip with the theme on their own
-  --bg-grain: #{grain-svg(0)};
-  --bg-grain-opacity: 0.07;
+  --bg-grain: #{grain-svg(0, 0.07)};
   --bg-wash-1: color-mix(in srgb, var(--link-color) 14%, transparent);
   --bg-wash-2: color-mix(in srgb, #c98a2b 16%, transparent);
   --bg-dot: color-mix(in srgb, var(--text-color) 16%, transparent);
@@ -87,8 +87,7 @@
   --link-color-hover: #34a17c;
 
   // Light grain on dark reads as dust, so keep it fainter
-  --bg-grain: #{grain-svg(1)};
-  --bg-grain-opacity: 0.045;
+  --bg-grain: #{grain-svg(1, 0.045)};
   --bg-wash-1: color-mix(in srgb, var(--link-color) 10%, transparent);
   --bg-wash-2: color-mix(in srgb, #c98a2b 8%, transparent);
   --bg-dot: color-mix(in srgb, var(--text-color) 9%, transparent);

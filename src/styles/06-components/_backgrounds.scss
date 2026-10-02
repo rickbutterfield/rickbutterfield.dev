@@ -5,49 +5,26 @@
  * grid in the bottom-right corner of the page. Colours come from the --bg-*
  * tokens in 02-settings/_variables.scss, which the dark-theme mixin redefines.
  *
- * body's background propagates to the canvas, so these layers at z-index -1
- * sit between the page colour and the content.
+ * The washes and grain are painted as body's background, which propagates to
+ * the canvas. The canvas is the only thing iOS Safari 26 paints behind its
+ * floating toolbar and status bar: it clips position: fixed boxes to the
+ * inner viewport whatever their offsets, and env(safe-area-inset-*) is 0 in
+ * the browser anyway, so fixed layers pulled out with negative insets never
+ * reached under the bars. As a canvas background they scroll with the page:
+ * one wash sits at the top-left of the document and the other at the
+ * bottom-right, next to the dot grid.
  *
- * The fixed layers are pulled out past the safe-area insets with negative
- * offsets, and sized to the large viewport height plus those insets rather
- * than `inset: 0`. iOS Safari places fixed boxes inside the safe area and
- * sizes them to the small viewport, so without this they stop short of the
- * status bar and the area behind the toolbar, and the plain page colour
- * shows through there. The insets are 0 everywhere else, so this is a no-op
- * on desktop.
+ * `:root > body` rather than `body` so scripts/blockpreview-css.mjs doesn't
+ * copy this onto BlockPreview's :host (it rewrites plain `body` rules).
  */
 
-body::before,
-body::after {
-  --bg-inset-top: env(safe-area-inset-top, 0px);
-  --bg-inset-right: env(safe-area-inset-right, 0px);
-  --bg-inset-bottom: env(safe-area-inset-bottom, 0px);
-  --bg-inset-left: env(safe-area-inset-left, 0px);
-
-  content: "";
-  position: fixed;
-  inset:
-    calc(var(--bg-inset-top) * -1)
-    calc(var(--bg-inset-right) * -1)
-    auto
-    calc(var(--bg-inset-left) * -1);
-  height: calc(100vh + var(--bg-inset-top) + var(--bg-inset-bottom));
-  height: calc(100lvh + var(--bg-inset-top) + var(--bg-inset-bottom));
-  z-index: -1;
-  pointer-events: none;
-}
-
-// Soft colour washes in opposite corners
-body::before {
+:root > body {
+  // Grain over the washes, over the page colour
   background:
-    radial-gradient(ellipse 60vmax 50vmax at 0% 0%, var(--bg-wash-1), transparent 70%),
-    radial-gradient(ellipse 55vmax 45vmax at 100% 100%, var(--bg-wash-2), transparent 70%);
-}
-
-// Paper grain over the washes
-body::after {
-  background-image: var(--bg-grain);
-  opacity: var(--bg-grain-opacity);
+    var(--bg-grain),
+    radial-gradient(ellipse 60vmax 50vmax at 0% 0%, var(--bg-wash-1), transparent 70%) no-repeat,
+    radial-gradient(ellipse 55vmax 45vmax at 100% 100%, var(--bg-wash-2), transparent 70%) no-repeat,
+    var(--background-color);
 }
 
 // Dot grid in the bottom-right corner of the page (scrolls with it, so it
