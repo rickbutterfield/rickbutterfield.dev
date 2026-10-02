@@ -31,6 +31,15 @@
   html.e { background: linear-gradient(#0aa, #a0a) #0aa; }
   html.e body { background: transparent; }
 
+  /* F: html background-color red, body keeps the page colour over the whole viewport */
+  html.f { background-color: #d33; }
+  html.f body { min-height: 100vh; }
+  /* G / H: 1px fixed strip at the top edge, red, invisible (G) or visible (H) */
+  #g, #h { position: fixed; inset: 0 0 auto; height: 1px; background-color: #d33; }
+  #g { opacity: 0; }
+  /* I: fixed, bottom pulled down 150px (the new site fix) */
+  #i { position: fixed; inset: 0 0 -150px; background: linear-gradient(to top, rgb(0 160 0 / .5), rgb(0 160 0 / .1)); }
+
   #probe { position: fixed; visibility: hidden; padding: env(safe-area-inset-top, 0px) env(safe-area-inset-right, 0px) env(safe-area-inset-bottom, 0px) env(safe-area-inset-left, 0px); }
   #svh { position: fixed; height: 100svh; } #lvh { position: fixed; height: 100lvh; } #dvh { position: fixed; height: 100dvh; }
   #svh, #lvh, #dvh { visibility: hidden; width: 0; }
@@ -41,6 +50,9 @@
 <div class="layer" id="b"></div>
 <div class="layer" id="c"></div>
 <div class="layer" id="d"></div>
+<div class="layer" id="g"></div>
+<div class="layer" id="h"></div>
+<div class="layer" id="i"></div>
 <div id="probe"></div><div id="svh"></div><div id="lvh"></div><div id="dvh"></div>
 <main>
   <h1>Safe area test</h1>
@@ -50,6 +62,10 @@
   <label><input type="radio" name="l" value="c"> C: orange, fixed, 100lvh tall</label>
   <label><input type="radio" name="l" value="d"> D: green→purple, absolute over the document (like the dots)</label>
   <label><input type="radio" name="l" value="e"> E: teal→magenta, html background</label>
+  <label><input type="radio" name="l" value="f"> F: html background-color red, body page colour</label>
+  <label><input type="radio" name="l" value="g"> G: invisible red 1px fixed strip at the top</label>
+  <label><input type="radio" name="l" value="h"> H: visible red 1px fixed strip at the top</label>
+  <label><input type="radio" name="l" value="i"> I: green, fixed, bottom −150px (the new fix)</label>
   <label><input type="radio" name="l" value="" checked> None</label>
   <table id="out"></table>
   <div class="spacer"><p>Bottom of the page</p></div>
@@ -58,6 +74,7 @@
   const show = (v) => {
     document.querySelectorAll('.layer').forEach((el) => el.classList.toggle('on', el.id === v));
     document.documentElement.classList.toggle('e', v === 'e');
+    document.documentElement.classList.toggle('f', v === 'f');
   };
   document.querySelectorAll('input[name=l]').forEach((r) => r.addEventListener('change', () => show(r.value)));
 
