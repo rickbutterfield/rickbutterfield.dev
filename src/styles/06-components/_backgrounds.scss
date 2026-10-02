@@ -5,55 +5,43 @@
  * grid in the bottom-right corner of the page. Colours come from the --bg-*
  * tokens in 02-settings/_variables.scss, which the dark-theme mixin redefines.
  *
- * The washes and grain sit on a fixed layer behind the content, so they stay
- * in the corners of the screen as you scroll.
+ * The washes and grain cover the whole document, positioned like the dot grid
+ * (absolutely, with <html> as the containing block), so they scroll with the
+ * page: one wash at the top-left of the document, the other at the
+ * bottom-right with the dots. iOS Safari 26 draws the document under its
+ * floating toolbar, but clips position: fixed boxes to the area between its
+ * bars whatever their offsets, so fixed layers can't reach there.
  *
- * iOS Safari 26 doesn't draw page pixels under its status bar and toolbar. It
- * clips fixed boxes to the area between them (negative offsets don't help)
- * and fills each bar with one solid colour: the background-color of a fixed
- * element touching that edge, or else body's. A gradient can't show there, so
- * two invisible fixed strips hand it --bg-tint-top and --bg-tint-bottom,
- * which match the washes in the corners next to the bars. Safari still reads
- * a strip's colour at opacity: 0; other browsers just ignore the strips.
+ * At the top of the page Safari fills the status bar with one solid colour:
+ * the background-color of a fixed element touching the top edge, or else
+ * body's. An invisible fixed strip hands it --bg-tint-top, which matches the
+ * top-left wash. Safari still reads its colour at opacity: 0; other browsers
+ * ignore it.
  */
 
-body::before,
-body::after,
-html:root::after {
+// Grain over the washes
+body::before {
   content: "";
-  position: fixed;
+  position: absolute;
+  inset: 0;
   z-index: -1;
   pointer-events: none;
-}
-
-// Grain over the washes in opposite corners
-body::before {
-  inset: 0 0 auto;
-  height: 100vh;
-  height: 100lvh;
   background:
     var(--bg-grain),
-    radial-gradient(ellipse 60vmax 50vmax at 0% 0%, var(--bg-wash-1), transparent 70%),
-    radial-gradient(ellipse 55vmax 45vmax at 100% 100%, var(--bg-wash-2), transparent 70%);
+    radial-gradient(ellipse 60vmax 50vmax at 0% 0%, var(--bg-wash-1), transparent 70%) no-repeat,
+    radial-gradient(ellipse 55vmax 45vmax at 100% 100%, var(--bg-wash-2), transparent 70%) no-repeat;
 }
 
-// Tint strips for the iOS Safari status bar and toolbar
-body::after,
-html:root::after {
-  left: 0;
-  right: 0;
-  height: 1px;
-  opacity: 0;
-}
-
+// Tint strip for the iOS Safari status bar
 body::after {
-  top: 0;
+  content: "";
+  position: fixed;
+  inset: 0 0 auto;
+  height: 1px;
+  z-index: -1;
+  opacity: 0;
+  pointer-events: none;
   background-color: var(--bg-tint-top);
-}
-
-html:root::after {
-  bottom: 0;
-  background-color: var(--bg-tint-bottom);
 }
 
 // Dot grid in the bottom-right corner of the page (scrolls with it, so it

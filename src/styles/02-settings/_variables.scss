@@ -68,10 +68,9 @@
   --bg-wash-1: color-mix(in srgb, var(--link-color) 14%, transparent);
   --bg-wash-2: color-mix(in srgb, #c98a2b 16%, transparent);
   --bg-dot: color-mix(in srgb, var(--text-color) 16%, transparent);
-  // Solid colours for iOS Safari to tint its status bar and toolbar with:
-  // roughly the page colour under each wash where it meets that edge
+  // Solid colour for iOS Safari to tint its status bar with: roughly the page
+  // colour under the top-left wash where it meets the top edge
   --bg-tint-top: color-mix(in srgb, var(--link-color) 7%, var(--background-color));
-  --bg-tint-bottom: color-mix(in srgb, #c98a2b 8%, var(--background-color));
 
   font-family: var(--font-stack);
   color-scheme: light;
@@ -96,7 +95,6 @@
   --bg-wash-2: color-mix(in srgb, #c98a2b 8%, transparent);
   --bg-dot: color-mix(in srgb, var(--text-color) 9%, transparent);
   --bg-tint-top: color-mix(in srgb, var(--link-color) 5%, var(--background-color));
-  --bg-tint-bottom: color-mix(in srgb, #c98a2b 4%, var(--background-color));
 }
 
 // Set by the inline script in BaseHead.astro / scripts/site.ts
