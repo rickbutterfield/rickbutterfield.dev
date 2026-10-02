@@ -13,6 +13,32 @@ import {
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
 
+// Dev only: lets a local Umbraco webhook (Content Published/Unpublished/Deleted)
+// POST to http://localhost:4321/_refresh-content to reload the content collections
+const umbracoContentRefresh = () => ({
+  name: 'umbraco-content-refresh',
+  hooks: {
+    'astro:server:setup': ({ server, refreshContent, logger }) => {
+      server.middlewares.use('/_refresh-content', async (req, res) => {
+        if (req.method !== 'POST') {
+          res.statusCode = 405;
+          return res.end();
+        }
+        try {
+          await refreshContent?.({ context: { source: 'umbraco-webhook' } });
+          logger.info('Content refreshed from Umbraco');
+          res.statusCode = 200;
+          res.end('ok');
+        } catch (err) {
+          logger.error(`Content refresh failed: ${err}`);
+          res.statusCode = 500;
+          res.end('error');
+        }
+      });
+    }
+  }
+});
+
 // https://astro.build/config
 export default defineConfig({
  site: process.env.NODE_ENV === 'production' 
@@ -53,7 +79,8 @@ export default defineConfig({
     }),
     robotsTxt(),
     lit(),
-    serviceWorker()
+    serviceWorker(),
+    umbracoContentRefresh()
   ],
   prefetch: true,
   image: {
