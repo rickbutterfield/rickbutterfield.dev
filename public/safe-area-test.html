@@ -56,6 +56,13 @@
   /* N: as M, at opacity .99 */
   #n { background: linear-gradient(rgb(0 160 0 / .45), rgb(160 0 160 / .45)) #f1e3c9; opacity: .99; }
 
+  /* O-Q: copied from jahir.dev/blog/safari-toolbar, without the .layer class
+     (so z-index 5 and normal pointer-events) */
+  .tint { position: fixed; left: 0; margin: 0; padding: 0; width: 100%; min-height: 12px; z-index: 5; display: none; }
+  .tint.on { display: block; }
+  #o { bottom: -8px; background-color: #4285f4; }
+  #p { top: -8px; background-color: #d33; }
+
   #probe { position: fixed; visibility: hidden; padding: env(safe-area-inset-top, 0px) env(safe-area-inset-right, 0px) env(safe-area-inset-bottom, 0px) env(safe-area-inset-left, 0px); }
   #svh { position: fixed; height: 100svh; } #lvh { position: fixed; height: 100lvh; } #dvh { position: fixed; height: 100dvh; }
   #svh, #lvh, #dvh { visibility: hidden; width: 0; }
@@ -75,6 +82,8 @@
 <div class="layer" id="l"></div>
 <div class="layer" id="m"></div>
 <div class="layer" id="n"></div>
+<div class="tint" id="o"></div>
+<div class="tint" id="p"></div>
 <div id="probe"></div><div id="svh"></div><div id="lvh"></div><div id="dvh"></div>
 <main>
   <h1>Safe area test</h1>
@@ -93,6 +102,9 @@
   <label><input type="radio" name="l" value="l"> L: green→purple, fixed, inset −150px</label>
   <label><input type="radio" name="l" value="m"> M: as L, over a solid beige</label>
   <label><input type="radio" name="l" value="n"> N: as M, opacity 0.99</label>
+  <label><input type="radio" name="l" value="o"> O: the article's code, blue at the bottom</label>
+  <label><input type="radio" name="l" value="p"> P: the same, red at the top</label>
+  <label><input type="radio" name="l" value="q"> Q: O and P together</label>
   <label><input type="radio" name="l" value="" checked> None</label>
   <table id="out"></table>
   <div class="spacer"><p>Bottom of the page</p></div>
@@ -100,6 +112,7 @@
 <script>
   const show = (v) => {
     document.querySelectorAll('.layer').forEach((el) => el.classList.toggle('on', el.id === v || (v === 'k' && el.id.startsWith('k'))));
+    document.querySelectorAll('.tint').forEach((el) => el.classList.toggle('on', el.id === v || (v === 'q' && (el.id === 'o' || el.id === 'p'))));
     document.documentElement.classList.toggle('e', v === 'e');
     document.documentElement.classList.toggle('f', v === 'f');
   };
