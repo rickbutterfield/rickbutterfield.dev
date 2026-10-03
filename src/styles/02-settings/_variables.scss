@@ -68,6 +68,9 @@
   --bg-wash-1: color-mix(in srgb, var(--link-color) 14%, transparent);
   --bg-wash-2: color-mix(in srgb, #c98a2b 16%, transparent);
   --bg-dot: color-mix(in srgb, var(--text-color) 16%, transparent);
+  // The page colour as it looks under the grain (its measured average), for
+  // the flat areas iOS Safari fills from body's background-color
+  --bg-seen: color-mix(in srgb, #000 3.6%, var(--background-color));
 
   font-family: var(--font-stack);
   color-scheme: light;
@@ -91,6 +94,7 @@
   --bg-wash-1: color-mix(in srgb, var(--link-color) 10%, transparent);
   --bg-wash-2: color-mix(in srgb, #c98a2b 8%, transparent);
   --bg-dot: color-mix(in srgb, var(--text-color) 9%, transparent);
+  --bg-seen: color-mix(in srgb, #fff 2.1%, var(--background-color));
 }
 
 // Set by the inline script in BaseHead.astro / scripts/site.ts

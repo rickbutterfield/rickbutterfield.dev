@@ -5,65 +5,54 @@
  * grid in the bottom-right corner of the page. Colours come from the --bg-*
  * tokens in 02-settings/_variables.scss, which the dark-theme mixin redefines.
  *
- * The washes sit on a fixed layer behind the content, so they stay in the
- * corners of the screen as you scroll. The grain is body's background, which
- * propagates to the canvas, so it covers everything.
+ * The page colour, washes and grain sit on a fixed layer behind the content,
+ * so the washes stay in the corners of the screen as you scroll. It's at
+ * z-index -2 so the dot grid (-1) still shows over it.
+ *
+ * body's background-color, which propagates to the canvas, is --bg-seen: the
+ * page colour darkened (or in dark mode lightened) by the grain's average.
+ * It only shows where the fixed layer doesn't: when overscrolling, and in
+ * iOS Safari's bars, which take their colour from it.
  *
  * iOS Safari 26+ doesn't draw fixed or sticky boxes under its status bar or
  * floating toolbar, whatever their offsets (env(safe-area-inset-*) is 0 in
- * the browser anyway). The status bar is filled with a solid colour instead
- * (.c-status-bar-tint below), and the toolbar shows the scrolling page
- * through it, so on iOS the wash layer fades out over its last --bg-fade
- * instead of ending in a hard line above the toolbar.
- * `-webkit-touch-callout` limits that to iOS.
+ * the browser anyway). Both bars show the scrolling page through them, and
+ * the toolbar cuts the fixed layer off about 85% of the way down. So on iOS
+ * phones the washes move in from the corners and shrink to fit between
+ * roughly 4% and 80% of the layer's height, fading out before either bar
+ * instead of meeting it in a hard line. `-webkit-touch-callout` limits that
+ * to iOS.
  */
 
 :root > body {
-  background-image: var(--bg-grain);
+  background-color: var(--bg-seen);
 }
 
-// Soft colour washes in opposite corners
+// Grain over the washes in opposite corners, over the page colour
 body::before {
+  --bg-washes:
+    radial-gradient(ellipse 60vmax 50vmax at 0% 0%, var(--bg-wash-1), transparent 70%),
+    radial-gradient(ellipse 55vmax 45vmax at 100% 100%, var(--bg-wash-2), transparent 70%);
+
   content: "";
   position: fixed;
   inset: 0;
-  z-index: -1;
+  z-index: -2;
   pointer-events: none;
   background:
-    radial-gradient(ellipse 60vmax 50vmax at 0% 0%, var(--bg-wash-1), transparent 70%),
-    radial-gradient(ellipse 55vmax 45vmax at 100% 100%, var(--bg-wash-2), transparent 70%);
+    var(--bg-grain),
+    var(--bg-washes),
+    var(--background-color);
 }
 
-@supports (-webkit-touch-callout: none) {
-  body::before {
-    --bg-fade: 6rem;
-
-    mask-image: linear-gradient(to top, transparent, #000 var(--bg-fade));
-  }
-}
-
-// Fill the iOS Safari status bar with a solid colour, so the page doesn't
-// show through it. Safari takes the colour from a fixed element above the
-// content at the top edge, at least 80% wide (see
-// https://jahir.dev/blog/safari-toolbar). Tested on device (Safari 27), it
-// must start at top: 0 and be more than 4px tall; it shows as 12px of the
-// page colour under the status bar. As a pseudo-element behind the content
-// it's ignored.
-.c-status-bar-tint {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  min-height: 12px;
-  z-index: 5;
-  background-color: var(--background-color);
-}
-
+// Sizes are percentages of the layer: each wash reaches 70% of its radius,
+// so the top one spans 22% ± 18.2% of the height and the bottom one 62% ± 16.8%
 @supports (-webkit-touch-callout: none) {
   @media (width < 768px) {
-    .c-status-bar-tint {
-      display: block;
+    body::before {
+      --bg-washes:
+        radial-gradient(ellipse 100% 26% at 0% 22%, var(--bg-wash-1), transparent 70%),
+        radial-gradient(ellipse 95% 24% at 100% 62%, var(--bg-wash-2), transparent 70%);
     }
   }
 }
