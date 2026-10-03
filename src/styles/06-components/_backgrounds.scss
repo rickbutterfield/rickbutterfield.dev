@@ -13,9 +13,11 @@
  * floating toolbar, whatever their offsets (env(safe-area-inset-*) is 0 in
  * the browser anyway). The status bar is filled with a solid colour instead
  * (.c-status-bar-tint below), and the toolbar shows the scrolling page
- * through it, so on iOS the wash layer fades out over its last --bg-fade
- * instead of ending in a hard line above the toolbar.
- * `-webkit-touch-callout` limits that to iOS.
+ * through it, cutting the fixed layer off about 85% of the way down. So on
+ * iOS phones the washes move in from the corners and shrink to fit between
+ * roughly 4% and 80% of the layer's height, fading out before either bar
+ * instead of meeting it in a hard line. `-webkit-touch-callout` limits that
+ * to iOS.
  */
 
 :root > body {
@@ -34,11 +36,15 @@ body::before {
     radial-gradient(ellipse 55vmax 45vmax at 100% 100%, var(--bg-wash-2), transparent 70%);
 }
 
+// Sizes are percentages of the layer: each wash reaches 70% of its radius,
+// so the top one spans 22% ± 18.2% of the height and the bottom one 62% ± 16.8%
 @supports (-webkit-touch-callout: none) {
-  body::before {
-    --bg-fade: 6rem;
-
-    mask-image: linear-gradient(to top, transparent, #000 var(--bg-fade));
+  @media (width < 768px) {
+    body::before {
+      background:
+        radial-gradient(ellipse 100% 26% at 0% 22%, var(--bg-wash-1), transparent 70%),
+        radial-gradient(ellipse 95% 24% at 100% 62%, var(--bg-wash-2), transparent 70%);
+    }
   }
 }
 
