@@ -46,8 +46,8 @@ body::before {
 // show through it. Safari takes the colour from a fixed element above the
 // content at the top edge, at least 80% wide (see
 // https://jahir.dev/blog/safari-toolbar). Tested on device (Safari 27), it
-// must start at top: 0 and be more than 4px tall; it shows as 12px of
-// --bg-tint-top under the status bar. As a pseudo-element behind the content
+// must start at top: 0 and be more than 4px tall; it shows as 12px of the
+// page colour under the status bar. As a pseudo-element behind the content
 // it's ignored.
 .c-status-bar-tint {
   display: none;
@@ -57,7 +57,7 @@ body::before {
   width: 100%;
   min-height: 12px;
   z-index: 5;
-  background-color: var(--bg-tint-top);
+  background-color: var(--background-color);
 }
 
 @supports (-webkit-touch-callout: none) {
