@@ -5,41 +5,50 @@
  * grid in the bottom-right corner of the page. Colours come from the --bg-*
  * tokens in 02-settings/_variables.scss, which the dark-theme mixin redefines.
  *
- * The washes sit on a fixed layer behind the content, so they stay in the
- * corners of the screen as you scroll. The grain is body's background, which
- * propagates to the canvas, so it covers everything.
+ * The page colour, washes and grain sit on a fixed layer behind the content,
+ * so the washes stay in the corners of the screen as you scroll.
  *
  * iOS Safari 26+ doesn't draw fixed or sticky boxes under its status bar or
  * floating toolbar, whatever their offsets (env(safe-area-inset-*) is 0 in
- * the browser anyway). It fills the status bar with body's
+ * the browser anyway). Instead it fills the status bar with body's
  * background-color, and the toolbar with the background-color of a fixed
- * element touching the bottom edge (.c-toolbar-tint below), or else shows
- * the scrolling page through it. So on iOS the wash layer fades out over its
- * last --bg-fade into the page colour the toolbar is filled with, instead of
- * ending in a hard line above it. `-webkit-touch-callout` limits that to iOS.
+ * element touching the bottom edge (.c-toolbar-tint below). So body's
+ * background-color is --bg-tint-top, the page colour under the top-left
+ * wash, which only shows in the status bar and when overscrolling; the
+ * fixed layer paints the real page colour over it everywhere else. On iOS
+ * the washes fade out over the layer's last --bg-fade into the page colour
+ * the toolbar is filled with, instead of ending in a hard line above it.
+ * `-webkit-touch-callout` limits that to iOS.
  */
 
 :root > body {
-  background-image: var(--bg-grain);
+  background-color: var(--bg-tint-top);
 }
 
-// Soft colour washes in opposite corners
+// Grain over the washes in opposite corners, over the page colour
 body::before {
   content: "";
   position: fixed;
   inset: 0;
   z-index: -1;
   pointer-events: none;
-  background:
+  --bg-washes:
     radial-gradient(ellipse 60vmax 50vmax at 0% 0%, var(--bg-wash-1), transparent 70%),
     radial-gradient(ellipse 55vmax 45vmax at 100% 100%, var(--bg-wash-2), transparent 70%);
+
+  background:
+    var(--bg-grain),
+    var(--bg-washes),
+    var(--background-color);
 }
 
 @supports (-webkit-touch-callout: none) {
   body::before {
     --bg-fade: 6rem;
-
-    mask-image: linear-gradient(to top, transparent, #000 var(--bg-fade));
+    --bg-washes:
+      linear-gradient(to top, var(--background-color), transparent var(--bg-fade)),
+      radial-gradient(ellipse 60vmax 50vmax at 0% 0%, var(--bg-wash-1), transparent 70%),
+      radial-gradient(ellipse 55vmax 45vmax at 100% 100%, var(--bg-wash-2), transparent 70%);
   }
 }
 
