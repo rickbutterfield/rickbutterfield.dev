@@ -5,73 +5,73 @@
  * grid in the bottom-right corner of the page. Colours come from the --bg-*
  * tokens in 02-settings/_variables.scss, which the dark-theme mixin redefines.
  *
- * The page colour, washes and grain sit on a fixed layer behind the content,
- * so the washes stay in the corners of the screen as you scroll.
+ * The washes sit on a fixed layer behind the content, so they stay in the
+ * corners of the screen as you scroll. The grain is body's background, which
+ * propagates to the canvas, so it covers everything.
  *
  * iOS Safari 26+ doesn't draw fixed or sticky boxes under its status bar or
  * floating toolbar, whatever their offsets (env(safe-area-inset-*) is 0 in
- * the browser anyway). Instead it fills the status bar with body's
- * background-color, and the toolbar with the background-color of a fixed
- * element touching the bottom edge (.c-toolbar-tint below). So body's
- * background-color is --bg-tint-top, the page colour under the top-left
- * wash, which only shows in the status bar and when overscrolling; the
- * fixed layer paints the real page colour over it everywhere else. On iOS
- * the washes fade out over the layer's last --bg-fade into the page colour
- * the toolbar is filled with, instead of ending in a hard line above it.
+ * the browser anyway). It fills each bar with the background-color of a
+ * fixed element at that edge instead (.c-bar-tint below). So on iOS the wash
+ * layer fades out over its last --bg-fade into the page colour the toolbar
+ * is filled with, instead of ending in a hard line above it.
  * `-webkit-touch-callout` limits that to iOS.
  */
 
 :root > body {
-  background-color: var(--bg-tint-top);
+  background-image: var(--bg-grain);
 }
 
-// Grain over the washes in opposite corners, over the page colour
+// Soft colour washes in opposite corners
 body::before {
   content: "";
   position: fixed;
   inset: 0;
   z-index: -1;
   pointer-events: none;
-  --bg-washes:
+  background:
     radial-gradient(ellipse 60vmax 50vmax at 0% 0%, var(--bg-wash-1), transparent 70%),
     radial-gradient(ellipse 55vmax 45vmax at 100% 100%, var(--bg-wash-2), transparent 70%);
-
-  background:
-    var(--bg-grain),
-    var(--bg-washes),
-    var(--background-color);
 }
 
 @supports (-webkit-touch-callout: none) {
   body::before {
     --bg-fade: 6rem;
-    --bg-washes:
-      linear-gradient(to top, var(--background-color), transparent var(--bg-fade)),
-      radial-gradient(ellipse 60vmax 50vmax at 0% 0%, var(--bg-wash-1), transparent 70%),
-      radial-gradient(ellipse 55vmax 45vmax at 100% 100%, var(--bg-wash-2), transparent 70%);
+
+    mask-image: linear-gradient(to top, transparent, #000 var(--bg-fade));
   }
 }
 
-// Fills the iOS Safari toolbar with the page colour, so the page doesn't show
-// through it. Safari takes the colour from a fixed element within 3px of the
-// bottom edge, at least 80% wide and 3px tall; this one sits 8px off-screen
-// with 4px under the toolbar. It has to be a real element above the content:
-// the same strip as a pseudo-element at z-index: -1 was ignored.
-// See https://jahir.dev/blog/safari-toolbar
-.c-toolbar-tint {
+// Fill the iOS Safari status bar and toolbar with solid colours, so the page
+// doesn't show through them. Safari takes each bar's colour from a fixed
+// element above the content at that edge, at least 80% wide (see
+// https://jahir.dev/blog/safari-toolbar). Tested on device (Safari 27):
+// - top: must start at top: 0 and be more than 4px tall (12px works); it
+//   shows as 12px of --bg-tint-top under the status bar
+// - bottom: works pushed 8px off-screen, leaving 4px under the toolbar
+// Both are ignored as pseudo-elements behind the content.
+.c-bar-tint {
   display: none;
   position: fixed;
-  bottom: -8px;
   left: 0;
   width: 100%;
   min-height: 12px;
   z-index: 5;
-  background-color: var(--background-color);
+
+  &--top {
+    top: 0;
+    background-color: var(--bg-tint-top);
+  }
+
+  &--bottom {
+    bottom: -8px;
+    background-color: var(--background-color);
+  }
 }
 
 @supports (-webkit-touch-callout: none) {
   @media (width < 768px) {
-    .c-toolbar-tint {
+    .c-bar-tint {
       display: block;
     }
   }
