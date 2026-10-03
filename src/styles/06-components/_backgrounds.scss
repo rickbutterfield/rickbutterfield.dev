@@ -9,12 +9,14 @@
  * corners of the screen as you scroll. The grain is body's background, which
  * propagates to the canvas, so it covers everything.
  *
- * iOS Safari 26+ only draws the scrolling page under its floating toolbar:
- * fixed and sticky boxes stop at the toolbar's top edge whatever their
- * offsets (env(safe-area-inset-*) is 0 in the browser anyway), and the
- * status bar is filled with body's background-color. So on iOS the wash
- * layer fades out over its last --bg-fade instead of ending in a hard line
- * above the toolbar. `-webkit-touch-callout` limits that to iOS.
+ * iOS Safari 26+ doesn't draw fixed or sticky boxes under its status bar or
+ * floating toolbar, whatever their offsets (env(safe-area-inset-*) is 0 in
+ * the browser anyway). It fills the status bar with body's
+ * background-color, and the toolbar with the background-color of a fixed
+ * element touching the bottom edge (.c-toolbar-tint below), or else shows
+ * the scrolling page through it. So on iOS the wash layer fades out over its
+ * last --bg-fade into the page colour the toolbar is filled with, instead of
+ * ending in a hard line above it. `-webkit-touch-callout` limits that to iOS.
  */
 
 :root > body {
@@ -38,6 +40,31 @@ body::before {
     --bg-fade: 6rem;
 
     mask-image: linear-gradient(to top, transparent, #000 var(--bg-fade));
+  }
+}
+
+// Fills the iOS Safari toolbar with the page colour, so the page doesn't show
+// through it. Safari takes the colour from a fixed element within 3px of the
+// bottom edge, at least 80% wide and 3px tall; this one sits 8px off-screen
+// with 4px under the toolbar. It has to be a real element above the content:
+// the same strip as a pseudo-element at z-index: -1 was ignored.
+// See https://jahir.dev/blog/safari-toolbar
+.c-toolbar-tint {
+  display: none;
+  position: fixed;
+  bottom: -8px;
+  left: 0;
+  width: 100%;
+  min-height: 12px;
+  z-index: 5;
+  background-color: var(--background-color);
+}
+
+@supports (-webkit-touch-callout: none) {
+  @media (width < 768px) {
+    .c-toolbar-tint {
+      display: block;
+    }
   }
 }
 
