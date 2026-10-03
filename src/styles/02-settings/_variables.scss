@@ -68,7 +68,7 @@
   --bg-wash-1: color-mix(in srgb, var(--link-color) 14%, transparent);
   --bg-wash-2: color-mix(in srgb, #c98a2b 16%, transparent);
   --bg-dot: color-mix(in srgb, var(--text-color) 16%, transparent);
-  // Solid colour for the iOS Safari status bar (.c-bar-tint--top): the page
+  // Solid colour for the iOS Safari status bar (.c-status-bar-tint): the page
   // colour under the top-left wash where it meets the top edge
   --bg-tint-top: color-mix(in srgb, var(--link-color) 7%, var(--background-color));
 

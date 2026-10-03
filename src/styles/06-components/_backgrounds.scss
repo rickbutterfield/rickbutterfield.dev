@@ -11,10 +11,10 @@
  *
  * iOS Safari 26+ doesn't draw fixed or sticky boxes under its status bar or
  * floating toolbar, whatever their offsets (env(safe-area-inset-*) is 0 in
- * the browser anyway). It fills each bar with the background-color of a
- * fixed element at that edge instead (.c-bar-tint below). So on iOS the wash
- * layer fades out over its last --bg-fade into the page colour the toolbar
- * is filled with, instead of ending in a hard line above it.
+ * the browser anyway). The status bar is filled with a solid colour instead
+ * (.c-status-bar-tint below), and the toolbar shows the scrolling page
+ * through it, so on iOS the wash layer fades out over its last --bg-fade
+ * instead of ending in a hard line above the toolbar.
  * `-webkit-touch-callout` limits that to iOS.
  */
 
@@ -42,36 +42,27 @@ body::before {
   }
 }
 
-// Fill the iOS Safari status bar and toolbar with solid colours, so the page
-// doesn't show through them. Safari takes each bar's colour from a fixed
-// element above the content at that edge, at least 80% wide (see
-// https://jahir.dev/blog/safari-toolbar). Tested on device (Safari 27):
-// - top: must start at top: 0 and be more than 4px tall (12px works); it
-//   shows as 12px of --bg-tint-top under the status bar
-// - bottom: works pushed 8px off-screen, leaving 4px under the toolbar
-// Both are ignored as pseudo-elements behind the content.
-.c-bar-tint {
+// Fill the iOS Safari status bar with a solid colour, so the page doesn't
+// show through it. Safari takes the colour from a fixed element above the
+// content at the top edge, at least 80% wide (see
+// https://jahir.dev/blog/safari-toolbar). Tested on device (Safari 27), it
+// must start at top: 0 and be more than 4px tall; it shows as 12px of
+// --bg-tint-top under the status bar. As a pseudo-element behind the content
+// it's ignored.
+.c-status-bar-tint {
   display: none;
   position: fixed;
+  top: 0;
   left: 0;
   width: 100%;
   min-height: 12px;
   z-index: 5;
-
-  &--top {
-    top: 0;
-    background-color: var(--bg-tint-top);
-  }
-
-  &--bottom {
-    bottom: -8px;
-    background-color: var(--background-color);
-  }
+  background-color: var(--bg-tint-top);
 }
 
 @supports (-webkit-touch-callout: none) {
   @media (width < 768px) {
-    .c-bar-tint {
+    .c-status-bar-tint {
       display: block;
     }
   }
