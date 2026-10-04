@@ -5,35 +5,26 @@
  * grid in the bottom-right corner of the page. Colours come from the --bg-*
  * tokens in 02-settings/_variables.scss, which the dark-theme mixin redefines.
  *
- * The page colour, washes and grain sit on a fixed layer behind the content,
- * so the washes stay in the corners of the screen as you scroll. It's at
- * z-index -2 so the dot grid (-1) still shows over it.
+ * The page colour and grain sit on a fixed layer behind the content, at
+ * z-index -2. The washes and dot grid scroll with the page instead: they're
+ * absolutely positioned with <html> as the containing block, so the green
+ * wash sits at the top-left of the document and the amber one at the
+ * bottom-right with the dots. As part of the page, iOS Safari draws them
+ * under its status bar and toolbar when you scroll (it won't draw fixed
+ * boxes there).
  *
  * body's background-color, which propagates to the canvas, is --bg-seen: the
  * page colour darkened (or in dark mode lightened) by the grain's average.
  * It only shows where the fixed layer doesn't: when overscrolling, and in
  * iOS Safari's bars, which take their colour from it.
- *
- * iOS Safari 26+ doesn't draw fixed or sticky boxes under its status bar or
- * floating toolbar, whatever their offsets (env(safe-area-inset-*) is 0 in
- * the browser anyway). Both bars show the scrolling page through them, and
- * the toolbar cuts the fixed layer off about 85% of the way down. So on iOS
- * phones the washes move in from the corners and shrink to fit between
- * roughly 4% and 80% of the layer's height, fading out before either bar
- * instead of meeting it in a hard line. `-webkit-touch-callout` limits that
- * to iOS.
  */
 
 :root > body {
   background-color: var(--bg-seen);
 }
 
-// Grain over the washes in opposite corners, over the page colour
+// Grain over the page colour
 body::before {
-  --bg-washes:
-    radial-gradient(ellipse 60vmax 50vmax at 0% 0%, var(--bg-wash-1), transparent 70%),
-    radial-gradient(ellipse 55vmax 45vmax at 100% 100%, var(--bg-wash-2), transparent 70%);
-
   content: "";
   position: fixed;
   inset: 0;
@@ -41,20 +32,19 @@ body::before {
   pointer-events: none;
   background:
     var(--bg-grain),
-    var(--bg-washes),
     var(--background-color);
 }
 
-// Sizes are percentages of the layer: each wash reaches 70% of its radius,
-// so the top one spans 22% ± 18.2% of the height and the bottom one 62% ± 16.8%
-@supports (-webkit-touch-callout: none) {
-  @media (width < 768px) {
-    body::before {
-      --bg-washes:
-        radial-gradient(ellipse 100% 26% at 0% 22%, var(--bg-wash-1), transparent 70%),
-        radial-gradient(ellipse 95% 24% at 100% 62%, var(--bg-wash-2), transparent 70%);
-    }
-  }
+// Soft colour washes in opposite corners of the document
+body::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 60vmax 50vmax at 0% 0%, var(--bg-wash-1), transparent 70%) no-repeat,
+    radial-gradient(ellipse 55vmax 45vmax at 100% 100%, var(--bg-wash-2), transparent 70%) no-repeat;
 }
 
 // Dot grid in the bottom-right corner of the page (scrolls with it, so it
