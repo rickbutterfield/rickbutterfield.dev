@@ -65,8 +65,8 @@
   // Background decoration (06-components/_backgrounds.scss); the dots derive
   // from --text-color so they flip with the theme on their own
   --bg-grain: #{grain-svg(0, 0.07)};
-  --bg-wash-1: color-mix(in srgb, var(--link-color) 14%, transparent);
-  --bg-wash-2: color-mix(in srgb, #c98a2b 16%, transparent);
+  --bg-wash-1: color-mix(in srgb, var(--link-color) 11%, transparent);
+  --bg-wash-2: color-mix(in srgb, #c98a2b 13%, transparent);
   --bg-dot: color-mix(in srgb, var(--text-color) 16%, transparent);
   // The page colour as it looks under the grain (its measured average), for
   // the flat areas iOS Safari fills from body's background-color
@@ -91,8 +91,8 @@
 
   // Light grain on dark reads as dust, so keep it fainter
   --bg-grain: #{grain-svg(1, 0.045)};
-  --bg-wash-1: color-mix(in srgb, var(--link-color) 10%, transparent);
-  --bg-wash-2: color-mix(in srgb, #c98a2b 8%, transparent);
+  --bg-wash-1: color-mix(in srgb, var(--link-color) 13%, transparent);
+  --bg-wash-2: color-mix(in srgb, #c98a2b 11%, transparent);
   --bg-dot: color-mix(in srgb, var(--text-color) 9%, transparent);
   --bg-seen: color-mix(in srgb, #fff 2.1%, var(--background-color));
 }
