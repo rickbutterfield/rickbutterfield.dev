@@ -11,7 +11,11 @@
  * wash sits at the top-left of the document and the amber one at the
  * bottom-right with the dots. As part of the page, iOS Safari draws them
  * under its status bar and toolbar when you scroll (it won't draw fixed
- * boxes there).
+ * boxes there). Before you scroll, Safari fills the status bar with body's
+ * flat background-color, so on iOS the washes shrink and move in from the
+ * top and bottom of the document, fading out before either edge, so the
+ * page starts and ends in plain page colour that matches the bars.
+ * `-webkit-touch-callout` limits that to iOS.
  *
  * body's background-color, which propagates to the canvas, is --bg-seen: the
  * page colour darkened (or in dark mode lightened) by the grain's average.
@@ -45,6 +49,17 @@ body::after {
   background:
     radial-gradient(ellipse 60vmax 50vmax at 0% 0%, var(--bg-wash-1), transparent 70%) no-repeat,
     radial-gradient(ellipse 55vmax 45vmax at 100% 100%, var(--bg-wash-2), transparent 70%) no-repeat;
+}
+
+// Each wash fades out at 70% of its radius: the top one reaches 24.5svh
+// either side of its centre, 28svh down, so it clears the top by 3.5svh; the
+// bottom one reaches 22.4svh, centred 26svh up from the end of the page
+@supports (-webkit-touch-callout: none) {
+  body::after {
+    background:
+      radial-gradient(ellipse 100vw 35svh at 0% 28svh, var(--bg-wash-1), transparent 70%) no-repeat,
+      radial-gradient(ellipse 95vw 32svh at 100% calc(100% - 26svh), var(--bg-wash-2), transparent 70%) no-repeat;
+  }
 }
 
 // Dot grid in the bottom-right corner of the page (scrolls with it, so it
