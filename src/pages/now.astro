@@ -9,32 +9,46 @@ import type { EventInfoElementModel } from "@/api";
 const nowPageCollection = await getCollection("nowPage");
 const node = nowPageCollection[0].data.content;
 
-const { title, content, grid, location } = node.properties ?? {};
+const { title, content, grid, location, upcoming: manualEntries } = node.properties ?? {};
 // Umbraco's own last-saved date, so it moves whenever the page is edited
 const updated = new Date(node.updateDate);
 
 const formatDate = (date: Date) =>
   date.toLocaleDateString("en-gb", { year: "numeric", month: "short", day: "numeric" });
 
-// Coming up: every speaking date (main event plus additional events) that hasn't happened
-// at build time. The script below also hides any that pass before the next rebuild.
+// Coming up: every speaking date (main event plus additional events) and every manual entry
+// from the Now page that hasn't happened at build time, in one date-sorted list. The script
+// below also hides any that pass before the next rebuild.
+interface UpcomingEntry {
+  name: string;
+  date: Date;
+  url?: string | null;
+  /** Talk title for speaking dates; manual entries have none */
+  talk?: string;
+}
+
 const buildDay = new Date();
 buildDay.setUTCHours(0, 0, 0, 0);
-const upcoming = (await getCollection("speaking"))
-  .flatMap(({ data }) => {
-    const talk = data.content.properties;
-    const events = [
-      { name: talk?.eventName, date: talk?.eventDate, url: talk?.eventUrl },
-      ...(talk?.additionalEvents?.items ?? []).map((item) => {
-        const event = (item.content as EventInfoElementModel).properties;
-        return { name: event?.eventName, date: event?.eventDate, url: event?.eventUrl };
-      }),
-    ];
-    return events
-      .filter((event) => event.name && event.date && new Date(event.date) >= buildDay)
-      .map((event) => ({ ...event, date: new Date(event.date!), talk: data.content.properties?.title ?? data.name }));
-  })
-  .sort((a, b) => a.date.getTime() - b.date.getTime());
+
+const toEntry = (event: EventInfoElementModel["properties"], talk?: string): UpcomingEntry[] =>
+  event?.eventName && event.eventDate && new Date(event.eventDate) >= buildDay
+    ? [{ name: event.eventName, date: new Date(event.eventDate), url: event.eventUrl, talk }]
+    : [];
+
+const talkEntries = (await getCollection("speaking")).flatMap(({ data }) => {
+  const talk = data.content.properties;
+  const title = talk?.title ?? data.name;
+  return [
+    ...toEntry(talk, title),
+    ...(talk?.additionalEvents?.items ?? []).flatMap((item) =>
+      toEntry((item.content as EventInfoElementModel).properties, title)),
+  ];
+});
+
+const customEntries = (manualEntries?.items ?? []).flatMap((item) =>
+  toEntry((item.content as EventInfoElementModel).properties));
+
+const upcoming = [...talkEntries, ...customEntries].sort((a, b) => a.date.getTime() - b.date.getTime());
 ---
 
 <Layout name={title ?? node.name}>
@@ -56,7 +70,8 @@ const upcoming = (await getCollection("speaking"))
           {upcoming.map((event) => (
             <li data-event-date={event.date.toISOString()}>
               <time datetime={event.date.toISOString()}>{formatDate(event.date)}</time>:
-              speaking at {event.url ? <a href={event.url}>{event.name}</a> : event.name} about <a href="/speaking">{event.talk}</a>
+              {event.talk && "speaking at "}{event.url ? <a href={event.url}>{event.name}</a> : event.name}
+              {event.talk && <> about <a href="/speaking">{event.talk}</a></>}
             </li>
           ))}
         </ul>

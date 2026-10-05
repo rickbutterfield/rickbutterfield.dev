@@ -284,6 +284,7 @@ export type NowPageContentResponseModel = Omit<IApiContentResponseModelBase, 'co
 
 export type NowPagePropertiesModel = PageSettingsPropertiesModel & PageContentPropertiesModel & {
     location?: string | null;
+    upcoming?: ApiBlockListModel;
 };
 
 export type PageContentElementModel = Omit<IApiElementModelBase, 'contentType'> & {
@@ -569,6 +570,7 @@ export type NowPageContentResponseModelWritable = Omit<IApiContentResponseModelB
 
 export type NowPagePropertiesModelWritable = PageSettingsPropertiesModel & PageContentPropertiesModelWritable & {
     location?: string | null;
+    upcoming?: ApiBlockListModelWritable;
 };
 
 export type PageContentElementModelWritable = {
