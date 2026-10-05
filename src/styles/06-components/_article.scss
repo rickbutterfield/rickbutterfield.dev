@@ -54,3 +54,35 @@
 
   }
 }
+// Round headshot floated beside the opening paragraph of a content page
+.c-article__portrait {
+  float: right;
+  width: clamp(6rem, 4rem + 10vw, 10rem);
+  height: auto;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-inline-start: var(--space-s-m);
+  margin-block-end: var(--space-xs);
+  shape-outside: circle(50%);
+  shape-margin: var(--space-2xs);
+}
+
+// "Updated <date> · <age> · <location>" above a page title, styled like a bare <time>
+.c-article__dateline {
+  font-family: var(--font-stack-mono);
+  font-size: var(--step--1);
+  font-weight: 500;
+  color: var(--text-color-muted);
+}
+
+// Same gap as the markdown h2 sections above it (they get --flow-space-lg from c-flow)
+.c-article__upcoming {
+  margin-block-start: var(--flow-space-lg);
+}
+
+// Small print at the end of an article, e.g. the nownownow credit on /now
+.c-article__note {
+  font-size: var(--step--1);
+  color: var(--text-color-muted);
+}

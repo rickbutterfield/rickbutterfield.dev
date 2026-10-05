@@ -4,6 +4,7 @@ import Layout from "@/layouts/Layout.astro";
 import UmbracoGrid from "@/components/UmbracoGrid.astro";
 import { Image } from "astro:assets";
 import { getCollection } from "astro:content";
+import { SITE_TITLE } from "@/consts";
 
 export async function getStaticPaths() {
   const contentPagesCollection = await getCollection("contentPages");
@@ -17,12 +18,13 @@ export async function getStaticPaths() {
         content: page.properties?.content,
         grid: page.properties?.grid,
         featuredImage: page.properties?.featuredImage?.[0],
+        portrait: page.properties?.portrait?.[0],
       },
     };
   });
 }
 
-const { name, content, grid, featuredImage } = Astro.props;
+const { name, content, grid, featuredImage, portrait } = Astro.props;
 const baseUrl = import.meta.env.PUBLIC_BASE_URL_HTTPS;
 
 // Scale the featured image down to the article width, keeping its aspect ratio
@@ -35,6 +37,11 @@ if (width > maxWidth) {
 }
 const src: string = `${baseUrl}${featuredImage?.url}?format=webp`;
 const alt: string = featuredImage?.properties?.altText as string || "";
+
+// Shown small and round, so 2x the largest display size is plenty
+const portraitSize = 320;
+const portraitSrc: string = `${baseUrl}${portrait?.url}?format=webp`;
+const portraitAlt: string = portrait?.properties?.altText as string || `Photo of ${SITE_TITLE}`;
 ---
 
 <Layout name={name}>
@@ -44,6 +51,9 @@ const alt: string = featuredImage?.properties?.altText as string || "";
       <figure>
         <Image src={src} alt={alt} width={width} height={height} loading="eager" fetchpriority="high" decoding="async" />
       </figure>
+    )}
+    {portrait && (
+      <Image class="c-article__portrait" src={portraitSrc} alt={portraitAlt} width={portraitSize} height={portraitSize} decoding="async" />
     )}
     {content && (
       <Fragment set:html={marked.parse(content)} />

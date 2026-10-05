@@ -1,0 +1,108 @@
+---
+import { marked } from "marked";
+import Layout from "@/layouts/Layout.astro";
+import UmbracoGrid from "@/components/UmbracoGrid.astro";
+import Activity from "@/components/Activity.astro";
+import { getCollection } from "astro:content";
+import type { EventInfoElementModel } from "@/api";
+
+const nowPageCollection = await getCollection("nowPage");
+const node = nowPageCollection[0].data.content;
+
+const { title, content, grid, location } = node.properties ?? {};
+// Umbraco's own last-saved date, so it moves whenever the page is edited
+const updated = new Date(node.updateDate);
+
+const formatDate = (date: Date) =>
+  date.toLocaleDateString("en-gb", { year: "numeric", month: "short", day: "numeric" });
+
+// Coming up: every speaking date (main event plus additional events) that hasn't happened
+// at build time. The script below also hides any that pass before the next rebuild.
+const buildDay = new Date();
+buildDay.setUTCHours(0, 0, 0, 0);
+const upcoming = (await getCollection("speaking"))
+  .flatMap(({ data }) => {
+    const talk = data.content.properties;
+    const events = [
+      { name: talk?.eventName, date: talk?.eventDate, url: talk?.eventUrl },
+      ...(talk?.additionalEvents?.items ?? []).map((item) => {
+        const event = (item.content as EventInfoElementModel).properties;
+        return { name: event?.eventName, date: event?.eventDate, url: event?.eventUrl };
+      }),
+    ];
+    return events
+      .filter((event) => event.name && event.date && new Date(event.date) >= buildDay)
+      .map((event) => ({ ...event, date: new Date(event.date!), talk: data.content.properties?.title ?? data.name }));
+  })
+  .sort((a, b) => a.date.getTime() - b.date.getTime());
+---
+
+<Layout name={title ?? node.name}>
+  <article class="c-article c-flow">
+    <p class="c-article__dateline">
+      <time datetime={updated.toISOString()}>Updated {formatDate(updated)}</time><span data-age-of={updated.toISOString()} hidden></span>{location && <span> · {location}</span>}
+    </p>
+    <h1>{title ?? node.name}</h1>
+    {content && (
+      <Fragment set:html={marked.parse(content)} />
+    )}
+
+    <UmbracoGrid data={grid} />
+
+    {upcoming.length > 0 && (
+      <section class="c-flow c-article__upcoming" data-upcoming>
+        <h2>🗓️ Coming up</h2>
+        <ul>
+          {upcoming.map((event) => (
+            <li data-event-date={event.date.toISOString()}>
+              <time datetime={event.date.toISOString()}>{formatDate(event.date)}</time>:
+              speaking at {event.url ? <a href={event.url}>{event.name}</a> : event.name} about <a href="/speaking">{event.talk}</a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    <Activity server:defer>
+      <section slot="fallback" class="c-activity c-activity--loading" aria-hidden="true">
+        <h2>Activity</h2>
+        <div class="c-activity__grid">
+          <div class="c-activity__card"></div>
+          <div class="c-activity__card"></div>
+        </div>
+      </section>
+    </Activity>
+
+    <p class="c-article__note">
+      This is a <a href="https://nownownow.com/about">now page</a>. If you have your own site, you should make one too.
+    </p>
+  </article>
+</Layout>
+
+<script>
+  // The page is only rebuilt on publish, so anything relative to "today" is worked out here
+  const DAY = 86_400_000;
+  const relative = new Intl.RelativeTimeFormat("en-gb", { numeric: "auto" });
+
+  function age(iso: string): string {
+    const days = Math.floor((Date.now() - Date.parse(iso)) / DAY);
+    if (days < 31) return relative.format(-days, "day");
+    if (days < 365) return relative.format(-Math.floor(days / 30), "month");
+    return relative.format(-Math.floor(days / 365), "year");
+  }
+
+  document.addEventListener("astro:page-load", () => {
+    document.querySelectorAll<HTMLElement>("[data-age-of]").forEach((el) => {
+      el.textContent = ` · ${age(el.dataset.ageOf!)}`;
+      el.hidden = false;
+    });
+
+    // Drop events that have passed since the last build, and the section if none are left
+    document.querySelectorAll<HTMLElement>("[data-event-date]").forEach((el) => {
+      if (Date.parse(el.dataset.eventDate!) + DAY <= Date.now()) el.remove();
+    });
+    document.querySelectorAll<HTMLElement>("[data-upcoming]").forEach((section) => {
+      if (!section.querySelector("[data-event-date]")) section.remove();
+    });
+  });
+</script>

@@ -1,7 +1,8 @@
 import { defineConfig } from 'astro/config';
+import { stat } from 'node:fs/promises';
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
-import lit from '@astrojs/lit';
+import cloudflare from '@astrojs/cloudflare';
 import robotsTxt from "astro-robots-txt";
 import serviceWorker from "astrojs-service-worker";
 import expressiveCode from 'astro-expressive-code';
@@ -15,6 +16,11 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
 
 // Dev only: lets a local Umbraco webhook (Content Published/Unpublished/Deleted)
 // POST to http://localhost:4321/_refresh-content to reload the content collections
+const DATA_STORE_FILE = new URL('./.astro/data-store.json', import.meta.url);
+const DATA_STORE_MODULE = '\0astro:data-layer-content';
+
+const lastModified = () => stat(DATA_STORE_FILE).then((file) => file.mtimeMs, () => 0);
+
 const umbracoContentRefresh = () => ({
   name: 'umbraco-content-refresh',
   hooks: {
@@ -25,7 +31,23 @@ const umbracoContentRefresh = () => ({
           return res.end();
         }
         try {
+          const before = await lastModified();
           await refreshContent?.({ context: { source: 'umbraco-webhook' } });
+
+          // Astro saves the data store on a short debounce; wait (up to 5s) for the new file
+          for (let i = 0; i < 50 && (await lastModified()) === before; i++) {
+            await new Promise((resolve) => setTimeout(resolve, 100));
+          }
+
+          // With the Cloudflare adapter, pages render in workerd. Astro only invalidates the content
+          // module in its own `ssr` environment, so invalidate it everywhere and tell the server
+          // environments to reload, which makes workerd's module runner fetch it again.
+          for (const environment of Object.values(server.environments)) {
+            const module = environment.moduleGraph.getModuleById(DATA_STORE_MODULE);
+            if (module) environment.moduleGraph.invalidateModule(module);
+            if (environment.name !== 'client') environment.hot.send({ type: 'full-reload' });
+          }
+
           logger.info('Content refreshed from Umbraco');
           res.statusCode = 200;
           res.end('ok');
@@ -78,10 +100,18 @@ export default defineConfig({
       }
     }),
     robotsTxt(),
-    lit(),
+    // lit() removed: no Lit components are used, and its server renderer touches `document`,
+    // which crashes the Worker that serves server islands. Re-add with care if Lit islands return.
     serviceWorker(),
     umbracoContentRefresh()
   ],
+  // Pages stay prerendered; the adapter only serves server islands (the /now activity cards)
+  adapter: cloudflare({
+    // Keep optimising images at build time, as before the adapter
+    imageService: 'compile',
+    // The build relies on Node (Sharp, astro-og-canvas, NODE_TLS_REJECT_UNAUTHORIZED above)
+    prerenderEnvironment: 'node',
+  }),
   prefetch: true,
   image: {
     domains: ["api.rickbutterfield.dev"],

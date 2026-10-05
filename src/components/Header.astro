@@ -13,10 +13,10 @@ const navigationItems = await getCollection("navigation");
         <div class="c-header__logo">
           <a href="/"><strong>{SITE_TITLE}</strong></a>
         </div>
-        <div>
-          <span>{SITE_DESCRIPTION}</span>
-        </div>
+        <div class="c-header__subtitle">{SITE_DESCRIPTION}</div>
+      </div>
 
+      <div class="c-header__right">
         <nav class="c-nav">
           <ul>
             {
@@ -28,12 +28,10 @@ const navigationItems = await getCollection("navigation");
             }
           </ul>
         </nav>
-      </div>
 
-      <div class="c-header__right">
         <button
           type="button"
-          class="o-btn"
+          class="c-header__toggle"
           id="theme-toggle"
           title="Dark mode"
           aria-label="Dark mode"
@@ -43,8 +41,8 @@ const navigationItems = await getCollection("navigation");
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
-            width="30"
-            height="30"
+            width="20"
+            height="20"
             viewBox="0 0 24 24"
             stroke-width="1.5"
             stroke="currentColor"
@@ -61,8 +59,8 @@ const navigationItems = await getCollection("navigation");
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
-            width="30"
-            height="30"
+            width="20"
+            height="20"
             viewBox="0 0 24 24"
             stroke-width="1.5"
             stroke="currentColor"

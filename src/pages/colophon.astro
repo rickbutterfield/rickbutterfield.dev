@@ -1,0 +1,108 @@
+---
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
+import { execSync } from "node:child_process";
+import Layout from "@/layouts/Layout.astro";
+
+// Read the versions that are actually installed rather than the ranges in package.json,
+// so this page stays accurate after every `npm update` without anyone touching it
+const installed = (name: string): string | undefined => {
+  try {
+    return JSON.parse(readFileSync(join(process.cwd(), "node_modules", name, "package.json"), "utf8")).version;
+  } catch {
+    return undefined;
+  }
+};
+
+const versions = [
+  { name: "Astro", pkg: "astro", url: "https://astro.build" },
+  { name: "Astro Cloudflare adapter", pkg: "@astrojs/cloudflare", url: "https://docs.astro.build/en/guides/integrations-guide/cloudflare/" },
+  { name: "Expressive Code", pkg: "astro-expressive-code", url: "https://expressive-code.com" },
+  { name: "Hey API openapi-ts", pkg: "@hey-api/openapi-ts", url: "https://heyapi.dev" },
+  { name: "astro-og-canvas", pkg: "astro-og-canvas", url: "https://github.com/delucis/astro-og-canvas" },
+  { name: "Sass", pkg: "sass", url: "https://sass-lang.com" },
+  { name: "Wrangler", pkg: "wrangler", url: "https://developers.cloudflare.com/workers/wrangler/" },
+]
+  .map((tool) => ({ ...tool, version: installed(tool.pkg) }))
+  .filter((tool) => tool.version);
+
+// The build machine's own Node and commit, so the page says what really built it
+const nodeVersion = process.version.replace(/^v/, "");
+let commit: string | undefined;
+try {
+  commit = execSync("git rev-parse --short HEAD", { stdio: ["ignore", "pipe", "ignore"] }).toString().trim();
+} catch {
+  commit = undefined;
+}
+const built = new Date();
+const formatDate = (date: Date) =>
+  date.toLocaleDateString("en-gb", { year: "numeric", month: "short", day: "numeric" });
+
+const swatches = [
+  { name: "Paper", token: "--background-color", light: "#f5f3ee", dark: "#1a1712" },
+  { name: "Stone", token: "--background-color-tertiary", light: "#e5dfd5", dark: "#2d2820" },
+  { name: "Ink", token: "--text-color", light: "#1c1c14", dark: "#ece7dd" },
+  { name: "Forest", token: "--link-color", light: "#1b5e4b", dark: "#5cba9b" },
+  { name: "Amber", token: "--colophon-amber", light: "#c98a2b", dark: "#c98a2b" },
+];
+---
+
+<Layout name="Colophon" description="How rickbutterfield.dev is built: Umbraco Cloud, Astro, Cloudflare Workers, and the type and colours behind it.">
+  <article class="c-article c-flow c-colophon">
+    <p class="c-article__dateline"> <time datetime={built.toISOString()}>Built {formatDate(built)}</time>{commit && ( <span> · <a href={`https://github.com/rickbutterfield/rickbutterfield.dev/commit/${commit}`}>{commit}</a></span> )} </p>
+    <h1>Colophon</h1>
+
+    <p class="lead"> This site is a headless Umbraco build: content lives in Umbraco Cloud, and Astro turns it into static pages that Cloudflare serves from the edge. </p>
+
+    <h2>Content</h2>
+    <p> Everything you read here is written and edited in <a href="https://umbraco.com">Umbraco</a> 17, hosted on <a href="https://umbraco.com/products/umbraco-cloud">Umbraco Cloud</a>. The site never talks to a database. At build time it pulls every page from Umbraco's <a href="https://docs.umbraco.com/umbraco-cms/reference/content-delivery-api">Delivery API</a> through a TypeScript client generated from the API's OpenAPI spec. I wrote up <a href="/blog/typescript-openapi-umbraco-content-delivery">how that client is generated</a> if you want to do the same. </p>
+    <p> Posts are built from Umbraco's Block Grid, and the backoffice previews those blocks with <a href="https://github.com/rickbutterfield/BlockPreview">BlockPreview</a>, styled from this site's own CSS so a preview looks like the page it's going on. </p>
+    <p> Publishing in Umbraco fires a webhook that kicks off a new build, so a post goes live about a minute after I hit publish. I sometimes have Claude draft posts into Umbraco through the <a href="https://docs.umbraco.com/umbraco-in-ai/mcp/hosted-mcp-setup">hosted Umbraco MCP</a>, but those only ever land as drafts. Publishing is always me. </p>
+
+    <h2>Frontend</h2>
+    <p> The frontend is <a href="https://astro.build">Astro</a>, and every page is prerendered to plain HTML. The only part that runs on request is the activity panel on my <a href="/now">now page</a>, which is an Astro server island. Code samples are highlighted at build time by <a href="https://expressive-code.com">Expressive Code</a>, social images are drawn by <a href="https://github.com/delucis/astro-og-canvas">astro-og-canvas</a>, and there's an <a href="/feed.xml">RSS feed</a> if you'd rather read along that way. </p>
+    <p> Styles are hand-written Sass, organised with ITCSS layers and BEM-style class names. The type and spacing scales are fluid, worked out with <a href="https://utopia.fyi">Utopia</a>. </p>
+
+    <h2>Hosting</h2>
+    <p> The built site is served by <a href="https://developers.cloudflare.com/workers/static-assets/">Cloudflare Workers static assets</a>, and built by Workers Builds straight from <a href="https://github.com/rickbutterfield/rickbutterfield.dev">the GitHub repo</a>. It moved over from Cloudflare Pages in October 2026; keeping Astro's image cache between builds roughly halved the build time. </p>
+
+    <h2>Type</h2>
+    <ul class="c-colophon__type">
+      <li> <span class="c-colophon__specimen c-colophon__specimen--heading">Hanken Grotesk</span> for headings, from <a href="https://fonts.google.com/specimen/Hanken+Grotesk">Google Fonts</a> </li>
+      <li> <span class="c-colophon__specimen">Inter</span> for body text, by <a href="https://rsms.me/inter/">Rasmus Andersson</a> </li>
+      <li> <span class="c-colophon__specimen c-colophon__specimen--mono">IBM Plex Mono</span> for code, from <a href="https://www.ibm.com/plex/">IBM Plex</a> </li>
+    </ul>
+    <p>All three are self-hosted as WOFF2 files, so no font loads from a third party.</p>
+
+    <h2>Colour</h2>
+    <p> A warm, papery palette of stone and forest green, with a faint amber wash and a grain texture drawn by an SVG noise filter in the page background. Every colour has a dark-mode pair, and the swatches below follow whichever theme you're using. </p>
+    <ul class="c-colophon__swatches">
+      {swatches.map((swatch) => (
+        <li>
+          <span class="c-colophon__swatch" style={`background: var(${swatch.token})`}></span>
+          <span class="c-colophon__swatch-name">{swatch.name}</span>
+          <code>{swatch.light === swatch.dark ? swatch.light : `${swatch.light} / ${swatch.dark}`}</code>
+        </li>
+      ))}
+    </ul>
+
+    <h2>Versions</h2>
+    <p>Read from the build itself, so these are what built the page you're looking at.</p>
+    <table class="c-colophon__versions">
+      <tbody>
+        {versions.map((tool) => (
+          <tr>
+            <th scope="row"><a href={tool.url}>{tool.name}</a></th>
+            <td><code>{tool.version}</code></td>
+          </tr>
+        ))}
+        <tr>
+          <th scope="row"><a href="https://nodejs.org">Node.js</a></th>
+          <td><code>{nodeVersion}</code></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p class="c-article__note"> A <a href="https://en.wikipedia.org/wiki/Colophon_(publishing)">colophon</a> is the note at the back of a book about how it was made. This is the web version. </p>
+  </article>
+</Layout>
