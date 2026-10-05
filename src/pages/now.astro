@@ -69,7 +69,7 @@ const upcoming = [...talkEntries, ...customEntries].sort((a, b) => a.date.getTim
         <ul>
           {upcoming.map((event) => (
             <li data-event-date={event.date.toISOString()}>
-              <time datetime={event.date.toISOString()}>{formatDate(event.date)}</time>:
+              <time datetime={event.date.toISOString()}>{formatDate(event.date)}</time>:{" "}
               {event.talk && "speaking at "}{event.url ? <a href={event.url}>{event.name}</a> : event.name}
               {event.talk && <> about <a href="/speaking">{event.talk}</a></>}
             </li>
