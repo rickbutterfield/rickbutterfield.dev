@@ -1,0 +1,82 @@
+---
+// Server island: rendered per request in the Worker (see <Activity server:defer> in pages/now.astro)
+import { loadActivity, type ActivityEnv } from '@/scripts/activity';
+
+// Imported lazily so the prerendered pages never try to resolve the Workers runtime module
+const { env } = await import('cloudflare:workers');
+const items = await loadActivity(env as unknown as ActivityEnv, Astro.url.origin);
+
+// Short browser cache; each source also has its own edge cache in loadActivity
+Astro.response.headers.set('Cache-Control', 'public, max-age=120');
+
+const relative = new Intl.RelativeTimeFormat('en-gb', { numeric: 'auto' });
+const units: [Intl.RelativeTimeFormatUnit, number][] = [
+  ['year', 31536000],
+  ['month', 2592000],
+  ['week', 604800],
+  ['day', 86400],
+  ['hour', 3600],
+  ['minute', 60],
+];
+function timeAgo(iso: string): string {
+  const seconds = (new Date(iso).getTime() - Date.now()) / 1000;
+  for (const [unit, size] of units) {
+    if (Math.abs(seconds) >= size) return relative.format(Math.round(seconds / size), unit);
+  }
+  return 'just now';
+}
+
+// Contribution graph geometry, in SVG user units (the SVG scales to the card width)
+const CELL = 10;
+const GAP = 3;
+const STEP = CELL + GAP;
+const dayLabel = (day: { date: string; count: number }) =>
+  `${day.count === 0 ? 'No' : day.count} contribution${day.count === 1 ? '' : 's'} on ${new Date(day.date).toLocaleDateString('en-gb', { day: 'numeric', month: 'short', year: 'numeric' })}`;
+---
+
+{items.length > 0 && (
+  <section class="c-activity" aria-labelledby="activity-heading">
+    <h2 id="activity-heading">Activity</h2>
+    <ul class="c-activity__grid" role="list">
+      {items.map((item) => (
+        <li class:list={['c-activity__card', `c-activity__card--${item.source}`, { 'c-activity__card--wide': item.calendar }]}>
+          <p class="c-activity__label">{item.label}</p>
+          {item.calendar && (
+            <figure class="c-activity__graph">
+              <div class="c-activity__graph-scroll" tabindex="0" role="region" aria-label="Contribution graph, scrollable">
+                <svg
+                  viewBox={`0 0 ${item.calendar.weeks.length * STEP - GAP} ${7 * STEP - GAP}`}
+                  role="img"
+                  aria-label={`${item.calendar.total.toLocaleString('en-gb')} contributions in the last year`}
+                >
+                  {item.calendar.weeks.map((week, x) => week.map((day) => (
+                    <rect
+                      class={`c-activity__day c-activity__day--${day.level}`}
+                      x={x * STEP}
+                      y={new Date(day.date).getUTCDay() * STEP}
+                      width={CELL}
+                      height={CELL}
+                      rx="2"
+                    ><title>{dayLabel(day)}</title></rect>
+                  )))}
+                </svg>
+              </div>
+              <figcaption>{item.calendar.total.toLocaleString('en-gb')} contributions in the last year</figcaption>
+            </figure>
+          )}
+          <div class="c-activity__body">
+            {item.image && <img class="c-activity__image" src={item.image} alt="" width="56" height="56" loading="lazy" decoding="async" />}
+            <div>
+              <p class="c-activity__title">{item.title}</p>
+              {item.detail && <p class="c-activity__detail">{item.detail}</p>}
+            </div>
+          </div>
+          <p class="c-activity__meta">
+            {item.date && <time datetime={item.date}>{timeAgo(item.date)}</time>}
+            <a href={item.url} rel="noopener">{item.linkText}</a>
+          </p>
+        </li>
+      ))}
+    </ul>
+  </section>
+)}

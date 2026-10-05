@@ -1,6 +1,6 @@
 import { defineCollection } from 'astro:content';
 import { z } from 'astro/zod';
-import { client, ContentService, type BlogPostContentModel, type ProjectPostContentModel, type SpeakingPostContentModel, type HomePageContentModel, type BlogsPageContentModel, type ProjectsPageContentModel, type SpeakingPageContentModel, type ContentPageContentModel, type IApiContentResponseModel, type PageSettingsPropertiesModel } from './api';
+import { client, ContentService, type BlogPostContentModel, type ProjectPostContentModel, type SpeakingPostContentModel, type HomePageContentModel, type BlogsPageContentModel, type ProjectsPageContentModel, type SpeakingPageContentModel, type ContentPageContentModel, type NowPageContentModel, type IApiContentResponseModel, type PageSettingsPropertiesModel } from './api';
 import type { ZodType } from 'astro/zod';
 
 client.setConfig({ baseUrl: import.meta.env.PUBLIC_BASE_URL });
@@ -113,6 +113,27 @@ const speakingPage = defineCollection({
     id: z.string(),
     name: z.string(),
     content: z.any() as ZodType<SpeakingPageContentModel>,
+  })
+});
+
+const nowPage = defineCollection({
+  loader: async() => {
+    const response = await ContentService.queryV20({
+      query: {
+        filter: ["contentType:nowPage"],
+      }
+    });
+
+    return (response.data.items as NowPageContentModel[]).map((item) => ({
+      id: item.id,
+      name: item.name,
+      content: item,
+    }));
+  },
+  schema: z.object({
+    id: z.string(),
+    name: z.string(),
+    content: z.any() as ZodType<NowPageContentModel>,
   })
 });
 
@@ -229,4 +250,4 @@ const navigation = defineCollection({
   })
 });
 
-export const collections = { blog, projects, speaking, homePage, blogsPage, projectsPage, speakingPage, contentPages, navigation };
+export const collections = { blog, projects, speaking, homePage, blogsPage, projectsPage, speakingPage, nowPage, contentPages, navigation };

@@ -2,6 +2,8 @@
 dist/
 # generated types
 .astro/
+# Wrangler local state and the build's deploy redirect
+.wrangler/
 
 # dependencies
 node_modules/
@@ -17,6 +19,8 @@ pnpm-debug.log*
 .env
 .env.local
 .env.production
+# Worker secrets for local dev (Strava, Spotify, X tokens)
+.dev.vars
 
 # macOS-specific files
 .DS_Store

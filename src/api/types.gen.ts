@@ -104,7 +104,9 @@ export type ContentPageContentResponseModel = Omit<IApiContentResponseModelBase,
     contentType: 'contentPage';
 };
 
-export type ContentPagePropertiesModel = PageSettingsPropertiesModel & PageContentPropertiesModel;
+export type ContentPagePropertiesModel = PageSettingsPropertiesModel & PageContentPropertiesModel & {
+    portrait?: Array<IApiMediaWithCropsModel> | null;
+};
 
 export type EmploymentHistoryElementModel = Omit<IApiElementModelBase, 'contentType'> & {
     contentType: 'employmentHistory';
@@ -151,7 +153,7 @@ export type HttpValidationProblemDetails = ProblemDetails & {
     [key: string]: unknown;
 };
 
-export type IApiContentModel = ContentPageContentModel | HomePageContentModel | SpeakingPageContentModel | ProjectPostContentModel | BlogPostContentModel | ProjectsPageContentModel | SpeakingPostContentModel | BlogsPageContentModel;
+export type IApiContentModel = ContentPageContentModel | HomePageContentModel | SpeakingPageContentModel | ProjectPostContentModel | BlogPostContentModel | ProjectsPageContentModel | SpeakingPostContentModel | BlogsPageContentModel | NowPageContentModel;
 
 export type IApiContentModelBase = Omit<IApiElementModelBase, 'contentType'> & {
     contentType: 'IApiContentModelBase';
@@ -164,7 +166,7 @@ export type IApiContentModelBase = Omit<IApiElementModelBase, 'contentType'> & {
     route: ApiContentRouteModel;
 };
 
-export type IApiContentResponseModel = ContentPageContentResponseModel | HomePageContentResponseModel | SpeakingPageContentResponseModel | ProjectPostContentResponseModel | BlogPostContentResponseModel | ProjectsPageContentResponseModel | SpeakingPostContentResponseModel | BlogsPageContentResponseModel;
+export type IApiContentResponseModel = ContentPageContentResponseModel | HomePageContentResponseModel | SpeakingPageContentResponseModel | ProjectPostContentResponseModel | BlogPostContentResponseModel | ProjectsPageContentResponseModel | SpeakingPostContentResponseModel | BlogsPageContentResponseModel | NowPageContentResponseModel;
 
 export type IApiContentResponseModelBase = Omit<IApiContentModelBase, 'contentType'> & {
     contentType: 'IApiContentResponseModelBase';
@@ -269,6 +271,21 @@ export const LinkTypeModel = {
 } as const;
 
 export type LinkTypeModel = typeof LinkTypeModel[keyof typeof LinkTypeModel];
+
+export type NowPageContentModel = Omit<IApiContentModelBase, 'contentType'> & {
+    contentType: 'nowPage';
+} & {
+    properties?: NowPagePropertiesModel;
+};
+
+export type NowPageContentResponseModel = Omit<IApiContentResponseModelBase, 'contentType'> & Omit<NowPageContentModel, 'contentType'> & {
+    contentType: 'nowPage';
+};
+
+export type NowPagePropertiesModel = PageSettingsPropertiesModel & PageContentPropertiesModel & {
+    location?: string | null;
+    upcoming?: ApiBlockListModel;
+};
 
 export type PageContentElementModel = Omit<IApiElementModelBase, 'contentType'> & {
     contentType: 'pageContent';
@@ -470,7 +487,9 @@ export type ContentPageContentResponseModelWritable = Omit<IApiContentResponseMo
     contentType: 'contentPage';
 };
 
-export type ContentPagePropertiesModelWritable = PageSettingsPropertiesModel & PageContentPropertiesModelWritable;
+export type ContentPagePropertiesModelWritable = PageSettingsPropertiesModel & PageContentPropertiesModelWritable & {
+    portrait?: Array<IApiMediaWithCropsModelWritable> | null;
+};
 
 export type EmploymentHistoryElementModelWritable = {
     properties?: EmploymentHistoryPropertiesModelWritable;
@@ -500,13 +519,13 @@ export type HomePagePropertiesModelWritable = PageSettingsPropertiesModel & Page
     siteDescription?: string | null;
 };
 
-export type IApiContentModelWritable = ContentPageContentModelWritable | HomePageContentModelWritable | SpeakingPageContentModelWritable | ProjectPostContentModelWritable | BlogPostContentModelWritable | ProjectsPageContentModelWritable | SpeakingPostContentModelWritable | BlogsPageContentModelWritable;
+export type IApiContentModelWritable = ContentPageContentModelWritable | HomePageContentModelWritable | SpeakingPageContentModelWritable | ProjectPostContentModelWritable | BlogPostContentModelWritable | ProjectsPageContentModelWritable | SpeakingPostContentModelWritable | BlogsPageContentModelWritable | NowPageContentModelWritable;
 
 export type IApiContentModelBaseWritable = {
     [key: string]: never;
 };
 
-export type IApiContentResponseModelWritable = ContentPageContentResponseModelWritable | HomePageContentResponseModelWritable | SpeakingPageContentResponseModelWritable | ProjectPostContentResponseModelWritable | BlogPostContentResponseModelWritable | ProjectsPageContentResponseModelWritable | SpeakingPostContentResponseModelWritable | BlogsPageContentResponseModelWritable;
+export type IApiContentResponseModelWritable = ContentPageContentResponseModelWritable | HomePageContentResponseModelWritable | SpeakingPageContentResponseModelWritable | ProjectPostContentResponseModelWritable | BlogPostContentResponseModelWritable | ProjectsPageContentResponseModelWritable | SpeakingPostContentResponseModelWritable | BlogsPageContentResponseModelWritable | NowPageContentResponseModelWritable;
 
 export type IApiContentResponseModelBaseWritable = Omit<IApiContentModelBaseWritable2, 'contentType'> & {
     contentType: 'IApiContentResponseModelBaseWritable';
@@ -537,6 +556,21 @@ export type ImageWithCaptionElementModelWritable = {
 export type ImageWithCaptionPropertiesModelWritable = {
     image?: Array<IApiMediaWithCropsModelWritable> | null;
     caption?: string | null;
+};
+
+export type NowPageContentModelWritable = Omit<IApiContentModelBaseWritable2, 'contentType'> & {
+    contentType: 'nowPage';
+} & {
+    properties?: NowPagePropertiesModelWritable;
+};
+
+export type NowPageContentResponseModelWritable = Omit<IApiContentResponseModelBaseWritable2, 'contentType'> & Omit<NowPageContentModelWritable, 'contentType'> & {
+    contentType: 'nowPage';
+};
+
+export type NowPagePropertiesModelWritable = PageSettingsPropertiesModel & PageContentPropertiesModelWritable & {
+    location?: string | null;
+    upcoming?: ApiBlockListModelWritable;
 };
 
 export type PageContentElementModelWritable = {

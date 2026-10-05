@@ -9,6 +9,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
+    "activity:auth": "node scripts/activity-auth.mjs",
     "generate": "openapi-ts --file openapi-ts.config.ts",
     "blockpreview:css": "node scripts/blockpreview-css.mjs"
   },
@@ -17,6 +18,7 @@
   },
   "dependencies": {
     "@astro-community/astro-embed-youtube": "^0.5.10",
+    "@astrojs/cloudflare": "~14.2.6",
     "@astrojs/mdx": "^7.0.7",
     "@astrojs/rss": "^4.0.19",
     "@astrojs/sitemap": "^3.7.3",

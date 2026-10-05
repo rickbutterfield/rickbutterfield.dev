@@ -7,11 +7,16 @@
 
   &__inner {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
-    align-items: flex-start;
+    align-items: center;
+    gap: var(--space-2xs) var(--space-s);
 
-    @media (min-width: 768px) {
-      align-items: center;
+    // Phones: toggle beside the logo, nav links on their own full-width row below
+    @media (max-width: 767px) {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: start;
     }
   }
 
@@ -26,41 +31,60 @@
     }
   }
 
+  &__subtitle {
+    font-weight: 550;
+  }
+
   &__right {
-    position: relative;
-    padding-left: 1rem;
+    display: flex;
+    align-items: center;
+    gap: var(--space-2xs);
 
-    svg {
-      margin-right: 0;
+    // Let the nav and toggle sit in the phone grid above as if they were its own children
+    @media (max-width: 767px) {
+      display: contents;
 
-        @media (min-width: 768px) {
-          margin-right: 0.5rem;
-        }
+      .c-nav {
+        grid-column: 1 / -1;
+      }
+    }
+  }
+
+  // Only looks like a button on hover/focus
+  &__toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem;
+    // Pull the icon flush with the container edge; the padding only shows on hover
+    margin-right: -0.5rem;
+    background-color: transparent;
+    color: var(--text-color-muted);
+    border: none;
+    border-radius: 999px;
+    cursor: pointer;
+    box-shadow: none;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
+
+    @media (max-width: 767px) {
+      grid-row: 1;
+      grid-column: 2;
     }
 
-    #theme-toggle {
-      padding: 0.5rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.2s ease;
+    &:hover,
+    &:focus-visible {
+      background-color: var(--background-color-secondary);
+      box-shadow: 0 1px 2px var(--background-color-tertiary);
+      color: var(--text-color);
+    }
 
-      @media (min-width: 768px) {
-        padding: 0.5rem 1rem;
-      }
+    svg {
+      width: 20px;
+      height: 20px;
+    }
 
-      svg {
-        margin-right: 0;
-        transition: opacity 0.2s ease;
-      }
-
-      &:hover {
-        opacity: 0.7;
-      }
-
-      .hidden {
-        display: none;
-      }
+    .hidden {
+      display: none;
     }
   }
 }
