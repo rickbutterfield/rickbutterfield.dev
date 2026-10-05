@@ -112,6 +112,8 @@ export default defineConfig({
     // The build relies on Node (Sharp, astro-og-canvas, NODE_TLS_REJECT_UNAUTHORIZED above)
     prerenderEnvironment: 'node',
   }),
+  // No sessions are used; without this the adapter adds a SESSION KV binding to the Worker
+  session: false,
   prefetch: true,
   image: {
     domains: ["api.rickbutterfield.dev"],

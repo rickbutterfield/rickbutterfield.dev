@@ -4,10 +4,15 @@ import Layout from "@/layouts/Layout.astro";
 import UmbracoGrid from "@/components/UmbracoGrid.astro";
 import Activity from "@/components/Activity.astro";
 import { getCollection } from "astro:content";
-import type { EventInfoElementModel } from "@/api";
+import type { EventInfoElementModel, NowPageContentModel } from "@/api";
 
-const nowPageCollection = await getCollection("nowPage");
-const node = nowPageCollection[0].data.content;
+// Only build /now when Umbraco has a published Now page, so unpublishing it can't break the build
+export async function getStaticPaths() {
+  const [nowPage] = await getCollection("nowPage");
+  return nowPage ? [{ params: { now: undefined }, props: { node: nowPage.data.content } }] : [];
+}
+
+const { node } = Astro.props as { node: NowPageContentModel };
 
 const { title, content, grid, location, upcoming: manualEntries } = node.properties ?? {};
 // Umbraco's own last-saved date, so it moves whenever the page is edited
