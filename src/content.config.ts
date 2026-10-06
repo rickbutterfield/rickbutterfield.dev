@@ -1,13 +1,13 @@
 import { defineCollection } from 'astro:content';
 import { z } from 'astro/zod';
-import { client, ContentService, type BlogPostContentModel, type ProjectPostContentModel, type SpeakingPostContentModel, type HomePageContentModel, type BlogsPageContentModel, type ProjectsPageContentModel, type SpeakingPageContentModel, type ContentPageContentModel, type NowPageContentModel, type IApiContentResponseModel, type PageSettingsPropertiesModel } from './api';
+import { client, ContentService, type BlogPostContentModel, type ProjectPostContentModel, type SpeakingPostContentModel, type HomePageContentModel, type BlogsPageContentModel, type ProjectsPageContentModel, type SpeakingPageContentModel, type ContentPageContentModel, type NowPageContentModel, type IApiContentResponseModel, type PageSettingsElementPropertiesModel } from './api';
 import type { ZodType } from 'astro/zod';
 
 client.setConfig({ baseUrl: import.meta.env.PUBLIC_BASE_URL });
 
 const blog = defineCollection({
   loader: async() => {
-    const response = await ContentService.queryV20({
+    const response = await ContentService.getContent20({
       query: {
         filter: ["contentType:blogPost"],
         sort: ["publishedDate:desc"],
@@ -33,7 +33,7 @@ const blog = defineCollection({
 
 const homePage = defineCollection({
   loader: async() => {
-    const response = await ContentService.queryV20({
+    const response = await ContentService.getContent20({
       query: {
         filter: ["contentType:homePage"],
         expand: "properties[$all[properties[image]]]",
@@ -55,7 +55,7 @@ const homePage = defineCollection({
 
 const blogsPage = defineCollection({
   loader: async() => {
-    const response = await ContentService.queryV20({
+    const response = await ContentService.getContent20({
       query: {
         filter: ["contentType:blogsPage"],
       }
@@ -76,7 +76,7 @@ const blogsPage = defineCollection({
 
 const projectsPage = defineCollection({
   loader: async() => {
-    const response = await ContentService.queryV20({
+    const response = await ContentService.getContent20({
       query: {
         filter: ["contentType:projectsPage"],
       }
@@ -97,7 +97,7 @@ const projectsPage = defineCollection({
 
 const speakingPage = defineCollection({
   loader: async() => {
-    const response = await ContentService.queryV20({
+    const response = await ContentService.getContent20({
       query: {
         filter: ["contentType:speakingPage"],
       }
@@ -118,7 +118,7 @@ const speakingPage = defineCollection({
 
 const nowPage = defineCollection({
   loader: async() => {
-    const response = await ContentService.queryV20({
+    const response = await ContentService.getContent20({
       query: {
         filter: ["contentType:nowPage"],
       }
@@ -139,7 +139,7 @@ const nowPage = defineCollection({
 
 const contentPages = defineCollection({
   loader: async() => {
-    const response = await ContentService.queryV20({
+    const response = await ContentService.getContent20({
       query: {
         filter: ["contentType:contentPage"],
         expand: "all",
@@ -149,7 +149,7 @@ const contentPages = defineCollection({
     return (response.data.items as ContentPageContentModel[]).map((item) => ({
       id: item.id,
       name: item.name,
-      slug: item.route.path.replaceAll("/", ""),
+      slug: (item.route.path ?? "").replaceAll("/", ""),
       content: item,
     }));
   },
@@ -163,7 +163,7 @@ const contentPages = defineCollection({
 
 const projects = defineCollection({
   loader: async() => {
-    const response = await ContentService.queryV20({
+    const response = await ContentService.getContent20({
       query: {
         filter: ["contentType:projectPost"],
         sort: ["sortOrder:asc"],
@@ -189,7 +189,7 @@ const projects = defineCollection({
 
 const speaking = defineCollection({
   loader: async() => {
-    const response = await ContentService.queryV20({
+    const response = await ContentService.getContent20({
       query: {
         filter: ["contentType:speakingPost"],
         sort: ["eventDate:desc"],
@@ -221,7 +221,7 @@ const speaking = defineCollection({
 const navigation = defineCollection({
   loader: async() => {
     // First get the homepage to find its ID
-    const homeResponse = await ContentService.queryV20({
+    const homeResponse = await ContentService.getContent20({
       query: {
         filter: ["contentType:homePage"],
       }
@@ -229,7 +229,7 @@ const navigation = defineCollection({
     const homePageId = homeResponse.data.items[0].id;
 
     // Then fetch children of homepage for navigation
-    const response = await ContentService.queryV20({
+    const response = await ContentService.getContent20({
       query: {
         fetch: `children:${homePageId}`,
         sort: ["sortOrder:asc"],
@@ -239,7 +239,7 @@ const navigation = defineCollection({
     return response.data.items.map((item: IApiContentResponseModel) => ({
       id: item.id,
       // Pages using the Page Settings composition can override their nav label
-      name: (item.properties as PageSettingsPropertiesModel | undefined)?.navigationTitle || item.name,
+      name: (item.properties as PageSettingsElementPropertiesModel | undefined)?.navigationTitle || item.name,
       path: item.route.path,
     }));
   },

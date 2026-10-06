@@ -13,7 +13,7 @@ The public-facing personal site at https://rickbutterfield.dev. It is the **fron
 
 ### Content pipeline (the most important concept)
 
-`src/content.config.ts` defines Astro content collections whose `loader`s call the generated Umbraco Delivery API client (`ContentService.queryV20`) and map responses into typed entries. Collections: `blog`, `projects`, `speaking`, `homePage`, `blogsPage`, `projectsPage`, `speakingPage`, `contentPages`, `navigation`. Each filters by Umbraco `contentType` and uses `expand`/`sort`/`fetch` query params.
+`src/content.config.ts` defines Astro content collections whose `loader`s call the generated Umbraco Delivery API client (`ContentService.getContent20`) and map responses into typed entries. Collections: `blog`, `projects`, `speaking`, `homePage`, `blogsPage`, `projectsPage`, `speakingPage`, `contentPages`, `navigation`. Each filters by Umbraco `contentType` and uses `expand`/`sort`/`fetch` query params.
 
 - The API client base URL comes from the `PUBLIC_BASE_URL` env var (`client.setConfig({ baseUrl: ... })`).
 - `navigation` is special: it first queries the `homePage` to get its id, then fetches `children:<id>` to build the nav.
@@ -60,7 +60,7 @@ src/
 | `npm run generate` | **Regenerate the API client** from the Delivery API OpenAPI spec |
 | `npm run astro -- <cmd>` | Astro CLI (`astro add`, `astro check`, …) |
 
-**API client generation** (`openapi-ts.config.ts`): input is the live Delivery API swagger at `http://localhost:20625/umbraco/swagger/delivery/swagger.json`. The local Umbraco backend (`rick-butterfield` repo) **must be running** on that port before `npm run generate`. Output lands in `src/api/`. Plugins: `@hey-api/client-fetch` (with `throwOnError: true`), typescript (enums), sdk (`asClass`, `ContentService`-style names, `responseStyle: "fields"`).
+**API client generation** (`openapi-ts.config.ts`): input is the live Delivery API OpenAPI document at `http://localhost:20625/umbraco/openapi/delivery.json` (Umbraco 18). The config fetches it and strips the `.` from operationIds (`GetContent2.0` → `GetContent20`), because hey-api treats `.` as nesting. The local Umbraco backend (`rick-butterfield` repo) **must be running** on that port before `npm run generate`. Output lands in `src/api/`. Plugins: `@hey-api/client-fetch` (with `throwOnError: true`), typescript (enums), sdk (`asClass`, `ContentService`-style names, `responseStyle: "fields"`).
 
 ## 3. Build-time integration gotchas
 

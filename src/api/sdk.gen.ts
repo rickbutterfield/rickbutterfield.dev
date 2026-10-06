@@ -3,7 +3,7 @@
 import type { Client, ClientMeta, Options as Options2, RequestResult, TDataShape } from '@hey-api/client-fetch';
 
 import { client } from './client.gen';
-import type { ByIdV202Data, ByIdV202Errors, ByIdV202Responses, ByIdV20Data, ByIdV20Errors, ByIdV20Responses, ByPathV20Data, ByPathV20Errors, ByPathV20Responses, ByRouteV20Data, ByRouteV20Errors, ByRouteV20Responses, ItemsV202Data, ItemsV202Responses, ItemsV20Data, ItemsV20Errors, ItemsV20Responses, QueryV202Data, QueryV202Errors, QueryV202Responses, QueryV20Data, QueryV20Errors, QueryV20Responses } from './types.gen';
+import type { GetContent20Data, GetContent20Errors, GetContent20Responses, GetContentItemById20Data, GetContentItemById20Errors, GetContentItemById20Responses, GetContentItemByPath20Data, GetContentItemByPath20Errors, GetContentItemByPath20Responses, GetContentItems20Data, GetContentItems20Errors, GetContentItems20Responses, GetMedia20Data, GetMedia20Errors, GetMedia20Responses, GetMediaItemById20Data, GetMediaItemById20Errors, GetMediaItemById20Responses, GetMediaItemByPath20Data, GetMediaItemByPath20Errors, GetMediaItemByPath20Responses, GetMediaItems20Data, GetMediaItems20Responses } from './types.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean, TResponse = unknown> = Options2<TData, ThrowOnError, TResponse> & {
     /**
@@ -20,37 +20,69 @@ export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends 
 };
 
 export class ContentService {
-    public static queryV20<ThrowOnError extends boolean = true>(options?: Options<QueryV20Data, ThrowOnError>): RequestResult<QueryV20Responses, QueryV20Errors, ThrowOnError> {
-        return (options?.client ?? client).get<QueryV20Responses, QueryV20Errors, ThrowOnError>({ url: '/umbraco/delivery/api/v2/content', ...options });
+    public static getContent20<ThrowOnError extends boolean = true>(options?: Options<GetContent20Data, ThrowOnError>): RequestResult<GetContent20Responses, GetContent20Errors, ThrowOnError> {
+        return (options?.client ?? client).get<GetContent20Responses, GetContent20Errors, ThrowOnError>({
+            security: [{ name: 'Api-Key', type: 'apiKey' }],
+            url: '/umbraco/delivery/api/v2/content',
+            ...options
+        });
     }
     
-    public static byRouteV20<ThrowOnError extends boolean = true>(options: Options<ByRouteV20Data, ThrowOnError>): RequestResult<ByRouteV20Responses, ByRouteV20Errors, ThrowOnError> {
-        return (options.client ?? client).get<ByRouteV20Responses, ByRouteV20Errors, ThrowOnError>({ url: '/umbraco/delivery/api/v2/content/item/{path}', ...options });
+    public static getContentItemById20<ThrowOnError extends boolean = true>(options: Options<GetContentItemById20Data, ThrowOnError>): RequestResult<GetContentItemById20Responses, GetContentItemById20Errors, ThrowOnError> {
+        return (options.client ?? client).get<GetContentItemById20Responses, GetContentItemById20Errors, ThrowOnError>({
+            security: [{ name: 'Api-Key', type: 'apiKey' }],
+            url: '/umbraco/delivery/api/v2/content/item/{id}',
+            ...options
+        });
     }
     
-    public static byIdV20<ThrowOnError extends boolean = true>(options: Options<ByIdV20Data, ThrowOnError>): RequestResult<ByIdV20Responses, ByIdV20Errors, ThrowOnError> {
-        return (options.client ?? client).get<ByIdV20Responses, ByIdV20Errors, ThrowOnError>({ url: '/umbraco/delivery/api/v2/content/item/{id}', ...options });
+    public static getContentItemByPath20<ThrowOnError extends boolean = true>(options: Options<GetContentItemByPath20Data, ThrowOnError>): RequestResult<GetContentItemByPath20Responses, GetContentItemByPath20Errors, ThrowOnError> {
+        return (options.client ?? client).get<GetContentItemByPath20Responses, GetContentItemByPath20Errors, ThrowOnError>({
+            security: [{ name: 'Api-Key', type: 'apiKey' }],
+            url: '/umbraco/delivery/api/v2/content/item/{path}',
+            ...options
+        });
     }
     
-    public static itemsV20<ThrowOnError extends boolean = true>(options?: Options<ItemsV20Data, ThrowOnError>): RequestResult<ItemsV20Responses, ItemsV20Errors, ThrowOnError> {
-        return (options?.client ?? client).get<ItemsV20Responses, ItemsV20Errors, ThrowOnError>({ url: '/umbraco/delivery/api/v2/content/items', ...options });
+    public static getContentItems20<ThrowOnError extends boolean = true>(options?: Options<GetContentItems20Data, ThrowOnError>): RequestResult<GetContentItems20Responses, GetContentItems20Errors, ThrowOnError> {
+        return (options?.client ?? client).get<GetContentItems20Responses, GetContentItems20Errors, ThrowOnError>({
+            security: [{ name: 'Api-Key', type: 'apiKey' }],
+            url: '/umbraco/delivery/api/v2/content/items',
+            ...options
+        });
     }
 }
 
 export class MediaService {
-    public static queryV20<ThrowOnError extends boolean = true>(options?: Options<QueryV202Data, ThrowOnError>): RequestResult<QueryV202Responses, QueryV202Errors, ThrowOnError> {
-        return (options?.client ?? client).get<QueryV202Responses, QueryV202Errors, ThrowOnError>({ url: '/umbraco/delivery/api/v2/media', ...options });
+    public static getMedia20<ThrowOnError extends boolean = true>(options?: Options<GetMedia20Data, ThrowOnError>): RequestResult<GetMedia20Responses, GetMedia20Errors, ThrowOnError> {
+        return (options?.client ?? client).get<GetMedia20Responses, GetMedia20Errors, ThrowOnError>({
+            security: [{ name: 'Api-Key', type: 'apiKey' }],
+            url: '/umbraco/delivery/api/v2/media',
+            ...options
+        });
     }
     
-    public static byPathV20<ThrowOnError extends boolean = true>(options: Options<ByPathV20Data, ThrowOnError>): RequestResult<ByPathV20Responses, ByPathV20Errors, ThrowOnError> {
-        return (options.client ?? client).get<ByPathV20Responses, ByPathV20Errors, ThrowOnError>({ url: '/umbraco/delivery/api/v2/media/item/{path}', ...options });
+    public static getMediaItemById20<ThrowOnError extends boolean = true>(options: Options<GetMediaItemById20Data, ThrowOnError>): RequestResult<GetMediaItemById20Responses, GetMediaItemById20Errors, ThrowOnError> {
+        return (options.client ?? client).get<GetMediaItemById20Responses, GetMediaItemById20Errors, ThrowOnError>({
+            security: [{ name: 'Api-Key', type: 'apiKey' }],
+            url: '/umbraco/delivery/api/v2/media/item/{id}',
+            ...options
+        });
     }
     
-    public static byIdV20<ThrowOnError extends boolean = true>(options: Options<ByIdV202Data, ThrowOnError>): RequestResult<ByIdV202Responses, ByIdV202Errors, ThrowOnError> {
-        return (options.client ?? client).get<ByIdV202Responses, ByIdV202Errors, ThrowOnError>({ url: '/umbraco/delivery/api/v2/media/item/{id}', ...options });
+    public static getMediaItemByPath20<ThrowOnError extends boolean = true>(options: Options<GetMediaItemByPath20Data, ThrowOnError>): RequestResult<GetMediaItemByPath20Responses, GetMediaItemByPath20Errors, ThrowOnError> {
+        return (options.client ?? client).get<GetMediaItemByPath20Responses, GetMediaItemByPath20Errors, ThrowOnError>({
+            security: [{ name: 'Api-Key', type: 'apiKey' }],
+            url: '/umbraco/delivery/api/v2/media/item/{path}',
+            ...options
+        });
     }
     
-    public static itemsV20<ThrowOnError extends boolean = true>(options?: Options<ItemsV202Data, ThrowOnError>): RequestResult<ItemsV202Responses, unknown, ThrowOnError> {
-        return (options?.client ?? client).get<ItemsV202Responses, unknown, ThrowOnError>({ url: '/umbraco/delivery/api/v2/media/items', ...options });
+    public static getMediaItems20<ThrowOnError extends boolean = true>(options?: Options<GetMediaItems20Data, ThrowOnError>): RequestResult<GetMediaItems20Responses, unknown, ThrowOnError> {
+        return (options?.client ?? client).get<GetMediaItems20Responses, unknown, ThrowOnError>({
+            security: [{ name: 'Api-Key', type: 'apiKey' }],
+            url: '/umbraco/delivery/api/v2/media/items',
+            ...options
+        });
     }
 }

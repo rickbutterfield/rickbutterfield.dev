@@ -7,8 +7,8 @@ const blogPosts = await getCollection('blog');
 let pages: Record<string, { title: string; description: string }> = {};
 blogPosts.forEach((blogPost) => {
   const post = blogPost.data.content as BlogPostContentModel;
-  if (post !== null) {
-    const path = post.route?.path.substring(1);
+  if (post?.route?.path) {
+    const path = post.route.path.substring(1);
     const descriptionMaxLength = 100;
     let descriptionTruncated = post.properties?.content ?? "";
     
