@@ -9,7 +9,6 @@ h6 {
   text-wrap: balance;
   letter-spacing: -0.02em;
   word-break: break-word;
-  font-feature-settings: "ss01" 1; // Hanken Grotesk: single-storey alternate g
 }
 
 h1,
@@ -74,7 +73,8 @@ code {
 a {
   font-weight: inherit;
   color: var(--link-color);
-  text-underline-offset: 1.5px;
+  text-underline-offset: 2px;
+  text-decoration-thickness: 1px;
   transition: color 0.2s ease-in-out, text-underline-offset 0.2s ease-in-out;
 
   &:hover,
@@ -126,8 +126,6 @@ figure {
 blockquote {
   margin: 0;
   padding: 0;
-  font-family: var(--font-stack-heading);
-  font-feature-settings: "ss01" 1;
   font-size: var(--step-1);
   font-weight: 500;
   font-style: italic;
