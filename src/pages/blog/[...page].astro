@@ -53,8 +53,8 @@ const { title, content } = blogsPage.data.content.properties ?? {};
   }
 
   <nav class="c-pagination" aria-label="Pagination">
-    {page.url.prev && <a href={page.url.prev}>&larr; Newer posts</a>}
-    <span>Page {page.currentPage} of {page.lastPage}</span>
-    {page.url.next && <a href={page.url.next}>Older posts &rarr;</a>}
+    {page.url.prev && <a class="c-pagination__prev" href={page.url.prev} rel="prev">&larr; Newer posts</a>}
+    <span class="c-pagination__status">Page {page.currentPage} of {page.lastPage}</span>
+    {page.url.next && <a class="c-pagination__next" href={page.url.next} rel="next">Older posts &rarr;</a>}
   </nav>
 </Layout>
