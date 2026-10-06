@@ -1,5 +1,5 @@
 ---
-import type { CVentryElementModel, EmploymentHistoryElementModel } from "@/api";
+import type { CvEntryElementModel, EmploymentHistoryElementModel } from "@/api";
 import { marked } from "marked";
 
 const { data } = Astro.props;
@@ -9,7 +9,7 @@ const typedData = data as EmploymentHistoryElementModel;
 <h2>Employment history</h2>
 {
   typedData?.properties?.history?.items?.map((item) => {
-    const typedItem = item.content as CVentryElementModel;
+    const typedItem = item.content as CvEntryElementModel;
     if (typedItem != null) {
       return (
         <article class="c-article">

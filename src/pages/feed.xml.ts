@@ -70,7 +70,7 @@ export async function GET(context: APIContext) {
     const post = blogPost.data.content;
     return {
       title: post.properties?.title ?? '',
-      link: post.route.path,
+      link: post.route.path ?? '',
       pubDate: new Date(post.properties?.publishedDate ?? ''),
       description: post.properties?.content ?? "",
       content: renderGridContent(post.properties?.grid ?? { gridColumns: 0, items: [] }, post.properties?.content ?? '')
