@@ -35,8 +35,7 @@ export const { getStaticPaths, GET } = await OGImageRoute({
     description: page.description,
     bgGradient: [[9, 58, 42], [9, 58, 42]], // #1b5e4b → #093a2a (--link-color → --link-color-hover)
     fonts: [
-      './public/assets/fonts/HankenGrotesk-Variable.ttf',
-      './public/assets/fonts/HankenGrotesk-Variable.woff2',
+      './public/assets/fonts/BricolageGrotesque-Variable.ttf',
       './public/assets/fonts/Inter-UI.var.woff2'
     ],
     font: {
@@ -45,12 +44,12 @@ export const { getStaticPaths, GET } = await OGImageRoute({
         lineHeight: 1.125,
         color: [255, 255, 255],
         weight: "ExtraBold",
-        families: ['Hanken Grotesk', 'ui-sans-serif', 'system-ui', 'sans-serif']
+        families: ['Bricolage Grotesque', 'ui-sans-serif', 'system-ui', 'sans-serif']
       },
       description: {
         color: [255, 255, 255],
         weight: "Medium",
-        families: ['Inter UI', 'Hanken Grotesk', 'ui-sans-serif', 'system-ui', 'sans-serif']
+        families: ['Inter UI', 'Bricolage Grotesque', 'ui-sans-serif', 'system-ui', 'sans-serif']
       }
     },
     padding: 48,
