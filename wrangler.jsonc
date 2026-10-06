@@ -14,5 +14,9 @@
   // `wrangler secret put`, or in .dev.vars locally; any source without them is skipped.
   "vars": {
     "GITHUB_USERNAME": "rickbutterfield"
+  },
+  // Worker logs, so failing server islands (the /now activity cards) show up in the dashboard
+  "observability": {
+    "enabled": true
   }
 }
