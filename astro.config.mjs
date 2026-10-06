@@ -102,11 +102,30 @@ export default defineConfig({
     robotsTxt(),
     // lit() removed: no Lit components are used, and its server renderer touches `document`,
     // which crashes the Worker that serves server islands. Re-add with care if Lit islands return.
-    // Workers static assets reads _headers and _redirects as config and never serves them,
-    // and one 404 in the precache list makes the service worker fail to install
+    // Precache only pages, styles and scripts so a first visit doesn't download every image
+    // and font; images and fonts are cached as they're used. The patterns also keep out
+    // _headers and _redirects, which Workers never serves: one 404 here fails the install.
     serviceWorker({
       workbox: {
-        globIgnores: ['_headers', '_redirects']
+        globPatterns: ['**/*.{html,css,js,json}'],
+        runtimeCaching: [
+          {
+            urlPattern: ({ request }) => request.destination === 'image',
+            handler: 'StaleWhileRevalidate',
+            options: {
+              cacheName: 'images',
+              expiration: { maxEntries: 100, maxAgeSeconds: 60 * 60 * 24 * 30 }
+            }
+          },
+          {
+            urlPattern: ({ request }) => request.destination === 'font',
+            handler: 'StaleWhileRevalidate',
+            options: {
+              cacheName: 'fonts',
+              expiration: { maxEntries: 10, maxAgeSeconds: 60 * 60 * 24 * 365 }
+            }
+          }
+        ]
       }
     }),
     umbracoContentRefresh()
