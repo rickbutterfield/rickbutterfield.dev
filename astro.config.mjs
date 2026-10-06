@@ -102,7 +102,13 @@ export default defineConfig({
     robotsTxt(),
     // lit() removed: no Lit components are used, and its server renderer touches `document`,
     // which crashes the Worker that serves server islands. Re-add with care if Lit islands return.
-    serviceWorker(),
+    // Workers static assets reads _headers and _redirects as config and never serves them,
+    // and one 404 in the precache list makes the service worker fail to install
+    serviceWorker({
+      workbox: {
+        globIgnores: ['_headers', '_redirects']
+      }
+    }),
     umbracoContentRefresh()
   ],
   // Pages stay prerendered; the adapter only serves server islands (the /now activity cards)
