@@ -104,8 +104,12 @@ const upcoming = [...talkEntries, ...customEntries].sort((a, b) => a.date.getTim
   const DAY = 86_400_000;
   const relative = new Intl.RelativeTimeFormat("en-gb", { numeric: "auto" });
 
+  // Calendar days in the visitor's timezone, so "yesterday" means the previous date rather than 24+ hours ago
+  const startOfDay = (date: Date) => new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime();
+
   function age(iso: string): string {
-    const days = Math.floor((Date.now() - Date.parse(iso)) / DAY);
+    // Rounded because a DST change makes a calendar day 23 or 25 hours long
+    const days = Math.round((startOfDay(new Date()) - startOfDay(new Date(iso))) / DAY);
     if (days < 31) return relative.format(-days, "day");
     if (days < 365) return relative.format(-Math.floor(days / 30), "month");
     return relative.format(-Math.floor(days / 365), "year");
