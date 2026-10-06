@@ -2,6 +2,58 @@
  * Pagination Component
  */
 
+// Three fixed columns, so "Newer" stays on the left and "Older" on the right
+// even on the first and last pages, where the other link is missing
 .c-pagination {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: var(--space-s);
   margin-top: var(--space-xl);
+  padding-top: var(--space-m);
+  border-top: 1px solid var(--background-color-tertiary);
+
+  // Phones: page count on its own row, both links on the row below
+  @media (max-width: 767px) {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  &__prev,
+  &__next {
+    white-space: nowrap;
+    grid-row: 1;
+
+    @media (max-width: 767px) {
+      grid-row: 2;
+    }
+  }
+
+  &__prev {
+    grid-column: 1;
+    justify-self: start;
+  }
+
+  &__status {
+    grid-column: 2;
+    font-family: var(--font-stack-mono);
+    font-size: var(--step--1);
+    font-weight: 500;
+    color: var(--text-color-muted);
+    white-space: nowrap;
+
+    @media (max-width: 767px) {
+      grid-column: 1 / -1;
+      justify-self: center;
+    }
+  }
+
+  &__next {
+    grid-column: 3;
+    justify-self: end;
+    text-align: right;
+
+    @media (max-width: 767px) {
+      grid-column: 2;
+    }
+  }
 }
