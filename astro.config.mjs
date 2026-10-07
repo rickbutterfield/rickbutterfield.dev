@@ -61,6 +61,30 @@ const umbracoContentRefresh = () => ({
   }
 });
 
+// Chunks that are only loaded on demand (dynamic import()), such as Mermaid's ~5 MB of diagram code in
+// scripts/mermaid.ts. The service worker leaves these out of its precache, so a first visit only
+// downloads the scripts pages load straight away; on-demand chunks are cached when they're used.
+const lazyChunks = new Set();
+
+const trackLazyChunks = () => ({
+  name: 'track-lazy-chunks',
+  apply: 'build',
+  generateBundle(_, bundle) {
+    const chunks = Object.values(bundle).filter((output) => output.type === 'chunk');
+    const byFileName = new Map(chunks.map((chunk) => [chunk.fileName, chunk]));
+    const eager = new Set();
+    const visit = (fileName) => {
+      if (eager.has(fileName)) return;
+      eager.add(fileName);
+      byFileName.get(fileName)?.imports.forEach(visit);
+    };
+    chunks.filter((chunk) => chunk.isEntry).forEach((chunk) => visit(chunk.fileName));
+    for (const chunk of chunks) {
+      if (!eager.has(chunk.fileName)) lazyChunks.add(chunk.fileName);
+    }
+  },
+});
+
 // https://astro.build/config
 export default defineConfig({
  site: process.env.NODE_ENV === 'production' 
@@ -108,7 +132,22 @@ export default defineConfig({
     serviceWorker({
       workbox: {
         globPatterns: ['**/*.{html,css,js,json}'],
+        manifestTransforms: [
+          async (entries) => ({
+            manifest: entries.filter((entry) => !lazyChunks.has(entry.url.replace(/^\//, ''))),
+            warnings: [],
+          }),
+        ],
         runtimeCaching: [
+          {
+            // On-demand chunks left out of the precache (see lazyChunks above)
+            urlPattern: ({ request, url }) => request.destination === 'script' && url.pathname.startsWith('/_astro/'),
+            handler: 'StaleWhileRevalidate',
+            options: {
+              cacheName: 'scripts',
+              expiration: { maxEntries: 200, maxAgeSeconds: 60 * 60 * 24 * 30 }
+            }
+          },
           {
             urlPattern: ({ request }) => request.destination === 'image',
             handler: 'StaleWhileRevalidate',
@@ -139,6 +178,9 @@ export default defineConfig({
   }),
   // No sessions are used; without this the adapter adds a SESSION KV binding to the Worker
   session: false,
+  vite: {
+    plugins: [trackLazyChunks()],
+  },
   prefetch: true,
   image: {
     domains: ["api.rickbutterfield.dev"],
