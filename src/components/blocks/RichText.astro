@@ -89,10 +89,20 @@ function parseLanguageString(lang?: string) {
   return result;
 }
 
+function escapeHtml(text: string) {
+  return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
 // Custom renderer to handle code blocks
 const customMarked = new Marked({
   renderer: {
     code({ text, lang }: { text: string; lang?: string }) {
+      // Mermaid diagrams are drawn in the browser by scripts/mermaid.ts. Until then, and
+      // without JavaScript, the source shows as preformatted text.
+      if (lang?.trim() === 'mermaid') {
+        return `<pre class="mermaid">${escapeHtml(text)}</pre>`;
+      }
+
       // Generate a unique ID for each code block
       const codeId = Math.random().toString(36).substring(2, 15);
       
@@ -144,3 +154,5 @@ const contentParts = htmlContent.split(/(<!--CODE_BLOCK_[^>]+-->)/);
     return <Fragment set:html={part} />;
   })}
 </Fragment>
+
+<script src="../../scripts/mermaid.ts"></script>
