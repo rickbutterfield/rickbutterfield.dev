@@ -38,13 +38,8 @@ function getTheme(): Theme {
 }
 
 function applyTheme(document: Document, theme: Theme = getTheme()) {
+  // The icon swap follows this attribute in CSS (_header.scss)
   document.documentElement.dataset.userTheme = theme;
-
-  const lightModeIcon = document.getElementById('icon-light');
-  const darkModeIcon = document.getElementById('icon-dark');
-  lightModeIcon?.classList.toggle('hidden', theme === 'dark');
-  darkModeIcon?.classList.toggle('hidden', theme === 'light');
-
   document.getElementById('theme-toggle')?.setAttribute('aria-pressed', String(theme === 'dark'));
 }
 

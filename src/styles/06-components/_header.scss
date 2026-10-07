@@ -24,6 +24,8 @@
     font-size: var(--step-2);
     font-family: var(--font-stack-heading);
     letter-spacing: -0.03em;
+    // Tight line box so the subtitle sits close underneath
+    line-height: 1.1;
 
     strong {
       font-weight: 800;
@@ -31,7 +33,9 @@
   }
 
   &__subtitle {
+    font-family: var(--font-stack-heading);
     font-weight: 550;
+    line-height: 1.3;
   }
 
   &__right {
@@ -82,8 +86,16 @@
       height: 20px;
     }
 
-    .hidden {
-      display: none;
-    }
+  }
+
+  // Pick the icon from the theme the inline script in BaseHead.astro sets before
+  // first paint, so the toggle never renders empty while site.ts loads
+  &__icon--dark,
+  [data-user-theme="dark"] &__icon--light {
+    display: none;
+  }
+
+  [data-user-theme="dark"] &__icon--dark {
+    display: block;
   }
 }
