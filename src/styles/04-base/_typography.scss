@@ -68,6 +68,12 @@ code {
 //   }
 // }
 
+// Plain code blocks (the backoffice preview renders code without Expressive Code) scroll on their own
+// instead of widening the page
+pre {
+  overflow-x: auto;
+}
+
 a {
   font-weight: inherit;
   color: var(--link-color);
