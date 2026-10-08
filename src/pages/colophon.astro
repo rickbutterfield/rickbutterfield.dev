@@ -38,12 +38,13 @@ const built = new Date();
 const formatDate = (date: Date) =>
   date.toLocaleDateString("en-gb", { year: "numeric", month: "short", day: "numeric" });
 
+// Mirrors the palette in styles/02-settings/_variables.scss
 const swatches = [
-  { name: "Paper", token: "--background-color", light: "#f5f3ee", dark: "#1a1712" },
-  { name: "Stone", token: "--background-color-tertiary", light: "#e5dfd5", dark: "#2d2820" },
-  { name: "Ink", token: "--text-color", light: "#1c1c14", dark: "#ece7dd" },
-  { name: "Forest", token: "--link-color", light: "#1b5e4b", dark: "#5cba9b" },
-  { name: "Amber", token: "--colophon-amber", light: "#c98a2b", dark: "#c98a2b" },
+  { name: "Paper", token: "--background-color", light: "oklch(96.43% 0.007 88.64)", dark: "oklch(20.63% 0.0107 80.55)" },
+  { name: "Stone", token: "--background-color-tertiary", light: "oklch(90.56% 0.015 80.7)", dark: "oklch(27.96% 0.0159 79.54)" },
+  { name: "Ink", token: "--text-color", light: "oklch(22.36% 0.0149 107.54)", dark: "oklch(92.91% 0.0144 84.58)" },
+  { name: "Forest", token: "--link-color", light: "oklch(43.46% 0.0738 170.31)", dark: "oklch(72.26% 0.1014 169.48)" },
+  { name: "Amber", token: "--amber", light: "oklch(68.1% 0.1301 72.54)", dark: "oklch(68.1% 0.1301 72.54)" },
 ];
 ---
 

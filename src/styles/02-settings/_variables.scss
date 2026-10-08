@@ -8,6 +8,22 @@
   @return url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 #{$c} 0 0 0 0 #{$c} 0 0 0 0 #{$c} 0 0 0 #{$alpha} 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
+// The palette. The colophon (pages/colophon.astro) lists these values, so
+// update it alongside. Greys use `none` as the hue so mixes don't drift red.
+$paper: oklch(96.43% 0.007 88.64);
+$white: oklch(100% 0 none);
+$stone: oklch(90.56% 0.015 80.7);
+$ink: oklch(22.36% 0.0149 107.54);
+$forest: oklch(43.46% 0.0738 170.31);
+$amber: oklch(68.1% 0.1301 72.54);
+
+$paper-dark: oklch(20.63% 0.0107 80.55);
+$card-dark: oklch(23.75% 0.0127 78.01);
+$stone-dark: oklch(27.96% 0.0159 79.54);
+$ink-dark: oklch(92.91% 0.0144 84.58);
+$ink-muted-dark: oklch(68.99% 0.0226 79.04);
+$forest-dark: oklch(72.26% 0.1014 169.48);
+
 :root {
   --step--2: clamp(0.6944rem, 0.6856rem + 0.0444vw, 0.72rem);
   --step--1: clamp(0.8333rem, 0.8101rem + 0.1159vw, 0.9rem);
@@ -54,57 +70,66 @@
   --font-stack-heading: "Bricolage Grotesque", ui-sans-serif, system-ui, -apple-system, 'BlinkMacSystemFont', 'Segoe UI', sans-serif;
   --font-stack-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
 
-  --background-color: #f5f3ee;
-  --background-color-secondary: #fff;
-  --background-color-tertiary: #e5dfd5;
-  --text-color: #1c1c14;
-  --text-color-muted: #1c1c1480;
-  --link-color: #1b5e4b;
-  --link-color-hover: #093a2a;
+  // Each token holds its light and dark value; color-scheme (below) picks one.
+  // The dark palette is a warm inversion of the light one: olive/brown-tinted
+  // near-blacks (mirroring the ink) rather than cool greys, a warm cream text,
+  // and a lifted forest green to keep the brand link identity.
+  // Derived colours mix from the Sass literals rather than var(), so no
+  // light-dark() ends up nested inside a color-mix().
+  --background-color: light-dark(#{$paper}, #{$paper-dark});
+  --background-color-secondary: light-dark(#{$white}, #{$card-dark});
+  --background-color-tertiary: light-dark(#{$stone}, #{$stone-dark});
+  --text-color: light-dark(#{$ink}, #{$ink-dark});
+  --text-color-muted: light-dark(#{color-mix(in oklch, $ink 50%, transparent)}, #{$ink-muted-dark});
+  --link-color: light-dark(#{$forest}, #{$forest-dark});
+  --link-color-hover: light-dark(#{color-mix(in oklch, $forest, black 30%)}, #{color-mix(in oklch, $forest-dark, black 14%)});
+  // Only used in the background wash and on the colophon, so it has no dark pair
+  --amber: #{$amber};
 
-  // Background decoration (06-components/_backgrounds.scss); the dots derive
-  // from --text-color so they flip with the theme on their own
+  // Hairlines: table rules, and the edge that keeps paper-on-paper swatches visible
+  --rule-color: light-dark(#{color-mix(in oklch, $ink 12%, transparent)}, #{color-mix(in oklch, $ink-dark 12%, transparent)});
+  --edge-color: light-dark(#{color-mix(in oklch, $ink 15%, transparent)}, #{color-mix(in oklch, $ink-dark 15%, transparent)});
+
+  // GitHub-style intensity scale for the /now contribution graph, stone to
+  // forest. Mixed in oklab: oklch would swing the hue through olive on the way
+  --heat-1: light-dark(#{color-mix(in oklab, $forest 30%, $stone)}, #{color-mix(in oklab, $forest-dark 30%, $stone-dark)});
+  --heat-2: light-dark(#{color-mix(in oklab, $forest 55%, $stone)}, #{color-mix(in oklab, $forest-dark 55%, $stone-dark)});
+  --heat-3: light-dark(#{color-mix(in oklab, $forest 80%, $stone)}, #{color-mix(in oklab, $forest-dark 80%, $stone-dark)});
+
+  // Background decoration (06-components/_backgrounds.scss)
   --bg-grain: #{grain-svg(0, 0.07)};
-  --bg-wash-1: color-mix(in srgb, var(--link-color) 11%, transparent);
-  --bg-wash-2: color-mix(in srgb, #c98a2b 13%, transparent);
-  --bg-dot: color-mix(in srgb, var(--text-color) 16%, transparent);
+  --bg-wash-1: light-dark(#{color-mix(in oklch, $forest 11%, transparent)}, #{color-mix(in oklch, $forest-dark 13%, transparent)});
+  --bg-wash-2: light-dark(#{color-mix(in oklch, $amber 13%, transparent)}, #{color-mix(in oklch, $amber 11%, transparent)});
+  --bg-dot: light-dark(#{color-mix(in oklch, $ink 16%, transparent)}, #{color-mix(in oklch, $ink-dark 9%, transparent)});
   // The page colour as it looks under the grain (its measured average), for
   // the flat areas iOS Safari fills from body's background-color
-  --bg-seen: color-mix(in srgb, #000 3.6%, var(--background-color));
+  --bg-seen: light-dark(#{color-mix(in oklch, black 2.8%, $paper)}, #{color-mix(in oklch, white 2.7%, $paper-dark)});
 
   font-family: var(--font-stack);
+}
+
+// `html:root` rather than `:root` so scripts/blockpreview-css.mjs doesn't copy
+// this onto BlockPreview's :host, which keeps the backoffice previews light
+html:root {
+  color-scheme: light dark;
+}
+
+// Set by the inline script in BaseHead.astro / scripts/site.ts. Switching
+// color-scheme flips every light-dark() token; only the grain image needs its
+// own rule, as light-dark() takes colours only.
+:root[data-user-theme="light"] {
   color-scheme: light;
 }
 
-@mixin dark-theme {
-  /* Warm inversion of the Rust & Stone light palette: olive/brown-tinted
-     near-blacks (mirroring #1c1c14) rather than cool greys, a warm cream
-     text, and a lifted forest green to keep the brand link identity. */
+:root[data-user-theme="dark"] {
   color-scheme: dark;
-  --background-color: #1a1712;
-  --background-color-secondary: #221e18;
-  --background-color-tertiary: #2d2820;
-  --text-color: #ece7dd;
-  --text-color-muted: #a39a8c;
-  --link-color: #5cba9b;
-  --link-color-hover: #34a17c;
-
   // Light grain on dark reads as dust, so keep it fainter
   --bg-grain: #{grain-svg(1, 0.045)};
-  --bg-wash-1: color-mix(in srgb, var(--link-color) 13%, transparent);
-  --bg-wash-2: color-mix(in srgb, #c98a2b 11%, transparent);
-  --bg-dot: color-mix(in srgb, var(--text-color) 9%, transparent);
-  --bg-seen: color-mix(in srgb, #fff 2.1%, var(--background-color));
-}
-
-// Set by the inline script in BaseHead.astro / scripts/site.ts
-[data-user-theme="dark"] {
-  @include dark-theme;
 }
 
 // No JavaScript: follow the OS theme
 @media (prefers-color-scheme: dark) {
   :root:not([data-user-theme]) {
-    @include dark-theme;
+    --bg-grain: #{grain-svg(1, 0.045)};
   }
 }

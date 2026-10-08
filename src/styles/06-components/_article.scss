@@ -9,49 +9,44 @@
 
     .c-article__left {
       flex-grow: 1;
+      // Let long package names wrap rather than push the row off a phone
+      min-inline-size: 0;
 
       h2 {
         margin-block-start: 0;
       }
     }
 
+    // The project icon: a fifth of the row, kept legible on phones and from
+    // growing past icon size on wide screens
     .c-article__right {
       margin-block-start: 0;
-      width: 20%;
-      flex-shrink: 0;
-      padding-left: var(--space-m);
+      flex: none;
+      inline-size: clamp(5rem, 20%, 10rem);
+      padding-inline-start: var(--space-m);
     }
   }
 
+  // Wider than the text column (--bleed, 05-objects/_layout.scss)
   .expressive-code {
-    margin-inline: calc(-1 * var(--flow-space));
-    
-    @media (min-width: 980px) {
-      margin-inline: calc(-1 * var(--flow-space-xl));
-    }
+    margin-inline: calc(-1 * var(--bleed));
 
     code {
-        counter-reset: step;
-        counter-increment: step 0;
-      }
-    
-      code .ec-line::before {
-        content: counter(step);
-        counter-increment: step;
-        width: 1rem;
-        padding-left: 1rem;
-        margin-right: 1.5rem;
-        display: inline-block;
-        text-align: right;
-        color: rgba(115, 138, 148, .4)
-      }
-
-    pre {
-      > code {
-        // font-size: var(--step--1);
-      }
+      counter-reset: step;
+      counter-increment: step 0;
     }
 
+    code .ec-line::before {
+      content: counter(step);
+      counter-increment: step;
+      inline-size: 1rem;
+      padding-inline-start: 1rem;
+      margin-inline-end: 1.5rem;
+      display: inline-block;
+      text-align: end;
+      font-variant-numeric: tabular-nums;
+      color: oklch(61.88% 0.0304 226.02 / 0.4);
+    }
   }
 }
 // Round headshot floated beside the opening paragraph of a content page

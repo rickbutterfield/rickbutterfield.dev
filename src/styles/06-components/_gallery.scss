@@ -1,37 +1,25 @@
 .c-gallery {
   display: flex;
+  gap: var(--flow-space);
   overflow-x: auto;
+  overscroll-behavior-x: contain;
   scroll-snap-type: x mandatory;
-  scroll-behavior: smooth;
-  -webkit-overflow-scrolling: touch;
+  scrollbar-color: var(--text-color-muted) transparent;
+  // Same breakout as a single figure (04-base/_typography.scss)
+  margin-inline: calc(-1 * var(--breakout));
 
-  @media (min-width: 800px) {
-    margin-right: calc(-1 * var(--flow-space-xl));
-    margin-left: calc(-1 * var(--flow-space-xl));
+  @media (prefers-reduced-motion: no-preference) {
+    scroll-behavior: smooth;
   }
-
-    &::-webkit-scrollbar {
-      width: 10px;
-      height: 10px;
-    }
-  
-    &::-webkit-scrollbar-thumb {
-      background: black;
-      border-radius: 10px;
-    }
-  
-    &::-webkit-scrollbar-track {
-      background: transparent;
-    }
 
   >figure {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin: 0 var(--flow-space) 0 0;
-    width: 100%;
-    flex-shrink: 0;
+    flex: none;
+    margin: 0;
+    inline-size: 100%;
     scroll-snap-align: center;
   }
 }

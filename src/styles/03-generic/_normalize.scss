@@ -1,8 +1,10 @@
 /* Prevent font size inflation */
 html {
-  -moz-text-size-adjust: none;
-  -webkit-text-size-adjust: none;
-  text-size-adjust: none;
+  -moz-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  // Long words and URLs from the CMS wrap instead of pushing the page sideways
+  overflow-wrap: break-word;
 }
 
 /* Remove default margin in favour of better control in authored CSS */
@@ -28,7 +30,7 @@ ol[role='list'] {
 /* Set core body defaults */
 body {
   margin: 0;
-  min-height: 100vh;
+  min-height: 100svh;
   line-height: 1.618;
 }
 
@@ -63,6 +65,12 @@ picture {
   max-width: 100%;
   display: block;
   height: auto;
+}
+
+/* Keep fixed-width embeds (widgets, social posts) inside the text column */
+iframe,
+video {
+  max-inline-size: 100%;
 }
 
 /* Inherit fonts for inputs and buttons */

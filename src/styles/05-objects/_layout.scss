@@ -4,16 +4,43 @@
  * Prefixed with 'o-'
  */
 
+// Registered so 75ch resolves once, in the container's own font, and
+// descendants with a different font size inherit the same length
+@property --measure {
+  syntax: "<length>";
+  inherits: true;
+  initial-value: 0px;
+}
+
+// The page container is a size container, so cqi below measures the
+// full width of the page
+.c-main {
+  container-type: inline-size;
+}
+
 .o-container {
-  max-width: 75ch;
-  margin: 0 auto;
-  padding: 0 max(var(--flow-space), env(safe-area-inset-right, 0)) 0 max(var(--flow-space), env(safe-area-inset-left, 0));
+  --measure: 75ch;
+  // How far a figure can widen beside the text column: up to
+  // --flow-space-xl, but only into room left over once the container stops
+  // growing, so it never eats into the page gutter
+  --breakout: clamp(0px, (100cqi - var(--measure)) / 2, var(--flow-space-xl));
+  // Code blocks go further: edge to edge on phones, and as wide as figures
+  // or wider when there's room
+  --bleed: min(
+    max(0px, (100cqi - var(--measure)) / 2) + var(--flow-space),
+    max(var(--flow-space), var(--flow-space-xl))
+  );
+
+  max-inline-size: var(--measure);
+  margin-inline: auto;
+  padding-inline: max(var(--flow-space), env(safe-area-inset-left, 0px)) max(var(--flow-space), env(safe-area-inset-right, 0px));
 }
 
 .o-btn {
   display: inline-flex;
   justify-content: center;
   align-items: center;
+  gap: var(--space-2xs);
   padding: 0.5rem 1rem;
   background-color: var(--background-color-secondary);
   color: var(--text-color);
@@ -22,17 +49,31 @@
   cursor: pointer;
   text-decoration: none;
   box-shadow: 0 1px 2px var(--background-color-tertiary);
-  transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  transition: background-color 0.2s ease-out, box-shadow 0.2s ease-out;
 
-  svg {
-    width: 24px;
-    height: 24px;
-    margin-right: 8px;
+  @media (prefers-reduced-motion: no-preference) {
+    transition: background-color 0.2s ease-out, box-shadow 0.2s ease-out, transform 160ms ease-out;
   }
 
-  &:hover,
-  &:focus {
+  // Sized from the label so it follows the text
+  svg {
+    flex: none;
+    inline-size: auto;
+    block-size: 1.333em;
+  }
+
+  &:focus-visible {
     background-color: var(--background-color-tertiary);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      background-color: var(--background-color-tertiary);
+    }
+  }
+
+  &:active {
+    transform: scale(0.97);
   }
 }
 

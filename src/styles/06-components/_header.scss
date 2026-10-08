@@ -3,7 +3,7 @@
  */
 
 .c-header {
-  padding: var(--space-s-xl) 0;
+  padding-block: var(--space-s-xl);
 
   &__inner {
     display: flex;
@@ -55,37 +55,59 @@
 
   // Only looks like a button on hover/focus
   &__toggle {
+    position: relative;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     padding: 0.5rem;
     // Pull the icon flush with the container edge; the padding only shows on hover
-    margin-right: -0.5rem;
+    margin-inline-end: -0.5rem;
     background-color: transparent;
     color: var(--text-color-muted);
     border: none;
     border-radius: 999px;
     cursor: pointer;
     box-shadow: none;
-    transition: background-color 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
+    transition: background-color 0.2s ease-out, box-shadow 0.2s ease-out, color 0.2s ease-out;
+
+    @media (prefers-reduced-motion: no-preference) {
+      transition: background-color 0.2s ease-out, box-shadow 0.2s ease-out, color 0.2s ease-out, transform 160ms ease-out;
+    }
 
     @media (max-width: 767px) {
       grid-row: 1;
       grid-column: 2;
     }
 
-    &:hover,
+    // The button is 36px; this takes the tap target to 44px
+    &::after {
+      content: "";
+      position: absolute;
+      inset: min(0px, (100% - 44px) / 2);
+    }
+
     &:focus-visible {
       background-color: var(--background-color-secondary);
       box-shadow: 0 1px 2px var(--background-color-tertiary);
       color: var(--text-color);
     }
 
-    svg {
-      width: 20px;
-      height: 20px;
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        background-color: var(--background-color-secondary);
+        box-shadow: 0 1px 2px var(--background-color-tertiary);
+        color: var(--text-color);
+      }
     }
 
+    &:active {
+      transform: scale(0.97);
+    }
+
+    svg {
+      inline-size: 20px;
+      block-size: 20px;
+    }
   }
 
   // Pick the icon from the theme the inline script in BaseHead.astro sets before
