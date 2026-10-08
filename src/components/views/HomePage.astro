@@ -1,0 +1,31 @@
+---
+// The home page, shared by index.astro and the backoffice preview
+import { marked } from "marked";
+import Layout from "@/layouts/Layout.astro";
+import UmbracoImage from "@/components/UmbracoImage.astro";
+import type { HomePageContentModel } from "@/api";
+import { SITE_DESCRIPTION } from "@/consts";
+
+interface Props {
+  page: HomePageContentModel;
+}
+
+const { page } = Astro.props;
+const { content, featuredImage } = page.properties ?? {};
+const baseUrl = import.meta.env.PUBLIC_BASE_URL_HTTPS;
+
+const heroImage = featuredImage?.[0];
+const src: string = `${baseUrl}${heroImage?.url}?width=2000&height=1125`;
+const alt: string = heroImage?.properties?.altText as string || "";
+---
+
+<Layout name={SITE_DESCRIPTION}>
+  <section>
+    <article class="c-article c-flow c-home">
+      <figure>
+        <UmbracoImage src={src} alt={alt} width={2000} height={1125} loading="eager" fetchpriority="high" decoding="async" />
+      </figure>
+      <Fragment set:html={marked.parse(content ?? '')} />
+    </article>
+  </section>
+</Layout>

@@ -1,6 +1,5 @@
 ---
-import Layout from "@/layouts/Layout.astro";
-import UmbracoGrid from "@/components/UmbracoGrid.astro";
+import BlogPost from "@/components/views/BlogPost.astro";
 import { getCollection } from "astro:content";
 
 export async function getStaticPaths() {
@@ -12,43 +11,12 @@ export async function getStaticPaths() {
 
     return {
       params: { slug: urlSplit[urlSplit.length - 1] },
-      props: {
-        id: page.id,
-        name: page.name,
-        title: page.properties?.title,
-        content: page.properties?.content,
-        slug: page.route.path,
-        publishedDate: new Date(page.properties?.publishedDate ?? ''),
-        grid: page.properties?.grid,
-      },
+      props: { page },
     };
   });
 }
 
-let path = Astro.url.pathname;
-let trimmedPath = path.endsWith("/") ? path.slice(0, -1) : path;
-
-const { id, title, slug, name, content, publishedDate, grid } = Astro.props;
+const { page } = Astro.props;
 ---
 
-<Layout name={title ?? ''} image={`/og${trimmedPath}.png`} schemaType="Article" datePublished={publishedDate} description={content ?? undefined}>
-  <article
-    class="c-article c-flow"
-    style={`view-transition-name: article-${id}`}
-  >
-    <time datetime={publishedDate.toISOString()}>
-      {
-        publishedDate.toLocaleDateString("en-gb", {
-          year: "numeric",
-          month: "short",
-          day: "numeric",
-        })
-      }
-    </time>
-    <h1>{title}</h1>
-
-    <UmbracoGrid data={grid} />
-
-    <script src="https://h5yr.com/widget/embed.js" data-accent="1b5e4b"></script>
-  </article>
-</Layout>
+<BlogPost page={page} />

@@ -1,7 +1,9 @@
 ---
 import type { UpdateAlertElementModel } from "@/api";
 import { Marked } from "marked";
-import { Code } from "astro-expressive-code/components";
+// Expressive Code only runs at build time. The backoffice preview renders on request in the Worker,
+// which can't load it, so code there shows as plain preformatted text.
+const Code = Astro.isPrerendered ? (await import("astro-expressive-code/components")).Code : null;
 
 const { data } = Astro.props;
 const typedData = data as UpdateAlertElementModel;
@@ -149,7 +151,7 @@ const contentParts = htmlContent.split(/(<!--CODE_BLOCK_[^>]+-->)/);
           if (block.ins) props.ins = block.ins;
           if (block.mark) props.mark = block.mark;
           
-          return <Code {...props} />;
+          return Code ? <Code {...props} /> : <pre><code>{block.code}</code></pre>;
         }
       }
       return <Fragment set:html={part} />;

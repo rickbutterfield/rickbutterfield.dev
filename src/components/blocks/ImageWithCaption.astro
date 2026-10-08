@@ -1,7 +1,7 @@
 ---
 import { marked } from "marked";
 import type { ImageWithCaptionElementModel } from "@/api";
-import { Image } from "astro:assets";
+import UmbracoImage from "@/components/UmbracoImage.astro";
 
 const { data } = Astro.props;
 const typedData = data as ImageWithCaptionElementModel;
@@ -31,7 +31,7 @@ if (width > maxWidth) {
 ---
 
 <figure>
-  <Image
+  <UmbracoImage
     src={src}
     alt={alt}
     width={width}

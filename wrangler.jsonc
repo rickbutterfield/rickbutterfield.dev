@@ -5,13 +5,14 @@
   "assets": {
     "directory": "./dist",
     "binding": "ASSETS",
-    // Every page is prerendered, so only server islands need the Worker. Unknown URLs get the
-    // static 404 page (Astro's Worker throws on prerendered dynamic routes like /[slug] instead)
-    "run_worker_first": ["/_server-islands/*"],
+    // Every page is prerendered, so only server islands and the backoffice preview need the Worker.
+    // Unknown URLs get the static 404 page (Astro's Worker throws on prerendered dynamic routes like /[slug] instead)
+    "run_worker_first": ["/_server-islands/*", "/preview"],
     "not_found_handling": "404-page"
   },
   // Activity cards on /now. Secrets (Strava, Spotify, X, optional GITHUB_TOKEN) are set with
   // `wrangler secret put`, or in .dev.vars locally; any source without them is skipped.
+  // /preview needs the PREVIEW_SECRET and UMBRACO_DELIVERY_API_KEY secrets, and returns 404 without them.
   "vars": {
     "GITHUB_USERNAME": "rickbutterfield"
   },

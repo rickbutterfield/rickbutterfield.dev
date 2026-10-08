@@ -1,0 +1,75 @@
+---
+// The backoffice "Save and preview" target: renders the latest draft of one Umbraco document on request in
+// the Worker. Links are signed by Umbraco's AstroPreviewUrlProvider and checked in scripts/preview.ts.
+export const prerender = false;
+
+import Layout from "@/layouts/Layout.astro";
+import BlogPost from "@/components/views/BlogPost.astro";
+import ContentPage from "@/components/views/ContentPage.astro";
+import HomePage from "@/components/views/HomePage.astro";
+import { client, ContentService } from "@/api";
+import { verifyPreviewLink } from "@/scripts/preview";
+
+// Imported lazily, like Activity.astro, so prerendered pages never resolve the Workers runtime module
+const { env } = await import("cloudflare:workers");
+const { PREVIEW_SECRET, UMBRACO_DELIVERY_API_KEY } = env as unknown as Record<string, string | undefined>;
+
+// Without both secrets the route doesn't exist
+if (!PREVIEW_SECRET || !UMBRACO_DELIVERY_API_KEY) return new Response(null, { status: 404 });
+
+const preview = await verifyPreviewLink(Astro.url, PREVIEW_SECRET);
+if (!preview) {
+  return new Response("This preview link is invalid or has expired. Click Preview in Umbraco again.", { status: 403 });
+}
+
+// Same expansions as the matching collections in content.config.ts
+const expandByType: Record<string, string> = {
+  blogPost: "properties[$all[properties[image]]]",
+  homePage: "properties[$all[properties[image]]]",
+  contentPage: "all",
+};
+
+client.setConfig({ baseUrl: import.meta.env.PUBLIC_BASE_URL });
+
+// Resolves to the draft, or to the Delivery API's HTTP status when it fails (401 means a wrong API key)
+const getDraft = async (query: { fields?: string; expand?: string }) => {
+  const { data, response } = await ContentService.getContentItemById20({
+    path: { id: preview.id },
+    query,
+    headers: { Preview: true, ...(preview.culture && { "Accept-Language": preview.culture }) },
+    auth: UMBRACO_DELIVERY_API_KEY,
+    throwOnError: false,
+  });
+  return data ?? response.status;
+};
+
+// The expansion depends on the content type, so look that up first
+const summary = await getDraft({ fields: "properties[$none]" });
+const page = typeof summary === "number" ? summary : await getDraft({ expand: expandByType[summary.contentType] });
+
+if (typeof page === "number") {
+  console.error(`Preview of ${preview.id} failed: the Delivery API returned ${page}`);
+  return page === 404
+    ? new Response("This document doesn't exist in Umbraco any more.", { status: 404 })
+    : new Response("Couldn't load this document from Umbraco.", { status: 502 });
+}
+
+// Drafts must never be cached or indexed
+Astro.response.headers.set("Cache-Control", "no-store");
+Astro.response.headers.set("X-Robots-Tag", "noindex, nofollow");
+---
+
+{page.contentType === "blogPost" ? (
+  <BlogPost page={page} />
+) : page.contentType === "contentPage" ? (
+  <ContentPage page={page} />
+) : page.contentType === "homePage" ? (
+  <HomePage page={page} />
+) : (
+  <Layout name={page.name ?? "Preview"}>
+    <article class="c-article c-flow">
+      <h1>{page.name}</h1>
+      <p>There's no preview for this kind of page yet. Publish it to see it on the site.</p>
+    </article>
+  </Layout>
+)}

@@ -1,64 +1,17 @@
 ---
-import { marked } from "marked";
-import Layout from "@/layouts/Layout.astro";
-import UmbracoGrid from "@/components/UmbracoGrid.astro";
-import { Image } from "astro:assets";
+import ContentPage from "@/components/views/ContentPage.astro";
 import { getCollection } from "astro:content";
-import { SITE_TITLE } from "@/consts";
 
 export async function getStaticPaths() {
   const contentPagesCollection = await getCollection("contentPages");
 
-  return contentPagesCollection.map((entry) => {
-    const page = entry.data.content;
-    return {
-      params: { slug: entry.data.slug },
-      props: {
-        name: page.name ?? '',
-        content: page.properties?.content,
-        grid: page.properties?.grid,
-        featuredImage: page.properties?.featuredImage?.[0],
-        portrait: page.properties?.portrait?.[0],
-      },
-    };
-  });
+  return contentPagesCollection.map((entry) => ({
+    params: { slug: entry.data.slug },
+    props: { page: entry.data.content },
+  }));
 }
 
-const { name, content, grid, featuredImage, portrait } = Astro.props;
-const baseUrl = import.meta.env.PUBLIC_BASE_URL_HTTPS;
-
-// Scale the featured image down to the article width, keeping its aspect ratio
-const maxWidth = 1500;
-let width: number = (featuredImage?.width ?? 0) as number;
-let height: number = (featuredImage?.height ?? 0) as number;
-if (width > maxWidth) {
-  height = Math.round(maxWidth * (height / width));
-  width = maxWidth;
-}
-const src: string = `${baseUrl}${featuredImage?.url}?format=webp`;
-const alt: string = featuredImage?.properties?.altText as string || "";
-
-// Shown small and round, so 2x the largest display size is plenty
-const portraitSize = 320;
-const portraitSrc: string = `${baseUrl}${portrait?.url}?format=webp`;
-const portraitAlt: string = portrait?.properties?.altText as string || `Photo of ${SITE_TITLE}`;
+const { page } = Astro.props;
 ---
 
-<Layout name={name}>
-  <article class="c-article c-flow">
-    <h1>{name}</h1>
-    {featuredImage && width > 0 && (
-      <figure>
-        <Image src={src} alt={alt} width={width} height={height} loading="eager" fetchpriority="high" decoding="async" />
-      </figure>
-    )}
-    {portrait && (
-      <Image class="c-article__portrait" src={portraitSrc} alt={portraitAlt} width={portraitSize} height={portraitSize} decoding="async" />
-    )}
-    {content && (
-      <Fragment set:html={marked.parse(content)} />
-    )}
-
-    <UmbracoGrid data={grid} />
-  </article>
-</Layout>
+<ContentPage page={page} />

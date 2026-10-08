@@ -75,6 +75,7 @@ Defined in `.env.local` locally (note: currently tracked in git, not gitignored)
 
 - `PUBLIC_BASE_URL` — base URL of the Umbraco Delivery API; consumed in `content.config.ts` to configure the API client.
 - `PUBLIC_BASE_URL_HTTPS` — HTTPS base URL used to build absolute media/image URLs in pages and block components (`index.astro`, `feed.xml.ts`, `projects`/`speaking` index pages, `ImageGallery`/`ImageWithCaption`).
+- `PREVIEW_SECRET`, `UMBRACO_DELIVERY_API_KEY` — **Worker secrets** (`wrangler secret put`, `.dev.vars` locally), never `PUBLIC_`. Used only by the backoffice preview route (§8); without both, `/preview` returns 404.
 
 ## 5. Integrations (astro.config.mjs)
 
@@ -106,6 +107,12 @@ Other deploy facts:
 - **Wrangler** is a dev dependency so the deploy step doesn't download it every build.
 - **Umbraco publish → rebuild:** a Workers Builds deploy hook ("Umbraco publish", branch `main`) is configured as a webhook in the Umbraco Cloud backoffice (Settings → Webhooks). Treat the hook URL as a secret; it is not stored in this repo.
 - **Headers** come from `public/_headers` (Workers static assets supports it like Pages did). Unknown URLs return a real 404; Pages used to serve the home page with a 200.
+
+## 8. Backoffice preview
+
+`src/pages/preview.astro` is the one page rendered on request (`prerender = false`, routed to the Worker by `run_worker_first`). Umbraco's "Save and preview" button opens it through `AstroPreviewUrlProvider` in the Umbraco repo, which signs `id`, `culture` and `expires` with HMAC-SHA256 using `AstroPreview:Secret` (= `PREVIEW_SECRET`). `src/scripts/preview.ts` checks the signature, then the route fetches the draft with `Preview: true` and the Delivery API key, and renders it with the same `src/components/views/*` components as the static pages. Only blog posts, content pages and the home page have a preview layout.
+
+Two things only work at build time, so the preview falls back. `RichText` and `UpdateAlert` import Expressive Code only when `Astro.isPrerendered`, and the preview shows code as plain `<pre>`: in `workerd` its postcss dependency needs CommonJS and Node's `path`, and Shiki's default engine compiles WebAssembly at runtime, which Workers forbid. `UmbracoImage.astro` falls back to Umbraco's own resizing, because `imageService: 'compile'` has no runtime `/_image` endpoint.
 
 ## Quick Reference
 

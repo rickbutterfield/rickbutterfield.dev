@@ -1,0 +1,30 @@
+---
+// An Umbraco media image. Prerendered pages optimise it at build time with <Image>. Pages rendered on
+// request (the backoffice preview) can't, because imageService 'compile' has no runtime /_image endpoint,
+// so they let Umbraco resize it instead.
+import { Image } from "astro:assets";
+import type { HTMLAttributes } from "astro/types";
+
+type Props = Omit<HTMLAttributes<"img">, "src" | "width" | "height"> & {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+};
+
+const { src, width, height, ...attributes } = Astro.props;
+
+let resizedSrc = src;
+if (!Astro.isPrerendered) {
+  const url = new URL(src);
+  url.searchParams.set("width", String(width));
+  url.searchParams.set("height", String(height));
+  resizedSrc = url.toString();
+}
+---
+
+{Astro.isPrerendered ? (
+  <Image src={src} width={width} height={height} {...attributes} />
+) : (
+  <img src={resizedSrc} width={width} height={height} {...attributes} />
+)}

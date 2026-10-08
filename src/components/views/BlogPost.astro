@@ -1,0 +1,37 @@
+---
+// A blog post page, shared by blog/[slug].astro and the backoffice preview
+import Layout from "@/layouts/Layout.astro";
+import UmbracoGrid from "@/components/UmbracoGrid.astro";
+import type { BlogPostContentModel } from "@/api";
+
+interface Props {
+  page: BlogPostContentModel;
+}
+
+const { page } = Astro.props;
+const { title, content, grid } = page.properties ?? {};
+const publishedDate = new Date(page.properties?.publishedDate ?? '');
+const ogImage = `/og${page.route.path.replace(/\/$/, '')}.png`;
+---
+
+<Layout name={title ?? ''} image={ogImage} schemaType="Article" datePublished={publishedDate} description={content ?? undefined}>
+  <article
+    class="c-article c-flow"
+    style={`view-transition-name: article-${page.id}`}
+  >
+    <time datetime={publishedDate.toISOString()}>
+      {
+        publishedDate.toLocaleDateString("en-gb", {
+          year: "numeric",
+          month: "short",
+          day: "numeric",
+        })
+      }
+    </time>
+    <h1>{title}</h1>
+
+    <UmbracoGrid data={grid} />
+
+    <script src="https://h5yr.com/widget/embed.js" data-accent="1b5e4b"></script>
+  </article>
+</Layout>
