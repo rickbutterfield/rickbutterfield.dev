@@ -75,7 +75,8 @@ export async function GET(context: APIContext) {
       description: post.properties?.content ?? "",
       content: renderGridContent(post.properties?.grid ?? { gridColumns: 0, items: [] }, post.properties?.content ?? '')
     }
-  });
+  // The collection doesn't keep the API's publishedDate:desc order, so sort newest first like the blog list
+  }).sort((a, b) => b.pubDate.getTime() - a.pubDate.getTime());
 
 	return rss({
 		title: SITE_TITLE,
