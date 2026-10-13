@@ -107,6 +107,7 @@ Other deploy facts:
 - **Wrangler** is a dev dependency so the deploy step doesn't download it every build.
 - **Umbraco publish → rebuild:** a Workers Builds deploy hook ("Umbraco publish", branch `main`) is configured as a webhook in the Umbraco Cloud backoffice (Settings → Webhooks). Treat the hook URL as a secret; it is not stored in this repo.
 - **Headers** come from `public/_headers` (Workers static assets supports it like Pages did). Unknown URLs return a real 404; Pages used to serve the home page with a 200.
+- **Umbraco redirects:** the Worker entry is `src/worker.ts`, not Astro's own. Static files are served first; any other URL (except `/preview` and server islands, which go to Astro) is looked up at the Delivery API, which answers a renamed or moved page's old URL with a 301 to its new path. The Worker passes that on as a 301, or serves `404.html` with a 404. That is why `wrangler.jsonc` has no `not_found_handling`: with it set, unknown URLs get the 404 page without the Worker running.
 
 ## 8. Backoffice preview
 

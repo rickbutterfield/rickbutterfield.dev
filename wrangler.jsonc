@@ -1,14 +1,15 @@
 {
   "name": "rickbutterfield",
   "compatibility_date": "2025-05-30",
-  "main": "@astrojs/cloudflare/entrypoints/server",
+  // Wraps Astro's Worker: unknown URLs follow Umbraco's redirects or get the static 404 page, because
+  // Astro's own Worker throws on prerendered dynamic routes like /[slug]
+  "main": "./src/worker.ts",
   "assets": {
     "directory": "./dist",
     "binding": "ASSETS",
-    // Every page is prerendered, so only server islands and the backoffice preview need the Worker.
-    // Unknown URLs get the static 404 page (Astro's Worker throws on prerendered dynamic routes like /[slug] instead)
-    "run_worker_first": ["/_server-islands/*", "/preview"],
-    "not_found_handling": "404-page"
+    // Every page is prerendered, so only server islands and the backoffice preview need Astro's Worker.
+    // No not_found_handling: it would serve the 404 page without running the Worker, so redirects never happen
+    "run_worker_first": ["/_server-islands/*", "/preview"]
   },
   // Activity cards on /now. Secrets (Strava, Spotify, X, optional GITHUB_TOKEN) are set with
   // `wrangler secret put`, or in .dev.vars locally; any source without them is skipped.
