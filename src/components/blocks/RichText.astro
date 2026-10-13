@@ -124,8 +124,11 @@ const customMarked = new Marked({
   }
 });
 
-// Parse the content
-const htmlContent = await customMarked.parse(typedData?.properties?.content || '');
+// Parse the content. Tables get a wrapper that scrolls sideways on narrow screens (06-components/_table.scss);
+// tabindex lets keyboard users scroll it.
+const htmlContent = (await customMarked.parse(typedData?.properties?.content || ''))
+  .replace(/<table>/g, '<div class="c-table" tabindex="0"><table>')
+  .replace(/<\/table>/g, '</table></div>');
 
 // Split content by code block markers
 const contentParts = htmlContent.split(/(<!--CODE_BLOCK_[^>]+-->)/);

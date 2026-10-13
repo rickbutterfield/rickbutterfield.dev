@@ -1,12 +1,14 @@
 // Mermaid diagrams (scripts/mermaid.ts). Until a diagram is drawn, and wherever there's no
 // JavaScript (including BlockPreview in the backoffice, where Markdig renders a div.mermaid),
-// the source shows as preformatted text. Once drawn, the SVG is centred and scales down.
+// the source shows as preformatted text. Once drawn, the SVG is centred and scales down, and widens
+// beside the text column like figures (04-base/_typography.scss).
 .mermaid {
   font-family: var(--font-stack-mono);
   white-space: pre;
   overflow-x: auto;
 
   &[data-processed] {
+    margin-inline: calc(-1 * var(--breakout));
     font-family: inherit;
     white-space: normal;
     text-align: center;

@@ -1,0 +1,75 @@
+/**
+ * Table Component
+ * Markdown tables in rich text, wrapped in .c-table by blocks/RichText.astro
+ */
+
+// Fade widths for whichever side still has columns to scroll to
+@property --fade-start {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+
+@property --fade-end {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+
+@keyframes c-table-edges {
+  from { --fade-start: 0px; --fade-end: var(--space-m); }
+  10%, 90% { --fade-start: var(--space-m); --fade-end: var(--space-m); }
+  to { --fade-start: var(--space-m); --fade-end: 0px; }
+}
+
+.c-table {
+  // Widens beside the text column like figures (04-base/_typography.scss)
+  margin-inline: calc(-1 * var(--breakout));
+  overflow-x: auto;
+  // Only runs while the table is wider than the column, so a table that fits
+  // has no fade. Firefox has no scroll timelines: it scrolls without one.
+  animation: c-table-edges linear;
+  animation-timeline: scroll(self inline);
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 var(--fade-start),
+    #000 calc(100% - var(--fade-end)),
+    transparent
+  );
+
+  // Inset, as the mask would hide an outline drawn outside the box
+  &:focus-visible {
+    outline: 2px solid var(--link-color);
+    outline-offset: -2px;
+  }
+
+  table {
+    inline-size: 100%;
+    border-collapse: collapse;
+    font-variant-numeric: tabular-nums;
+  }
+
+  th,
+  td {
+    padding-block: var(--space-2xs);
+    padding-inline: 0 var(--space-s);
+    text-align: start;
+    vertical-align: baseline;
+    border-block-end: 1px solid var(--rule-color);
+
+    &:last-child {
+      padding-inline-end: 0;
+    }
+  }
+
+  th {
+    font-family: var(--font-stack-heading);
+    font-weight: 600;
+    border-block-end-color: var(--text-color);
+  }
+
+  tbody tr:last-child > * {
+    border-block-end: none;
+  }
+}
