@@ -26,7 +26,9 @@ const styles = css
   .replace(/@font-face\s*{[^}]*}\s*/g, '')
   // Give the shadow root the same variables and base styles as the document
   .replace(/^:root \{/gm, ':root,\n:host {')
-  .replace(/(^|,\s*)(html|body)(?=\s*[,{])/gm, '$1$2, :host');
+  .replace(/(^|,\s*)(html|body)(?=\s*[,{])/gm, '$1$2, :host')
+  // ...except body's min-height: 100svh, or every preview is at least as tall as the viewport
+  + '\n:host {\n  min-height: auto;\n}\n';
 
 await mkdir(path.join(wwwroot, 'css'), { recursive: true });
 await writeFile(path.join(wwwroot, 'css/blockpreview.css'), header + styles);
