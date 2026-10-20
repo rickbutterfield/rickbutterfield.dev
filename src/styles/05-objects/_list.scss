@@ -11,6 +11,15 @@
     li {
       display: flex;
       align-items: center;
+      gap: var(--space-3xs);
+
+      // Bare icons (the speaking page's date and location) have no intrinsic
+      // size, so flex stretched or squashed them with the label's length
+      > svg {
+        flex: none;
+        inline-size: 1.25em;
+        block-size: 1.25em;
+      }
     }
   }
 }

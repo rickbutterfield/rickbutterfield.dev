@@ -109,6 +109,13 @@ li {
   }
 }
 
+// Just enough indent for the marker, so bullets and numbers line up with the
+// text above rather than the browser's 40px. Classed lists reset to 0 themselves
+ul,
+ol {
+  padding-inline-start: 1.25em;
+}
+
 // Figures widen into whatever room the page has beside the text column
 // (--breakout, 05-objects/_layout.scss); the caption stays on the column
 figure {
