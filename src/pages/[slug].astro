@@ -1,14 +1,16 @@
 ---
 import ContentPage from "@/components/views/ContentPage.astro";
 import { getCollection } from "astro:content";
+import { pageCacheKey } from "@/scripts/cacheKey";
 
 export async function getStaticPaths() {
   const contentPagesCollection = await getCollection("contentPages");
 
-  return contentPagesCollection.map((entry) => ({
+  return Promise.all(contentPagesCollection.map(async (entry) => ({
     params: { slug: entry.data.slug },
     props: { page: entry.data.content },
-  }));
+    cacheKey: await pageCacheKey(entry.data.content),
+  })));
 }
 
 const { page } = Astro.props;

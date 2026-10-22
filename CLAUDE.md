@@ -103,6 +103,7 @@ Build settings live in the Cloudflare dashboard, not the repo (Worker → Settin
 
 Other deploy facts:
 
+- **Incremental builds** (`experimental.incrementalBuild`) reuse a page from the last build when its `cacheKey` and code are unchanged. The cache lives in `node_modules/.astro`, which the build command above already keeps. Blog posts, content pages and OG images return a key from `src/scripts/cacheKey.ts`; Astro doesn't track Delivery API data, so a key must hash everything the page renders, including what `Layout` shows on every page (nav, site settings). Pages without a key re-render every build. After replacing a font or the logo used by the OG images, run `astro build --force`.
 - **Node** comes from `.nvmrc` (no `NODE_VERSION` variable on the Worker). Keep it at `>=22.19.0` for `undici@8`.
 - **Wrangler** is a dev dependency so the deploy step doesn't download it every build.
 - **Umbraco publish → rebuild:** a Workers Builds deploy hook ("Umbraco publish", branch `main`) is configured as a webhook in the Umbraco Cloud backoffice (Settings → Webhooks). Treat the hook URL as a secret; it is not stored in this repo.

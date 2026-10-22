@@ -212,5 +212,8 @@ export default defineConfig({
     headers: {
       'Timing-Allow-Origin': '*'
     }
-  }
+  },
+  experimental: {
+    incrementalBuild: true,
+  },
 });

@@ -1,6 +1,8 @@
 import { type BlogPostContentModel } from '@/api';
 import { OGImageRoute } from 'astro-og-canvas';
 import { getCollection } from 'astro:content';
+import type { GetStaticPaths } from 'astro';
+import { dataCacheKey } from '@/scripts/cacheKey';
 
 const blogPosts = await getCollection('blog');
 
@@ -23,7 +25,7 @@ blogPosts.forEach((blogPost) => {
   }
 });
 
-export const { getStaticPaths, GET } = await OGImageRoute({
+const ogImageRoute = await OGImageRoute({
   // A collection of pages to generate images for.
   // The keys of this object are used to generate the path for that image.
   // In this example, we generate one image at `/open-graph/example.png`.
@@ -59,3 +61,13 @@ export const { getStaticPaths, GET } = await OGImageRoute({
     }
   }),
 });
+
+// The image options hold everything drawn on the image, so they make the incremental-build cache key.
+// The font and logo files are read by path, not imported: after replacing one, build with --force.
+export const getStaticPaths = (async (options) =>
+  Promise.all((await ogImageRoute.getStaticPaths(options)).map(async (path) => ({
+    ...path,
+    cacheKey: await dataCacheKey(path.props?.imageOptions),
+  })))) satisfies GetStaticPaths;
+
+export const { GET } = ogImageRoute;

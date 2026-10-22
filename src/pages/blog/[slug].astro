@@ -1,19 +1,21 @@
 ---
 import BlogPost from "@/components/views/BlogPost.astro";
 import { getCollection } from "astro:content";
+import { pageCacheKey } from "@/scripts/cacheKey";
 
 export async function getStaticPaths() {
   const blogPosts = await getCollection("blog");
 
-  return blogPosts.map((post) => {
+  return Promise.all(blogPosts.map(async (post) => {
     const page = post.data.content;
     const urlSplit = page.route.path.split("/");
 
     return {
       params: { slug: urlSplit[urlSplit.length - 1] },
       props: { page },
+      cacheKey: await pageCacheKey(page),
     };
-  });
+  }));
 }
 
 const { page } = Astro.props;
