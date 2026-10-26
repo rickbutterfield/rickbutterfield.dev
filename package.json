@@ -30,7 +30,7 @@
     "astro-og-canvas": "^0.13.2",
     "astro-robots-txt": "^1.0.0",
     "astrojs-service-worker": "^2.0.3",
-    "mermaid": "^12.1.0"
+    "mermaid": "^12.2.0"
   },
   "devDependencies": {
     "@astrojs/lit": "^4.3.0",
@@ -38,8 +38,8 @@
     "@hey-api/openapi-ts": "^0.99.0",
     "@tgwf/gridintensity-polyfill": "^0.0.7",
     "baseline-browser-mapping": "^2.11.18",
-    "marked": "^18.0.10",
-    "sass": "^1.103.1",
+    "marked": "^18.1.1",
+    "sass": "^1.106.1",
     "wrangler": "^4.146.0"
   }
 }
