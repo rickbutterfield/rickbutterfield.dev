@@ -7,6 +7,8 @@
   "assets": {
     "directory": "./dist",
     "binding": "ASSETS",
+    // Serves blog/post/index.html at /blog/post and redirects /blog/post/ there, to match trailingSlash: 'never'
+    "html_handling": "drop-trailing-slash",
     // Every page is prerendered, so only server islands and the backoffice preview need Astro's Worker.
     // No not_found_handling: it would serve the 404 page without running the Worker, so redirects never happen
     "run_worker_first": ["/_server-islands/*", "/preview"]

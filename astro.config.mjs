@@ -111,12 +111,13 @@ export default defineConfig({
       priority: 0.7,
       lastmod: new Date(),
       serialize(item) {
+        const { pathname } = new URL(item.url);
         // Higher priority for main pages
-        if (item.url.endsWith('/') || item.url.endsWith('/blog/') || item.url.endsWith('/projects/') || item.url.endsWith('/speaking/')) {
+        if (['/', '/blog', '/projects', '/speaking'].includes(pathname)) {
           item.priority = 0.9;
         }
         // Blog posts get moderate priority
-        if (item.url.includes('/blog/') && !item.url.endsWith('/blog/')) {
+        if (pathname.startsWith('/blog/')) {
           item.priority = 0.8;
           item.changefreq = 'monthly';
         }
@@ -135,6 +136,12 @@ export default defineConfig({
         manifestTransforms: [
           async (entries) => ({
             manifest: entries.filter((entry) => !lazyChunks.has(entry.url.replace(/^\//, ''))),
+            warnings: [],
+          }),
+          // Precache pages under their URL (blog/index.html as blog): with no trailing slash, Workbox
+          // only looks up /blog and /blog.html, never /blog/index.html. The home page stays index.html.
+          async (entries) => ({
+            manifest: entries.map((entry) => ({ ...entry, url: entry.url.replace(/(.)\/index\.html$/, '$1') })),
             warnings: [],
           }),
         ],
@@ -187,10 +194,9 @@ export default defineConfig({
     // Required to rasterize favicon.svg into the PNG favicons/manifest icons
     dangerouslyProcessSVG: true
   },
-  trailingSlash: 'ignore',
-  devToolbar: {
-    enabled: false
-  },
+  // URLs have no trailing slash: pages still build as blog/post/index.html, which Workers serves at
+  // /blog/post and redirects /blog/post/ to (html_handling in wrangler.jsonc)
+  trailingSlash: 'never',
   markdown: {
     syntaxHighlight: 'shiki',
     shikiConfig: {

@@ -79,7 +79,7 @@ Defined in `.env.local` locally (note: currently tracked in git, not gitignored)
 
 ## 5. Integrations (astro.config.mjs)
 
-`expressiveCode` + Shiki (`github-dark` theme, mono font var) for code blocks; `mdx`; `sitemap` (custom `serialize`: main pages priority 0.9, blog posts 0.8/monthly); `astro-robots-txt`; `lit`; `astrojs-service-worker`. Markdown also configured with Shiki transformers (notation diff/focus/meta highlight). `prefetch: true`, `trailingSlash: 'ignore'`, dev toolbar disabled.
+`expressiveCode` + Shiki (`github-dark` theme, mono font var) for code blocks; `mdx`; `sitemap` (custom `serialize`: main pages priority 0.9, blog posts 0.8/monthly); `astro-robots-txt`; `lit`; `astrojs-service-worker`. Markdown also configured with Shiki transformers (notation diff/focus/meta highlight). `prefetch: true`; the dev toolbar is on (Astro's default). URLs have no trailing slash: `trailingSlash: 'never'` (pages still build as `blog/post/index.html`, and `Astro.url` has no slash), and `html_handling: "drop-trailing-slash"` in `wrangler.jsonc` serves it at `/blog/post` and redirects `/blog/post/` there (307). Don't switch to `build.format: 'file'`: `Astro.url` then ends in `.html` and breaks canonical URLs. Umbraco's `AddTrailingSlash` is `false` too, so `route.path` matches.
 
 ## 6. Conventions & gotchas
 

@@ -23,8 +23,8 @@ const findRedirect = async (url: URL) => {
     const location = response.status === 301 ? response.headers.get("Location") : null;
     if (!location?.startsWith("/")) return;
 
-    // Pages are folders (blog/post/index.html), so go straight to the trailing-slash URL instead of via a second redirect
-    return location.endsWith("/") ? location : `${location}/`;
+    // URLs have no trailing slash, so drop any Umbraco sends instead of redirecting a second time
+    return location.length > 1 ? location.replace(/\/$/, "") : location;
   } catch (err) {
     // A slow or failing Umbraco shouldn't break the 404 page
     console.error(`Redirect lookup failed for ${url.pathname}: ${err}`);
