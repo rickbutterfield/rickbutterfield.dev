@@ -1,68 +1,35 @@
-# Astro Starter Kit: Blog
+# rickbutterfield.dev
 
-```
-npm create astro@latest -- --template blog
-```
+The frontend of my personal site, [rickbutterfield.dev](https://rickbutterfield.dev). It's built with [Astro](https://astro.build), and every page comes from a headless [Umbraco](https://umbraco.com) site on Umbraco Cloud through Umbraco's [Delivery API](https://docs.umbraco.com/umbraco-cms/reference/content-delivery-api). The Umbraco side lives in a separate Cloud repo.
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/blog)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/s/github/withastro/astro/tree/latest/examples/blog)
+## How it works
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+- **Content** is fetched from the Delivery API at build time. The content collections in `src/content.config.ts` call a TypeScript client generated from the API's OpenAPI spec (`src/api/`), so the site never talks to a database.
+- **Pages** are prerendered to static HTML. URLs have no trailing slash (`/blog/my-post`), and the slashed version redirects to it.
+- **Hosting** is a Cloudflare Worker with static assets, built by Workers Builds from `main`. Publishing in Umbraco calls a deploy hook, so a change goes live about a minute later.
+- **On request**, the Worker (`src/worker.ts`) only handles the backoffice preview (`/preview`), the server islands on `/now`, and URLs with no page. For those it asks Umbraco whether the page moved and redirects there, or serves the 404 page.
+- **Styles** are hand-written Sass in ITCSS layers under `src/styles/`.
 
+The [colophon](https://rickbutterfield.dev/colophon) covers the rest.
 
-![blog](https://user-images.githubusercontent.com/4677417/186189140-4ef17aac-c3c9-4918-a8c2-ce86ba1bb394.png)
+## Running it locally
 
-Features:
+You need Node `22.23.4` or later (see `.nvmrc`), and either the local Umbraco site or the live API to read content from.
 
-- ✅ Minimal styling (make it your own!)
-- ✅ 100/100 Lighthouse performance
-- ✅ SEO-friendly with canonical URLs and OpenGraph data
-- ✅ Sitemap support
-- ✅ RSS Feed support
-- ✅ Markdown & MDX support
+| Command | What it does |
+| :-- | :-- |
+| `npm install` | Install dependencies |
+| `npm run dev` | Start the dev server at `localhost:4321`, reachable from your network |
+| `npm start` | Start the dev server on this machine only |
+| `npm run build` | Build the site to `dist/` (needs the Delivery API) |
+| `npm run preview` | Preview the built site |
+| `npm run generate` | Regenerate the API client in `src/api/` (needs the local Umbraco site running on port 20625) |
 
-## 🚀 Project Structure
+Set these in `.env.local`:
 
-Inside of your Astro project, you'll see the following folders and files:
+- `PUBLIC_BASE_URL`: the Delivery API's base URL, with no trailing slash.
+- `PUBLIC_BASE_URL_HTTPS`: the base URL used for media and image links.
 
-```
-├── public/
-├── src/
-│   ├── components/
-│   ├── content/
-│   ├── layouts/
-│   └── pages/
-├── astro.config.mjs
-├── README.md
-├── package.json
-└── tsconfig.json
-```
+The backoffice preview also needs `PREVIEW_SECRET` and `UMBRACO_DELIVERY_API_KEY`, set as Worker secrets (`.dev.vars` locally). Without them, `/preview` returns a 404.
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
-
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
-
-The `src/content/` directory contains "collections" of related Markdown and MDX documents. Use `getCollection()` to retrieve posts from `src/content/blog/`, and type-check your frontmatter using an optional schema. See [Astro's Content Collections docs](https://docs.astro.build/en/guides/content-collections/) to learn more.
-
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                | Action                                           |
-| :--------------------- | :----------------------------------------------- |
-| `npm install`          | Installs dependencies                            |
-| `npm run dev`          | Starts local dev server at `localhost:3000`      |
-| `npm run build`        | Build your production site to `./dist/`          |
-| `npm run preview`      | Preview your build locally, before deploying     |
-| `npm run astro ...`    | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Check out [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
-
-## Credit
-
-This theme is based off of the lovely [Bear Blog](https://github.com/HermanMartinus/bearblog/).
+Don't edit `src/api/*.gen.ts` by hand; run `npm run generate` instead.
