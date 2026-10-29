@@ -14,6 +14,7 @@ $paper: oklch(96.43% 0.007 88.64);
 $white: oklch(100% 0 none);
 $stone: oklch(90.56% 0.015 80.7);
 $ink: oklch(22.36% 0.0149 107.54);
+$ink-muted: oklch(47% 0.0226 79.04);
 $forest: oklch(43.46% 0.0738 170.31);
 $amber: oklch(68.1% 0.1301 72.54);
 
@@ -80,7 +81,8 @@ $forest-dark: oklch(72.26% 0.1014 169.48);
   --background-color-secondary: light-dark(#{$white}, #{$card-dark});
   --background-color-tertiary: light-dark(#{$stone}, #{$stone-dark});
   --text-color: light-dark(#{$ink}, #{$ink-dark});
-  --text-color-muted: light-dark(#{color-mix(in oklch, $ink 50%, transparent)}, #{$ink-muted-dark});
+  // Opaque, so it holds 4.5:1 on stone as well as paper
+  --text-color-muted: light-dark(#{$ink-muted}, #{$ink-muted-dark});
   --link-color: light-dark(#{$forest}, #{$forest-dark});
   --link-color-hover: light-dark(#{color-mix(in oklch, $forest, black 30%)}, #{color-mix(in oklch, $forest-dark, black 14%)});
   // Only used in the background wash and on the colophon, so it has no dark pair
